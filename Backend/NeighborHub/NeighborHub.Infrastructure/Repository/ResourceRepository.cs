@@ -9,7 +9,7 @@ public class ResourceRepository(AppDbContext _context) : IResourceRepository
 {
     public async Task<Resource> CreateResource(Resource resource)
     {
-        _context.Resources.Add(resource); // Best practice: use the specific DbSet
+        _context.Resources.Add(resource); 
         await _context.SaveChangesAsync();
         return resource;
     }
@@ -21,20 +21,20 @@ public class ResourceRepository(AppDbContext _context) : IResourceRepository
         {
             _context.Resources.Remove(res);
             await _context.SaveChangesAsync();
-            return true; // You MUST return a boolean here
+            return true; 
         }
-        return false; // Return false if the ID wasn't found
+        return false; 
     }
 
     public async Task<IEnumerable<Resource>> GetAllResources()
     {
-        // Using .AsNoTracking() makes this much faster for Read-Only calls
+       
         return await _context.Resources.AsNoTracking().ToListAsync();
     }
 
     public async Task<Resource> GetResourceById(int resourceId)
     {
-        // Use FindAsync or FirstOrDefaultAsync
+        
         return await _context.Resources.FirstOrDefaultAsync(x => x.Id == resourceId);
     }
 

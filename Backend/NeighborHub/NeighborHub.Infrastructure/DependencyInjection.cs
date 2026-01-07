@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NeighborHub.Domain.Interface;
 using NeighborHub.Infrastructure.Persistence;
+using NeighborHub.Infrastructure.Repository;
 
 namespace NeighborHub.Infrastructure;
 public static class DependencyInjection
@@ -17,6 +19,8 @@ public static class DependencyInjection
         {
            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         });
+
+        services.AddScoped<IResourceRepository, ResourceRepository>();
         return services;
     }
 }
