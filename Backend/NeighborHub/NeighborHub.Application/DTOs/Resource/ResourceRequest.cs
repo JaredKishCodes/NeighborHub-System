@@ -8,6 +8,7 @@ namespace NeighborHub.Application.DTOs.Resource;
 public class ResourceRequest
 {
    // Basic Info
+
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;

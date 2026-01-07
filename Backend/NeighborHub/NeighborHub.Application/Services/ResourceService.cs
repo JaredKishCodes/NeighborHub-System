@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
@@ -10,7 +9,7 @@ using NeighborHub.Application.DTOs.Resource;
 using NeighborHub.Application.Interfaces;
 using NeighborHub.Domain.Entities;
 using NeighborHub.Domain.Interface;
-using IResourceService = NeighborHub.Application.Interfaces.IResourceService;
+
 
 namespace NeighborHub.Application.Services;
 public class ResourceService(IResourceRepository _resourceRepository) : IResourceService
