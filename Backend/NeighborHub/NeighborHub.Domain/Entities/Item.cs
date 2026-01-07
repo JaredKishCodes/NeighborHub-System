@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NeighborHub.Domain.Enums;
 
 namespace NeighborHub.Domain.Entities;
 
-public class Resource
+public class Item
 {
    
     public int Id { get; set; }
@@ -17,7 +18,7 @@ public class Resource
     public string Category { get; set; } = string.Empty; 
     
     // Status Logic
-    public bool IsAvailable { get; set; } = true;
+    public Status Status { get; set; }
     public string? ImageUrl { get; set; } // URL to the photo stored in the cloud/folder
 
   

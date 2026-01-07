@@ -4,9 +4,9 @@ using NeighborHub.Domain.Entities;
 
 namespace NeighborHub.Infrastructure.Persistence.Configuration;
 
-public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
+public class ItemConfiguration : IEntityTypeConfiguration<Item>
 {
-    public void Configure(EntityTypeBuilder<Resource> builder)
+    public void Configure(EntityTypeBuilder<Item> builder)
     {
         // 1. Primary Key
         builder.HasKey(r => r.Id);
@@ -27,8 +27,8 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
             .IsRequired();
 
         // 4. Set Default Values
-        builder.Property(r => r.IsAvailable)
-            .HasDefaultValue(true);
+        builder.Property(r => r.Status);
+            
 
         builder.Property(r => r.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()"); // Uses SQL Server's clock

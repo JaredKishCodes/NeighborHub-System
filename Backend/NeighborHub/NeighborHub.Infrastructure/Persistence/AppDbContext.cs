@@ -13,7 +13,7 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Resource> Resources { get; set; }
+    public DbSet<Item> Items { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

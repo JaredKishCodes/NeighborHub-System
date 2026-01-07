@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NeighborHub.Domain.Enums;
 
-namespace NeighborHub.Application.DTOs.Resource;
-public class ResourceResponse
+namespace NeighborHub.Application.DTOs.Item;
+public class ItemResponse
 {
     public int Id { get; set; }
 
@@ -15,7 +16,7 @@ public class ResourceResponse
     public string Category { get; set; } = string.Empty;
 
     // Status Logic
-    public bool IsAvailable { get; set; } = true;
+    public Status Status { get; set; }
     public string? ImageUrl { get; set; }
 
 
