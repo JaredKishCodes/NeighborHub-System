@@ -26,8 +26,8 @@ public class Item
 
     // Relationships (Foreign Keys)
     // The neighbor who owns the tool
-    public string OwnerId { get; set; } = string.Empty;
+    public int OwnerId { get; set; }
     
     // Navigation property (Optional, used by Entity Framework)
-    // public virtual ApplicationUser Owner { get; set; } 
+     public virtual User Owner { get; set; } 
 }
