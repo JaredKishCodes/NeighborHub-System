@@ -29,7 +29,7 @@ public class JwtTokenService : IJwtTokenService
         new Claim("domain_user_id", user.Id.ToString()),
         
         // Use IdentityId (string) for NameIdentifier
-        new Claim(ClaimTypes.NameIdentifier, user.Id),
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 
 
         new Claim(ClaimTypes.GivenName, user.FirstName ?? string.Empty),
