@@ -8,5 +8,5 @@ using NeighborHub.Application.DTOs.Auth;
 namespace NeighborHub.Application.Interfaces.Auth;
 public interface IJwtTokenService
 {
-    Task<string> CreateTokenAsync(UserDto user, List<string> roles);
+    Task<string> CreateToken(UserDto user, List<string> roles);
 }

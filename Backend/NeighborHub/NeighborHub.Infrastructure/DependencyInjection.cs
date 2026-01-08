@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NeighborHub.Application.Interfaces.Auth;
 using NeighborHub.Domain.Interface;
+using NeighborHub.Infrastructure.Auth.Services;
 using NeighborHub.Infrastructure.Persistence;
 using NeighborHub.Infrastructure.Repository;
 
@@ -21,6 +23,7 @@ public static class DependencyInjection
         });
 
         services.AddScoped<IItemRepository, ItemRepository>();
+        services.AddScoped<IJwtTokenService,JwtTokenService>();
         return services;
     }
 }

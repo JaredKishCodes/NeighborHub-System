@@ -27,7 +27,7 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
             .IsRequired();
 
         // 4. Set Default Values
-        builder.Property(r => r.Status);
+        builder.Property(r => r.ItemStatus);
             
 
         builder.Property(r => r.CreatedAt)

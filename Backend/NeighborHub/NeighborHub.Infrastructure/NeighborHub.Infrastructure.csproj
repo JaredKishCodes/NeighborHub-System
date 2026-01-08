@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NeighborHub.Application\NeighborHub.Application.csproj" />
     <ProjectReference Include="..\NeighborHub.Domain\NeighborHub.Domain.csproj" />
   </ItemGroup>
 

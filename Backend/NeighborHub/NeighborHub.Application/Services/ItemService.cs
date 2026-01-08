@@ -25,7 +25,7 @@ public class ItemService : IItemService
             Name = itemRequest.Name,
             Description = itemRequest.Description,
             Category = itemRequest.Category,
-            Status = itemRequest.Status,
+            ItemStatus = itemRequest.ItemStatus,
             ImageUrl = itemRequest.ImageUrl,
             CreatedAt = itemRequest.CreatedAt,
             OwnerId = itemRequest.OwnerId,
@@ -39,7 +39,7 @@ public class ItemService : IItemService
             Name = item.Name,
             Description = item.Description,
             Category = item.Category,
-            Status = item.Status,
+            ItemStatus = item.ItemStatus,
             ImageUrl = item.ImageUrl,
             CreatedAt = item.CreatedAt,
             OwnerId = item.OwnerId,
@@ -74,7 +74,7 @@ public class ItemService : IItemService
             Name = x.Name,
             Description = x.Description,
             Category = x.Category,
-            Status = x.Status,
+            ItemStatus = x.ItemStatus,
             ImageUrl = x.ImageUrl,
             CreatedAt = x.CreatedAt,
             OwnerId = x.OwnerId,
@@ -92,7 +92,7 @@ public class ItemService : IItemService
             Name = item.Name,
             Description = item.Description,
             Category = item.Category,
-            Status = item.Status,
+            ItemStatus = item.ItemStatus,
             ImageUrl = item.ImageUrl,
             CreatedAt = item.CreatedAt,
             OwnerId = item.OwnerId,
@@ -107,7 +107,7 @@ public class ItemService : IItemService
         item.Name = updateItemRequest.Name;
         item.Description = updateItemRequest.Description;
         item.Category = updateItemRequest.Category;
-        item.Status = updateItemRequest.Status;
+        item.ItemStatus = updateItemRequest.ItemStatus;
         item.ImageUrl = updateItemRequest.ImageUrl;
         item.LastUpdatedAt = DateTime.UtcNow;
 
@@ -119,7 +119,7 @@ public class ItemService : IItemService
             Name = updatedItem.Name,
             Description = updatedItem.Description,
             Category = updatedItem.Category,
-            Status = updatedItem.Status,
+            ItemStatus = updatedItem.ItemStatus,
             ImageUrl = updatedItem.ImageUrl,
             CreatedAt = updatedItem.CreatedAt,
             LastUpdatedAt = updatedItem.LastUpdatedAt,

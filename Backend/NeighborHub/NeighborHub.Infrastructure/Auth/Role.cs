@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeighborHub.Domain.Enums;
-public enum Status
+namespace NeighborHub.Infrastructure.Auth;
+public enum Role
 {
-    available,
-    requested, 
-    borrowed
+    User,
+    Admin
 }

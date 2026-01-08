@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NeighborHub.Domain\NeighborHub.Domain.csproj" />
-    <ProjectReference Include="..\NeighborHub.Infrastructure\NeighborHub.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

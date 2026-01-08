@@ -14,7 +14,7 @@ public class UpdateItemRequest
     public string Category { get; set; } = string.Empty;
 
     // Status Logic
-    public Status Status { get; set; }
+    public ItemStatus ItemStatus { get; set; }
     public string? ImageUrl { get; set; }
 
 

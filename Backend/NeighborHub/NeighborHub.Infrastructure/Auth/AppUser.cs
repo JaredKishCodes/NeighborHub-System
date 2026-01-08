@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace NeighborHub.Infrastructure.Auth;
-public class User : IdentityUser
+public class AppUser : IdentityUser
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }

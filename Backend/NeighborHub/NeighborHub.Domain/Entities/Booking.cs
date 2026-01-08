@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 using NeighborHub.Domain.Enums;
 
 namespace NeighborHub.Domain.Entities;
-public class Bookings
+public class Booking
 {
     public int Id { get; set; }
     public int ItemId { get; set; }
-
     public int BorrowerId { get; set; }
-    public int OwnerId { get; set; }
-    public ItemStatus ItemStatus { get; set; }
+    public BookingStatus BookingStatus { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public Item Item { get; set; }
+    public User Borrower { get; set; }
+  
 
 
 }

@@ -5,9 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NeighborHub.Domain.Enums;
-public enum ItemStatus
+public enum BookingStatus
 {
-    available,
-    requested, 
-    borrowed
+    Requested, Confirmed, Completed, Cancelled
 }
