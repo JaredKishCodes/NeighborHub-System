@@ -10,5 +10,5 @@ public class UpdateBookingDto
 {
     public int Id { get; set; }
     public BookingStatus BookingStatus { get; set; }
-    public DateTime EmdDate { get; set; }
+    public DateTime EndDate { get; set; }
 }

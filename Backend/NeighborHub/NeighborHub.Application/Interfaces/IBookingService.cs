@@ -11,8 +11,8 @@ public interface IBookingService
     Task<List<BookingResponseDto>> GetMyBorrowingAsync(int userId);
     Task<List<BookingResponseDto>> GetMyLendingAsync(int userId);
     Task<BookingResponseDto> GetBookingByIdAsync(int bookingId);
-    Task<BookingResponseDto> CreateBooking(CreateBookingDto createBookingDto);
-    Task<BookingResponseDto> UpdateBooking(int bookingId, UpdateBookingDto updateBookingDto);
-    Task<bool> DeleteBooking(int bookingId);
+    Task<BookingResponseDto> CreateBookingAsync(CreateBookingDto createBookingDto);
+    Task<BookingResponseDto> UpdateBookingAsync(int bookingId, UpdateBookingDto updateBookingDto);
+    Task<bool> DeleteBookingAsync(int bookingId);
 
 }

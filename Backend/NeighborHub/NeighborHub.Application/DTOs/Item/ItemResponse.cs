@@ -23,8 +23,7 @@ public class ItemResponse
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime LastUpdatedAt { get; set; }
 
-    public string OwnerId { get; set; } = string.Empty;
+    public int OwnerId { get; set; } 
 
-    // Navigation property (Optional, used by Entity Framework)
-    // public virtual ApplicationUser Owner { get; set; } 
+   
 }
