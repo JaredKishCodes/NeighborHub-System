@@ -11,7 +11,7 @@ public interface IBookingRepository
     Task<List<Booking>> GetMyBorrowingAsync(int userId);
     Task<List<Booking>> GetMyLendingAsync(int userId);
     Task<Booking> GetBookingByIdAsync(int bookingId);
-    Task<Booking> CreateBooking(Booking booking);
-    Task<Booking> UpdateBooking( Booking booking);
-    Task<bool> DeleteBooking(int bookingId);
+    Task<Booking> CreateBookingAsync(Booking booking);
+    Task<Booking> UpdateBookingAsync( Booking booking);
+    Task<bool> DeleteBookingAsync(int bookingId); 
 }

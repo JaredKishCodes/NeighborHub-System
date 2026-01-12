@@ -26,7 +26,7 @@ public class BookingService : IBookingService
             EndDate = createBookingDto.EndDate,
         };
 
-       await _bookingRepository.CreateBooking(booking);
+       await _bookingRepository.CreateBookingAsync(booking);
 
         return new BookingResponseDto
         {
@@ -46,7 +46,7 @@ public class BookingService : IBookingService
 
         if (booking != null)
         {
-            await _bookingRepository.DeleteBooking(bookingId);
+            await _bookingRepository.DeleteBookingAsync(bookingId);
             return true;
         }
         return false;
@@ -125,21 +125,7 @@ public class BookingService : IBookingService
     public async Task<BookingResponseDto> UpdateBookingAsync(int bookingId, UpdateBookingDto updateBookingDto)
     {
         // Fetch the booking
-        Booking booking = await _bookingRepository.GetBookingByIdAsync(bookingId);
-
-        // If booking doesn't exist, consider throwing an exception or returning null
-        // Returning an empty DTO might confuse clients (e.g., is it a success or failure?)
-        if (booking == null)
-        {
-            // Option 1: Throw a custom exception (better for error handling)
-            throw new KeyNotFoundException($"Booking with ID {bookingId} not found.");
-
-            // Option 2: Return null (if your API allows it)
-            // return null;
-
-            // Original: Returning empty DTO – not ideal, as it might imply success
-            // return new BookingResponseDto();
-        }
+        Booking booking = await _bookingRepository.GetBookingByIdAsync(bookingId) ?? throw new KeyNotFoundException($"Booking with ID {bookingId} not found.");
 
         // Update fields (assuming UpdateBookingDto has these properties)
         booking.BookingStatus = updateBookingDto.BookingStatus;
