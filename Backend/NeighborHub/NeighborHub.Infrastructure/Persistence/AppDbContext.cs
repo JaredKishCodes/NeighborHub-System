@@ -17,7 +17,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
 
     public DbSet<Item> Items { get; set; }
     public DbSet<Booking> Bookings { get; set; }
-    public DbSet<User> DomainUsers { get; set; }
+    public DbSet<DomainUser> DomainUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

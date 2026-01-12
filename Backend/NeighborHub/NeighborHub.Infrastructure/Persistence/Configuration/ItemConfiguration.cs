@@ -32,5 +32,10 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
 
         builder.Property(r => r.CreatedAt)
             .HasDefaultValueSql("GETUTCDATE()"); // Uses SQL Server's clock
+
+        builder.HasOne(x => x.Owner)
+            .WithMany(x => x.OwnedItems)
+            .HasForeignKey(x => x.OwnerId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

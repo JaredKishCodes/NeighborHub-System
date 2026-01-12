@@ -17,7 +17,7 @@ public class Booking
     public DateTime CreatedAt { get; set; }
 
     public Item Item { get; set; }
-    public User Borrower { get; set; }
+    public DomainUser Borrower { get; set; }
   
 
 

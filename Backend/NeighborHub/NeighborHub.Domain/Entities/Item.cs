@@ -29,5 +29,5 @@ public class Item
     public int OwnerId { get; set; }
     
     // Navigation property (Optional, used by Entity Framework)
-     public virtual User Owner { get; set; } 
-}
+     public virtual DomainUser Owner { get; set; } 
+}       
