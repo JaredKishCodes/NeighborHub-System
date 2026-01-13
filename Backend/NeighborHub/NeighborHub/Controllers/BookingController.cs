@@ -25,7 +25,7 @@ public class BookingController : ControllerBase
             return NotFound(new ApiResponse<IEnumerable<BookingResponseDto>>
             {
                 Success = false,
-                Message = "Borrowing bookings retrieved unsuccessfully.",
+                Message = "Borrowing bookings retrieve was unsuccessfull.",
                 Data = null
             });
         }
