@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NeighborHub.Application.DTOs.Booking;
+using NeighborHub.Application.Exceptions;
 using NeighborHub.Application.Interfaces;
 using NeighborHub.Domain.Entities;
 using NeighborHub.Domain.Interface;
@@ -18,6 +19,17 @@ public class BookingService : IBookingService
     }
     public async Task<BookingResponseDto> CreateBookingAsync(CreateBookingDto createBookingDto)
     {
+        if (createBookingDto.EndDate <= createBookingDto.StartDate)
+        {
+            throw new Exception("End date must be after the start date.");
+        }
+
+        bool hasOverlap = await _bookingRepository.HasOverlapAsync(createBookingDto.ItemId, createBookingDto.StartDate, createBookingDto.EndDate);
+
+        if (hasOverlap)
+        {
+            throw new BookingConflictException("This item is already booked for these dates.");
+        }
         var booking = new Booking
         {
             ItemId = createBookingDto.ItemId,

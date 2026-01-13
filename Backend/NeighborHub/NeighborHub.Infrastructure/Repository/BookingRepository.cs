@@ -12,7 +12,7 @@ namespace NeighborHub.Infrastructure.Repository;
 public class BookingRepository(AppDbContext _context) : IBookingRepository
 {
     public async Task<Booking> CreateBookingAsync(Booking booking)
-    {
+    {   
         _context.Bookings.Add(booking);
         await _context.SaveChangesAsync();
         return booking;
@@ -51,6 +51,15 @@ public class BookingRepository(AppDbContext _context) : IBookingRepository
             .Where(x => x.Item.OwnerId == userId)
             .OrderByDescending(x => x.StartDate)
             .ToListAsync();
+    }
+
+    public async  Task<bool> HasOverlapAsync(int itemId, DateTime start, DateTime end)
+    {
+        return await _context.Bookings.AnyAsync(existing => 
+        existing.ItemId == itemId &&
+        existing.StartDate < end &&
+        existing.EndDate > start
+        );
     }
 
     public async Task<Booking> UpdateBookingAsync(Booking booking)
