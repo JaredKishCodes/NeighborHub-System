@@ -10,11 +10,10 @@ public interface IDashboardRepository
 {
     Task<int> GetTotalUsersCountAsync();
     Task<int> GetTotalToolsCountAsync();
-    Task<int> GetTotalBookingsCountAsync();
-    Task<int> GetTotalLendingsCountAsync();
-    Task<int> GetTotalBookingsThisMonthAsync();
-    Task<IEnumerable<Booking>> GetBookingsForCurrentMonthAsync();
-    Task<IEnumerable<Booking>> GetLendingsForCurrentMonthAsync();
+    Task<int> GetTotalBookingsCountAsync(int? userId = null);
+    Task<int> GetTotalLendingsCountAsync(int? userId = null);
+    Task<IEnumerable<Booking>> GetBookingsForCurrentMonthAsync(int? userId = null);
+    Task<IEnumerable<Booking>> GetLendingsForCurrentMonthAsync(int? userId = null);
 
 
 }
