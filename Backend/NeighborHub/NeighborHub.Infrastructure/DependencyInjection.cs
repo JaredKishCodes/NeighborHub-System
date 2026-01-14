@@ -24,6 +24,7 @@ public static class DependencyInjection
 
         services.AddScoped<IItemRepository, ItemRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
+        services.AddScoped<IDashboardRepository, DashboardRepository>();
 
         services.AddScoped<IJwtTokenService,JwtTokenService>();
         return services;

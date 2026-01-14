@@ -9,7 +9,7 @@ namespace NeighborHub.Domain.Interface;
 public interface IDashboardRepository
 {
     Task<int> GetTotalUsersCountAsync();
-    Task<int> GetTotalToolsCountAsync();
+    Task<int> GetTotalItemsCountAsync();
     Task<int> GetTotalBookingsCountAsync(int? userId = null);
     Task<int> GetTotalLendingsCountAsync(int? userId = null);
     Task<IEnumerable<Booking>> GetBookingsForCurrentMonthAsync(int? userId = null);

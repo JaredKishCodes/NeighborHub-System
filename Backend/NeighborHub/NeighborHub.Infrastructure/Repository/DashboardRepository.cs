@@ -87,7 +87,7 @@ public class DashboardRepository(AppDbContext _context) : IDashboardRepository
         return await query.CountAsync();
     }
 
-    public async Task<int> GetTotalToolsCountAsync()
+    public async Task<int> GetTotalItemsCountAsync()
     {
         return await _context.Items.CountAsync();
     }
