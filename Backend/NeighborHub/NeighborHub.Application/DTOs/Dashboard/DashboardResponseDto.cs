@@ -1,4 +1,6 @@
-﻿namespace NeighborHub.Application.DTOs.Dashboard;
+﻿using NeighborHub.Domain.Enums;
+
+namespace NeighborHub.Application.DTOs.Dashboard;
 
 public class DashboardResponseDto
 {
@@ -18,6 +20,6 @@ public class DashboardBookingDto
     public int Id { get; set; }
     public string ItemName { get; set; }
     public string BorrowerName { get; set; }
-    public string StartDate { get; set; } 
-    public string Status { get; set; }
+    public DateTime StartDate { get; set; } 
+    public BookingStatus Status { get; set; }
 }
