@@ -19,3 +19,23 @@ export enum ItemStatus {
   Requested = 1,
   Borrowed = 2
 }
+
+export interface ItemResponse { 
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  itemStatus: ItemStatus;
+  imageUrl?: string; // optional
+  createdAt: string;
+  lastUpdatedAt: string;
+
+  ownerId: number;
+  
+}
+
+export interface ApiResponse<T>{
+  success: boolean;
+  message: string;
+  data: T;
+}

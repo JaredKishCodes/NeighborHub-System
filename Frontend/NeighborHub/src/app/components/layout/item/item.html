@@ -1,0 +1,19 @@
+<p>item works!</p>
+
+@for (item of items; track item.id) {
+  <div>
+    {{ item.id }}
+    <p>{{ item.name }}
+        {{ item.description }}
+    {{ item.category }}
+    {{ item.itemStatus }}
+    {{ item.imageUrl }}
+    {{ item.createdAt }}
+    {{ item.lastUpdatedAt }}
+    {{ item.ownerId }}
+    </p>
+    
+   
+  </div>
+}
+

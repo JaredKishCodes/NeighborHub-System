@@ -10,6 +10,16 @@ public static class DependencyInjection
         services.AddApplicationServices()
                 .AddInfrastructureServices(configuration);
 
+                  services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()      // Allow all origins
+                          .AllowAnyMethod()      // Allow any HTTP method (GET, POST, PUT, DELETE, etc.)
+                          .AllowAnyHeader();     // Allow any header
+                });
+            });
+
         return services;
     }
 }
