@@ -1,19 +1,29 @@
 <p>item works!</p>
 
-@for (item of items; track item.id) {
-  <div>
-    {{ item.id }}
-    <p>{{ item.name }}
-        {{ item.description }}
-    {{ item.category }}
-    {{ item.itemStatus }}
-    {{ item.imageUrl }}
-    {{ item.createdAt }}
-    {{ item.lastUpdatedAt }}
-    {{ item.ownerId }}
-    </p>
-    
-   
-  </div>
-}
+<!-- Smaller Dark Item Card using DaisyUI (Tailwind CSS) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+  @for (item of items; track item.id) {
+    <div class="card bg-gray-900 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+      <figure class="px-4 pt-4">
+        <img [src]="item.imageUrl" [alt]="item.name" class="rounded-lg w-full h-32 object-cover" />
+      </figure>
+      <div class="card-body p-4">
+        <h2 class="card-title text-lg font-bold">{{ item.name }}</h2>
+        <p class="text-xs italic opacity-80">{{ item.description }}</p>
+        <div class="divider my-1"></div>
+        <div class="grid grid-cols-1 gap-1 text-xs">
+          <div><strong>Category:</strong> {{ item.category }}</div>
+          <div><strong>Status:</strong> {{ item.itemStatus }}</div>
+          <div><strong>Owner ID:</strong> {{ item.ownerId }}</div>
+          <div><strong>Created:</strong> {{ item.createdAt | date:'short' }}</div>
+          <div><strong>Updated:</strong> {{ item.lastUpdatedAt | date:'short' }}</div>
+        </div>
+        <div class="card-actions justify-between items-center mt-2">
+          <div class="badge badge-outline badge-primary text-xs">ID: {{ item.id }}</div>
+          <button class="btn btn-secondary btn-xs">View</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
 
