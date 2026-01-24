@@ -9,4 +9,5 @@ namespace NeighborHub.Domain.Interface;
 public interface IDomainUserRepository
 {
     Task<DomainUser>GetDomainUserById(int userId);
+    Task<DomainUser> CreateDomainUserAsync(DomainUser domainUser);
 }

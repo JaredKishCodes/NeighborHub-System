@@ -15,4 +15,13 @@ public class DomainUserRepository(AppDbContext _context) : IDomainUserRepository
     {
       return  await _context.DomainUsers.FirstOrDefaultAsync(x => x.Id == userId);
     }
+
+    public async Task<DomainUser> CreateDomainUserAsync(DomainUser domainUser)
+    {
+        _context.DomainUsers.Add(domainUser);
+       await _context.SaveChangesAsync();
+
+        return domainUser;
+
+    }
 }

@@ -21,7 +21,7 @@ public class JwtTokenService : IJwtTokenService
     }
 
     // Add the 'async' keyword to match Task<string>
-    public async Task<string> CreateToken(UserDto user, List<string> roles)
+    public async Task<string> CreateTokenAsync(UserDto user, List<string> roles)
     {
         List<Claim> claims = new()
     {
