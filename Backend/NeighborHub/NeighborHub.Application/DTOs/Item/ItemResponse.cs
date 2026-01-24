@@ -23,7 +23,7 @@ public class ItemResponse
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime LastUpdatedAt { get; set; }
 
-    public int OwnerId { get; set; } 
+    public string OwnerName { get; set; } 
 
    
 }
