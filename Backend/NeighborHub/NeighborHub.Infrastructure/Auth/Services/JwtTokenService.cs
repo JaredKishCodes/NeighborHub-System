@@ -30,8 +30,7 @@ public class JwtTokenService : IJwtTokenService
         
         // Use IdentityId (string) for NameIdentifier
         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-
-
+         new Claim(ClaimTypes.Email, user.Email),
         new Claim(ClaimTypes.GivenName, user.FirstName ?? string.Empty),
         new Claim(ClaimTypes.Surname, user.LastName ?? string.Empty)
     };
