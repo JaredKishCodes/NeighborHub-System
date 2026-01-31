@@ -2,6 +2,8 @@
 using NeighborHub.Application.Interfaces;
 using NeighborHub.Domain.Entities;
 using NeighborHub.Domain.Interface;
+using Microsoft.AspNetCore.Hosting; // Ensure this using directive is present
+using Microsoft.Extensions.Hosting; // Add this using directive
 
 namespace NeighborHub.Application.Services;
 
@@ -9,26 +11,38 @@ public class ItemService : IItemService
 {
     private readonly IItemRepository _itemRepository;
     private readonly IDomainUserRepository _domainUserRepository;
+    private readonly IFileStorageService _fileStorageService;
 
-    public ItemService(IItemRepository itemRepository, IDomainUserRepository domainUserRepository)
+
+    public ItemService(IItemRepository itemRepository, IDomainUserRepository domainUserRepository, IFileStorageService fileStorageService)
+        
     {
         _itemRepository = itemRepository;
         _domainUserRepository = domainUserRepository;
+        _fileStorageService = fileStorageService;
+        
     }
 
     public async Task<ItemResponse> CreateItem(ItemRequest itemRequest)
     {
+        string? savedImageUrl = null;
+
+        // --- THIS IS YOUR UPLOAD LOGIC REUSE ---
+        if (itemRequest.ImageUrl != null && itemRequest.ImageUrl.Length > 0)
+        {
+            savedImageUrl = await _fileStorageService.SaveFileAsync(itemRequest.ImageUrl, "item-images");
+        }
         var item = new Item
         {
             Name = itemRequest.Name,
             Description = itemRequest.Description,
             Category = itemRequest.Category,
             ItemStatus = itemRequest.ItemStatus,
-            ImageUrl = itemRequest.ImageUrl,
+            ImageUrl = savedImageUrl,
             CreatedAt = itemRequest.CreatedAt,
             OwnerId = itemRequest.OwnerId,
         };
-
+        
         await _itemRepository.CreateItem(item);
 
         DomainUser? owner = await _domainUserRepository.GetDomainUserById(item.OwnerId);

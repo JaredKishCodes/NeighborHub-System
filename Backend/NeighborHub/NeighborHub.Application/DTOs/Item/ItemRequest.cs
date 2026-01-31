@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using NeighborHub.Domain.Enums;
 
 namespace NeighborHub.Application.DTOs.Item;
@@ -16,7 +17,7 @@ public class ItemRequest
 
     // Status Logic
     public ItemStatus ItemStatus { get; set; }
-    public string? ImageUrl { get; set; } 
+    public IFormFile? ImageUrl { get; set; } 
 
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

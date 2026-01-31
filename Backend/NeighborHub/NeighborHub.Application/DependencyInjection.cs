@@ -15,6 +15,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IItemService, ItemService>();
         services.AddScoped<IBookingService, BookingService>();
+        services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
         return services;
     }
