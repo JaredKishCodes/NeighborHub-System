@@ -66,7 +66,7 @@ public class ItemController : ControllerBase
 
     // POST: api/item
     [HttpPost]
-    public async Task<ActionResult<ApiResponse<ItemResponse>>> CreateItemAsync([FromBody] ItemRequest itemRequest)
+    public async Task<ActionResult<ApiResponse<ItemResponse>>> CreateItemAsync([FromForm] ItemRequest itemRequest)
     {
         if (!ModelState.IsValid)
         {

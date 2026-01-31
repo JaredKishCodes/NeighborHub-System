@@ -17,4 +17,18 @@ export class ItemService {
    { 
     return this.http.get<ApiResponse<ItemResponse[]>>(this.apiUrl);
    }
+
+   createItem(itemData: any, imageFile: File): Observable<ApiResponse<ItemResponse>> {
+    const formData = new FormData();
+    formData.append('name', itemData.name);
+    formData.append('description', itemData.description);
+    formData.append('category', itemData.category);
+    formData.append('itemStatus', itemData.itemStatus.toString());
+    formData.append('createdAt', itemData.createdAt.toISOString());
+    formData.append('ownerId', itemData.ownerId.toString());
+
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+    return this.http.post<ApiResponse<ItemResponse>>(this.apiUrl, formData);}
 }

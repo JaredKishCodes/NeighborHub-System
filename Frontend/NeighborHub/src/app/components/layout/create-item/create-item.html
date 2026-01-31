@@ -1,1 +1,59 @@
-<p>create-item works!</p>
+<div class="main-container">
+  <div class="form-card bg-neutral">
+    <h2 class="form-header">Add New Item</h2>
+    
+    <form (submit)="onSubmit()" class="item-form">
+      <div class="grid-layout">
+        
+        <div class="input-group">
+          <label>Item Name</label>
+          <input type="text" [(ngModel)]="itemModel.name" name="name" placeholder="Item Name">
+        </div>
+
+        <div class="input-group">
+          <label>Category</label>
+          <select [(ngModel)]="itemModel.category" name="category">
+            <option value="" disabled selected>Select Category</option>
+            <option value="Tools">Tools</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Appliances">Appliances</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Item Status</label>
+          <select [(ngModel)]="itemModel.itemStatus" name="status">
+            <option [ngValue]="0">Available</option>
+            <option [ngValue]="1">On Loan</option>
+          </select>
+        </div>
+
+        <div class="input-group span-2">
+          <label>Description</label>
+          <textarea [(ngModel)]="itemModel.description" name="description" placeholder="Describe the item..."></textarea>
+        </div>
+
+        <div class="input-group">
+          <label>Date Created</label>
+          <input type="text" [value]="itemModel.createdAt | date:'MM/dd/yy'" readonly class="disabled-field">
+        </div>
+
+        <div class="input-group span-3">
+          <label>Item Image</label>
+          <div class="custom-file-upload">
+            <input type="file" id="imageUpload" (change)="onFileSelected($event)" accept="image/*">
+            <label for="imageUpload" class="file-label">
+              <span class="icon">📷</span>
+              {{ selectedFile ? selectedFile.name : 'Choose an image of your item' }}
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex">
+  <button class="btn btn-success mx-auto mt-5">Add Item</button>
+    </div>
+    </form>
+  </div>
+</div>
