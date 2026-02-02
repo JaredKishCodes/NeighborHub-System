@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ItemService } from '../../../services/item.service';
 import { ApiResponse, ItemResponse } from '../../../models/item.model';
 import { CommonModule } from '@angular/common';
+import { env } from '../../../../environments/environment.production';
 
 @Component({
   selector: 'app-item',
@@ -12,6 +13,7 @@ import { CommonModule } from '@angular/common';
 export class Item implements OnInit   {
 
   itemService = inject(ItemService)
+  readonly baseUrl = env.apiBaseUrl;
 
   items : ItemResponse[] = []
 

@@ -28,7 +28,7 @@ export class ItemService {
     formData.append('ownerId', itemData.ownerId.toString());
 
     if (imageFile) {
-      formData.append('image', imageFile);
+      formData.append('imageUrl', imageFile);
     }
     return this.http.post<ApiResponse<ItemResponse>>(this.apiUrl, formData);}
 }

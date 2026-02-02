@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class CreateItem {
   selectedFile: File | null = null;
+  uploadedImageUrl: string | null = null;
   
   // Matches your C# DTO
   itemModel = {

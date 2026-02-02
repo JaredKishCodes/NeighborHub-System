@@ -4,7 +4,7 @@
   @for (item of items; track item.id) {
     <div class="card bg-neutral text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
       <figure class="px-4 pt-4">
-        <img [src]="item.imageUrl" [alt]="item.name" class="rounded-lg w-full h-32 object-cover" />
+        <img [src]="baseUrl + item.imageUrl" [alt]="item.name" class="rounded-lg w-full h-32 object-cover" />
       </figure>
       <div class="card-body p-4">
         <h2 class="card-title text-lg font-bold">{{ item.name }}</h2>

@@ -15,7 +15,9 @@ public class LocalFileStorageService : IFileStorageService
 
     public async Task<string> SaveFileAsync(IFormFile file, string folderName)
     {
-        string uploadPath = Path.Combine(_env.WebRootPath, folderName);
+        // Use ContentRootPath instead of WebRootPath
+        string uploadPath = Path.Combine(_env.ContentRootPath, "Resources", folderName);
+
         if (!Directory.Exists(uploadPath))
         {
             Directory.CreateDirectory(uploadPath);
@@ -29,6 +31,7 @@ public class LocalFileStorageService : IFileStorageService
             await file.CopyToAsync(stream);
         }
 
-        return $"/{folderName}/{fileName}";
+        // Return a URL-friendly path
+        return $"/Resources/{folderName}/{fileName}";
     }
 }
