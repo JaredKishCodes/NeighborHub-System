@@ -30,7 +30,7 @@ export interface ItemResponse {
   createdAt: string;
   lastUpdatedAt: string;
 
-  ownerId: number;
+  ownerName: string;
   
 }
 

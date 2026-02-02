@@ -13,13 +13,20 @@
         <div class="grid grid-cols-1 gap-1 text-xs">
           <div><strong>Category:</strong> {{ item.category }}</div>
           <div><strong>Status:</strong> {{ item.itemStatus }}</div>
-          <div><strong>Owner ID:</strong> {{ item.ownerId }}</div>
+          <div><strong>Owner :</strong> {{ item.ownerName }}</div>
           <div><strong>Created:</strong> {{ item.createdAt | date:'short' }}</div>
           <div><strong>Updated:</strong> {{ item.lastUpdatedAt | date:'short' }}</div>
         </div>
         <div class="card-actions justify-between items-center mt-2">
           <div class="badge badge-outline badge-primary text-xs">ID: {{ item.id }}</div>
-          <button class="btn btn-secondary btn-xs">View</button>
+          <button 
+            class="btn btn-success btn-xs" 
+            [disabled]="item.itemStatus === 2"
+            [class.btn-disabled]="item.itemStatus === 2"
+            >
+            
+            {{ item.itemStatus === 2 ? 'Unavailable' : 'Book' }}
+          </button>
         </div>
       </div>
     </div>

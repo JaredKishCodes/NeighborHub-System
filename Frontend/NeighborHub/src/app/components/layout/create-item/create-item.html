@@ -24,7 +24,8 @@
           <label>Item Status</label>
           <select [(ngModel)]="itemModel.itemStatus" name="status">
             <option [ngValue]="0">Available</option>
-            <option [ngValue]="1">On Loan</option>
+            <option [ngValue]="1">Requested</option>
+            <option [ngValue]="2">Borrowed</option>
           </select>
         </div>
 

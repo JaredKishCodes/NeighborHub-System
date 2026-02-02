@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileProviders;
 using NeighborHub.Api;
 // ... other usings
@@ -5,7 +6,12 @@ using NeighborHub.Api;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // 1. Services
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options => 
+    {
+        // This converter tells .NET to send strings instead of numbers for Enums
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApiServices(builder.Configuration);
