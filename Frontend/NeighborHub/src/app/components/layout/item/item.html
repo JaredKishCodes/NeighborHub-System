@@ -20,6 +20,7 @@
         <div class="card-actions justify-between items-center mt-2">
           <div class="badge badge-outline badge-primary text-xs">ID: {{ item.id }}</div>
           <button 
+            onclick="my_modal_2.showModal()"
             class="btn btn-success btn-xs" 
             [disabled]="item.itemStatus === 2"
             [class.btn-disabled]="item.itemStatus === 2"
@@ -31,5 +32,94 @@
       </div>
     </div>
   }
+</div>
+
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg max-w-lg md:max-w-2xl w-full mx-4 p-6">
+    <h3 class="text-lg font-bold mb-4">Select Booking Dates</h3>
+    
+    <div class="space-y-6">
+      <!-- Start Date Picker -->
+      <div class="flex flex-col md:flex-row md:items-center gap-4">
+        <label for="start-date-btn" class="font-semibold min-w-0 md:min-w-[100px]">Start Date:</label>
+        <input type="hidden" [(ngModel)]="startDate" />  <!-- For ngModel if using FormsModule -->
+        <button 
+          popovertarget="start-popover" 
+          class="input input-bordered flex-1 text-left" 
+          id="start-date-btn" 
+          style="anchor-name: --start-anchor"
+        >
+          {{ startDate || 'Pick start date' }}
+        </button>
+        <div 
+          popover 
+          id="start-popover" 
+          class="dropdown bg-white rounded-lg shadow-lg min-w-[300px] p-4" 
+          style="position-anchor: --start-anchor"
+        >
+          <calendar-date 
+            class="cally" 
+            selected-date="" 
+            (change)="updateStartDate($event)"  
+          >
+            <svg aria-label="Previous" class="fill-current w-4 h-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+            </svg>
+            <svg aria-label="Next" class="fill-current w-4 h-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+            </svg>
+            <calendar-month></calendar-month>
+          </calendar-date>
+          <p class="text-sm text-gray-600 mt-2">Press ESC or click outside to close</p>
+        </div>
+      </div>
+
+      <!-- End Date Picker -->
+      <div class="flex flex-col md:flex-row md:items-center gap-4">
+        <label for="end-date-btn" class="font-semibold min-w-0 md:min-w-[100px]">End Date:</label>
+        <input type="hidden" [(ngModel)]="endDate" />  <!-- For ngModel if using FormsModule -->
+        <button 
+          popovertarget="end-popover" 
+          class="input input-bordered flex-1 text-left" 
+          id="end-date-btn" 
+          style="anchor-name: --end-anchor"
+        >
+          {{ endDate || 'Pick end date' }}
+        </button>
+        <div 
+          popover 
+          id="end-popover" 
+          class="dropdown bg-white rounded-lg shadow-lg min-w-[300px] p-4" 
+          style="position-anchor: --end-anchor"
+        >
+          <calendar-date 
+            class="cally" 
+            selected-date="" 
+            (change)="updateEndDate($event)"  
+          >
+            <svg aria-label="Previous" class="fill-current w-4 h-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+            </svg>
+            <svg aria-label="Next" class="fill-current w-4 h-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+            </svg>
+            <calendar-month></calendar-month>
+          </calendar-date>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected Dates Display -->
+    <div class="mt-4 p-3 bg-gray-100 rounded-lg">
+      <p class="text-sm">Selected: Start - {{ startDate || 'None' }}, End - {{ endDate || 'None' }}</p>
+    </div>
+    
+    <!-- Actions -->
+    <div class="flex justify-end gap-2 mt-6">
+      <button (click)="closeModal()" class="btn btn-outline">Close</button>
+      <button (click)="handleBooking()" class="btn btn-primary">Book Now</button>
+    </div>
+  </div>
 </div>
 
