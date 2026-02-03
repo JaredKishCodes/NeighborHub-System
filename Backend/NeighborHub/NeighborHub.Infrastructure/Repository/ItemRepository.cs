@@ -64,7 +64,7 @@ public class ItemRepository(AppDbContext _context) : IItemRepository
 
     public async Task<List<DateTime>> GetAvailableDates(int itemId)
     {
-            Item? item = await _context.Items.FindAsync(itemId);
+            
 
             DateTime today = DateTime.Today;
             DateTime nextMonth = today.AddDays(30);

@@ -20,7 +20,7 @@
         <div class="card-actions justify-between items-center mt-2">
           <div class="badge badge-outline badge-primary text-xs">ID: {{ item.id }}</div>
           <button 
-            onclick="my_modal_2.showModal()"
+            onclick="my_modal_3.showModal()"
             class="btn btn-success btn-xs" 
             [disabled]="item.itemStatus === 2"
             [class.btn-disabled]="item.itemStatus === 2"
@@ -33,17 +33,13 @@
     </div>
   }
 </div>
-
-  <dialog id="my_modal_2" class="modal">
+<dialog id="my_modal_3" class="modal">
   <div class="modal-box">
-    <h3 class="font-bold text-lg">Select Booking Dates</h3>
-    <input type="date" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
-    <input type="date" placeholder="Type here" class="input input-bordered w-full max-w-xs" />
-    <p class="py-4">Press ESC key or click outside to close</p>
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <app-booking></app-booking>
   </div>
-  <form method="dialog" class="modal-backdrop">
-    <button>close</button>
-  </form>
 </dialog>
            
   

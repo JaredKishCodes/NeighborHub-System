@@ -7,17 +7,16 @@ using NeighborHub.Infrastructure.Persistence;
 
 namespace NeighborHub.Api.Controllers;
 
+// Controller for managing items
 [Route("api/[controller]")]
 [ApiController]
 public class ItemController : ControllerBase
 {
     private readonly IItemService _itemService;
-    private readonly IItemRepository _itemRepository;
 
-    public ItemController(IItemService itemService, IItemRepository itemRepository)
+    public ItemController(IItemService itemService)
     {
         _itemService = itemService;
-        _itemRepository = itemRepository;
     }
 
     // GET: api/item
@@ -67,14 +66,6 @@ public class ItemController : ControllerBase
             Data = item
         });
     }
-
-    [HttpGet("items/{itemId}/available-dates")]
-public async Task<IActionResult> GetAvailableDates(int itemId)
-{
-    List<DateTime> result = await _itemRepository.GetAvailableDates(itemId);
-    return Ok(result);
-}
-
 
     // POST: api/item
     [HttpPost]
@@ -159,5 +150,25 @@ public async Task<IActionResult> GetAvailableDates(int itemId)
             Message = "Item deleted successfully.",
             Data = null
         });
+    }
+}
+
+// Controller for managing item availability
+[Route("api/item/{itemId}/available-dates")]
+[ApiController]
+public class ItemAvailabilityController : ControllerBase
+{
+    private readonly IItemRepository _itemRepository;
+
+    public ItemAvailabilityController(IItemRepository itemRepository)
+    {
+        _itemRepository = itemRepository;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAvailableDates(int itemId)
+    {
+        List<DateTime> result = await _itemRepository.GetAvailableDates(itemId);
+        return Ok(result);
     }
 }

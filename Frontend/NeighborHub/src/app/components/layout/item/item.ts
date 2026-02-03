@@ -5,10 +5,11 @@ import { CommonModule } from '@angular/common';
 import { env } from '../../../../environments/environment.production';
 
 import { FormsModule } from '@angular/forms';
+import { BookingComponent } from "../booking/booking";
 
 @Component({
   selector: 'app-item',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, BookingComponent],
   templateUrl: './item.html',
   styleUrl: './item.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
