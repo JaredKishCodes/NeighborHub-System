@@ -13,4 +13,7 @@ public interface IItemRepository
     Task<Item> CreateItem(Item item);
     Task<Item> UpdateItem(Item item);
     Task<bool> DeleteItem(int itemId);
+    Task<bool> IsItemAvailable(int itemId, DateTime start, DateTime end);
+
+    Task<List<DateTime>> GetAvailableDates(int itemId);
 }

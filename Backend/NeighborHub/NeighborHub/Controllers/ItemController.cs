@@ -2,6 +2,8 @@
 using NeighborHub.Application.DTOs;
 using NeighborHub.Application.DTOs.Item;
 using NeighborHub.Application.Interfaces;
+using NeighborHub.Domain.Interface;
+using NeighborHub.Infrastructure.Persistence;
 
 namespace NeighborHub.Api.Controllers;
 
@@ -10,10 +12,12 @@ namespace NeighborHub.Api.Controllers;
 public class ItemController : ControllerBase
 {
     private readonly IItemService _itemService;
+    private readonly IItemRepository _itemRepository;
 
-    public ItemController(IItemService itemService)
+    public ItemController(IItemService itemService, IItemRepository itemRepository)
     {
         _itemService = itemService;
+        _itemRepository = itemRepository;
     }
 
     // GET: api/item
@@ -63,6 +67,14 @@ public class ItemController : ControllerBase
             Data = item
         });
     }
+
+    [HttpGet("items/{itemId}/available-dates")]
+public async Task<IActionResult> GetAvailableDates(int itemId)
+{
+    List<DateTime> result = await _itemRepository.GetAvailableDates(itemId);
+    return Ok(result);
+}
+
 
     // POST: api/item
     [HttpPost]

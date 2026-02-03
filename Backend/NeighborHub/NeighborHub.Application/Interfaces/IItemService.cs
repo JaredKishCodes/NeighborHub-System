@@ -12,4 +12,6 @@ public interface IItemService
     Task<ItemResponse> CreateItem(ItemRequest itemRequest);
     Task<ItemResponse> UpdateItem(int itemId, UpdateItemRequest updateItemRequest);
     Task<bool> DeleteItem(int itemId);
+
+    
 }

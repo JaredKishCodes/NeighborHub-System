@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NeighborHub.Domain.Entities;
+using NeighborHub.Domain.Enums;
 using NeighborHub.Domain.Interface;
 using NeighborHub.Infrastructure.Persistence;
 
@@ -44,4 +45,43 @@ public class ItemRepository(AppDbContext _context) : IItemRepository
         await _context.SaveChangesAsync();
         return item;
     }
+
+   public async Task<bool> IsItemAvailable(int itemId, DateTime start, DateTime end)
+{
+        bool exists = await _context.Bookings
+        .AnyAsync(b =>
+            b.ItemId == itemId &&
+            b.BookingStatus != BookingStatus.Cancelled &&
+            b.BookingStatus != BookingStatus.Completed &&
+            start <= b.EndDate &&
+            end >= b.StartDate
+        );
+
+    return !exists;
+}
+
+
+
+    public async Task<List<DateTime>> GetAvailableDates(int itemId)
+    {
+            Item? item = await _context.Items.FindAsync(itemId);
+
+            DateTime today = DateTime.Today;
+            DateTime nextMonth = today.AddDays(30);
+
+        List<DateTime> availableDates = new();
+
+        for (DateTime date = today; date <= nextMonth; date = date.AddDays(1))
+        {
+            bool isAvailable = await IsItemAvailable(itemId, date, date);
+
+            if (isAvailable)
+                {
+                    availableDates.Add(date);
+                }
+            }
+
+        return availableDates;
+    }
+
 }
