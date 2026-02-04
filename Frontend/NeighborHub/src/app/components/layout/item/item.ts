@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { ItemService } from '../../../services/item.service';
 import { ApiResponse, ItemResponse } from '../../../models/item.model';
 import { CommonModule } from '@angular/common';
@@ -25,6 +25,7 @@ export class Item implements OnInit   {
 
   items : ItemResponse[] = []
 
+  
 
     
 
@@ -33,5 +34,7 @@ export class Item implements OnInit   {
       this.items = res.data;
     });
   }
+
+  
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BookingService } from '../../../services/booking-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,9 +11,10 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./booking.css'],
 })
 export class BookingComponent implements OnInit {
+ 
 
   availableDates: Date[] = [];
-  itemId = 1;
+  @Input() item!: number;
 
   startDate!: string; // YYYY-MM-DD
   endDate!: string;   // YYYY-MM-DD
@@ -57,6 +58,7 @@ export class BookingComponent implements OnInit {
   }
 
   bookItem() {
+    console.log('Clicked item ID:', this.item.id);
   if (!this.startDate || !this.endDate) {
     alert('Please select both start and end dates');
     return;
@@ -83,5 +85,9 @@ export class BookingComponent implements OnInit {
     });
 }
 
+onClick() {
+    console.log('Clicked item ID:', this.item.id);
+    // Handle the click using the ID, e.g., navigate or call a service
+  }
 
 }
