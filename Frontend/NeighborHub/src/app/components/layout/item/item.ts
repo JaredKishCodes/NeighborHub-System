@@ -24,6 +24,7 @@ export class Item implements OnInit   {
   readonly baseUrl = env.apiBaseUrl;
 
   items : ItemResponse[] = []
+  selectedItemId: number | null = null;
 
   
 
@@ -33,6 +34,14 @@ export class Item implements OnInit   {
     this.itemService.getItems().subscribe((res: ApiResponse<ItemResponse[]>) => { 
       this.items = res.data;
     });
+  }
+
+  openBookingModal(itemId: number) {
+    this.selectedItemId = itemId;
+    const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
+    }
   }
 
   

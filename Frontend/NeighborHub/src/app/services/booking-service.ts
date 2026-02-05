@@ -13,7 +13,7 @@ export class BookingService {
 
     getAvailableDates(itemId: number) {
     return this.http.get<Date[]>(
-     this.apiUrl + `/api/items/${itemId}/available-dates`
+     this.apiUrl + `/api/item/${itemId}/available-dates`
     );
   }
 

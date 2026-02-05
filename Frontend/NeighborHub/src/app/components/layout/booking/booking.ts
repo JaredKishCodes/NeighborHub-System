@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { BookingService } from '../../../services/booking-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -10,11 +10,11 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './booking.html',
   styleUrls: ['./booking.css'],
 })
-export class BookingComponent implements OnInit {
+export class BookingComponent implements OnInit, OnChanges {
  
 
   availableDates: Date[] = [];
-  @Input() item!: number;
+  @Input() item: number | null = null;
 
   startDate!: string; // YYYY-MM-DD
   endDate!: string;   // YYYY-MM-DD
@@ -27,13 +27,32 @@ export class BookingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadAvailableDates();
+    if (this.item) {
+      this.loadAvailableDates();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['item'] && !changes['item'].firstChange && this.item) {
+      this.loadAvailableDates();
+      // Reset dates when item changes
+      this.startDate = '';
+      this.endDate = '';
+    }
   }
 
   loadAvailableDates() {
-    this.bookingService.getAvailableDates(this.itemId)
-      .subscribe(dates => {
-        this.availableDates = dates.map(d => new Date(d));
+    if (!this.item) return;
+    this.bookingService.getAvailableDates(this.item)
+      .subscribe({
+        next: (dates) => {
+          this.availableDates = dates.map(d => new Date(d));
+        },
+        error: (error) => {
+          console.error('Error loading available dates:', error);
+          // Set empty array on error, dates will still be selectable
+          this.availableDates = [];
+        }
       });
   }
 
@@ -58,9 +77,13 @@ export class BookingComponent implements OnInit {
   }
 
   bookItem() {
-    console.log('Clicked item ID:', this.item.id);
+    console.log('Clicked item ID:', this.item);
   if (!this.startDate || !this.endDate) {
     alert('Please select both start and end dates');
+    return;
+  }
+  if (!this.item) {
+    alert('No item selected');
     return;
   }
 
@@ -69,7 +92,7 @@ export class BookingComponent implements OnInit {
   const endIso = new Date(this.endDate).toISOString();
 
   const bookingPayload = {
-    itemId: this.itemId,
+    itemId: this.item,
     borrowerId: 1, // replace with your current logged-in user's ID
     startDate: startIso,
     endDate: endIso
@@ -79,14 +102,23 @@ export class BookingComponent implements OnInit {
   
 
   this.bookingService.createBooking(bookingPayload)
-    .subscribe(() => {
-      alert('Booking successful!');
-      this.loadAvailableDates();
+    .subscribe({
+      next: () => {
+        alert('Booking successful!');
+        this.loadAvailableDates();
+        // Reset form
+        this.startDate = '';
+        this.endDate = '';
+      },
+      error: (error) => {
+        console.error('Error creating booking:', error);
+        alert('Failed to create booking. Please try again.');
+      }
     });
 }
 
 onClick() {
-    console.log('Clicked item ID:', this.item.id);
+    console.log('Clicked item ID:', this.item);
     // Handle the click using the ID, e.g., navigate or call a service
   }
 

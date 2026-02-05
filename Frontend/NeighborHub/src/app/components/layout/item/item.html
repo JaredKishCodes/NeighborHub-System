@@ -20,8 +20,7 @@
         <div class="card-actions justify-between items-center mt-2">
           <div class="badge badge-outline badge-primary text-xs">ID: {{ item.id }}</div>
           <button 
-            onclick="my_modal_3.showModal()"
-            
+            (click)="openBookingModal(item.id)"
             class="btn btn-success btn-xs" 
             [disabled]="item.itemStatus === 2"
             [class.btn-disabled]="item.itemStatus === 2"
@@ -39,7 +38,9 @@
     <form method="dialog">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
-    <app-booking   @for(item in items) [item]="item"></app-booking>
+    @if (selectedItemId) {
+      <app-booking [item]="selectedItemId"></app-booking>
+    }
   </div>
 </dialog>
            
