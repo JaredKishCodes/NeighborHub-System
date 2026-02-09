@@ -1,13 +1,28 @@
 {
   "name": "neighbor-hub",
   "version": "0.0.0",
+  "description": "",
+  "main": "index.html",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "serve-static": "serve",
+    "build-static": "echo This is a static template, there is no bundler or bundling involved!"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesandbox-app/static-template.git"
+  },
+  "keywords": [],
+  "author": "Ives van Hoorne",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codesandbox-app/static-template/issues"
+  },
+  "homepage": "https://github.com/codesandbox-app/static-template#readme",
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
@@ -45,6 +60,7 @@
     "@angular/compiler-cli": "^21.1.0",
     "@angular/material": "^21.1.2",
     "jsdom": "^27.1.0",
+    "serve": "^11.2.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   }
