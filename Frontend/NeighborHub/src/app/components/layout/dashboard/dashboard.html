@@ -1,1 +1,123 @@
-<p>dashboard works!</p>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+  <!-- Card 1 -->
+  <div class="stats shadow bg-[#1d1b31] py-7">
+    <div class="stat text-amber-50">
+      <div class="stat-title text-slate-400">Total Page Views</div>
+      <div class="stat-value text-amber-50">89,400</div>
+      <div class="stat-desc text-slate-400">21% more than last month</div>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="stats shadow bg-[#1d1b31]">
+    <div class="stat text-amber-50">
+      <div class="stat-title text-slate-400">Total Page Views</div>
+      <div class="stat-value text-amber-50">89,400</div>
+      <div class="stat-desc text-slate-400">21% more than last month</div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="stats shadow bg-[#1d1b31]">
+    <div class="stat text-amber-50">
+      <div class="stat-title text-slate-400">Total Page Views</div>
+      <div class="stat-value text-amber-50">89,400</div>
+      <div class="stat-desc text-slate-400">21% more than last month</div>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="stats shadow bg-[#1d1b31]">
+    <div class="stat text-amber-50">
+      <div class="stat-title text-slate-400">Total Page Views</div>
+      <div class="stat-value text-amber-50">89,400</div>
+      <div class="stat-desc text-slate-400">21% more than last month</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Parent container for side-by-side layout -->
+<div class="flex flex-col md:flex-row gap-4 p-4">
+  <!-- First Table (unchanged, remains in its box) -->
+  <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 shadow-xl text-black 50 flex-1">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Job</th>
+          <th>Favorite Color</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        <tr>
+          <th>1</th>
+          <td>Cy Ganderton</td>
+          <td>Quality Control Specialist</td>
+          <td>Blue</td>
+        </tr>
+        <!-- row 2 -->
+        <tr>
+          <th>2</th>
+          <td>Hart Hagerty</td>
+          <td>Desktop Support Technician</td>
+          <td>Purple</td>
+        </tr>
+        <!-- row 3 -->
+        <tr>
+          <th>3</th>
+          <td>Brice Swyre</td>
+          <td>Tax Accountant</td>
+          <td>Red</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Second Table (now in a card-like box for emphasis) -->
+  <div class="card bg-base-100 shadow-xl flex-1">
+    <div class="card-body p-0">
+      <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 text-black">
+        <table class="table">
+          <!-- head -->
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Job</th>
+              <th>Favorite Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- row 1 -->
+            <tr>
+              <th>1</th>
+              <td>Cy Ganderton</td>
+              <td>Quality Control Specialist</td>
+              <td>Blue</td>
+            </tr>
+            <!-- row 2 -->
+            <tr>
+              <th>2</th>
+              <td>Hart Hagerty</td>
+              <td>Desktop Support Technician</td>
+              <td>Purple</td>
+            </tr>
+            <!-- row 3 -->
+            <tr>
+              <th>3</th>
+              <td>Brice Swyre</td>
+              <td>Tax Accountant</td>
+              <td>Red</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
