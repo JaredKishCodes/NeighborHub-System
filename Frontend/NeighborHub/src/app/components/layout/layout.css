@@ -65,6 +65,9 @@
 .sidebar .nav-links li:hover {
   background: #1d1b31;
 }
+.sidebar .nav-links li a.active {
+  background: #1d1b31;
+}
 .sidebar .nav-links li .iocn-link {
   display: flex;
   align-items: center;
@@ -234,6 +237,24 @@
 .home-section .home-content .bx-menu {
   margin: 0 15px;
   cursor: pointer;
+}
+  
+.sidebar-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 35px;
+  line-height: 1;
+}
+
+.sidebar-toggle-btn .bx-menu {
+  margin: 0;
 }
 .home-section .home-content .text {
   font-size: 26px;

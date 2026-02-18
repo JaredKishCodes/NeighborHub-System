@@ -1,16 +1,25 @@
+export type BookingStatus = 'Requested' | 'Confirmed' | 'Completed' | 'Cancelled';
 
-export interface Transaction {
+export interface DashboardBookingDto {
+  id: number;
+  itemName: string;
+  ownerName: string;
+  startDate: string;
+  status: BookingStatus;
+}
+
+export interface DashboardLendingDto {
   id: number;
   itemName: string;
   borrowerName: string;
   startDate: string;
-  status: 'Requested' | 'Approved' | 'Declined' | 'Returned' | 'Overdue';
+  status: BookingStatus;
 }
 
 export interface DashboardData {
   totalItems: number;
   totalBookings: number;
   totalLendings: number;
-  bookingsThisMonth: Transaction[];
-  lendingsThisMonth: Transaction[];
+  bookingsThisMonth: DashboardBookingDto[];
+  lendingsThisMonth: DashboardLendingDto[];
 }

@@ -1,50 +1,88 @@
+<div class="items-page">
+  <header class="items-header">
+    <h1 class="items-title">Items</h1>
+    <p class="items-subtitle">Browse and book items from your neighbors</p>
+  </header>
 
-<!-- Smaller Dark Item Card using DaisyUI (Tailwind CSS) -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-  @for (item of items; track item.id) {
-    <div class="card bg-[#1d1b31] text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-      <figure class="px-4 pt-4">
-        <img [src]="baseUrl + item.imageUrl" [alt]="item.name" class="rounded-lg w-full h-32 object-cover" />
-      </figure>
-      <div class="card-body p-4">
-        <h2 class="card-title text-lg font-bold">{{ item.name }}</h2>
-        <p class="text-xs italic opacity-80">{{ item.description }}</p>
-        <div class="divider my-1"></div>
-        <div class="grid grid-cols-1 gap-1 text-xs">
-          <div><strong>Category:</strong> {{ item.category }}</div>
-          <div><strong>Status:</strong> {{ item.itemStatus }}</div>
-          <div><strong>Owner :</strong> {{ item.ownerName }}</div>
-          <div><strong>Created:</strong> {{ item.createdAt | date:'short' }}</div>
-          <div><strong>Updated:</strong> {{ item.lastUpdatedAt | date:'short' }}</div>
-        </div>
-        <div class="card-actions justify-between items-center mt-2">
-          <div class="badge badge-outline badge-primary text-xs">ID: {{ item.id }}</div>
-          <button 
-            (click)="openBookingModal(item.id)"
-            class="btn btn-success btn-xs" 
-            [disabled]="item.itemStatus === 2"
-            [class.btn-disabled]="item.itemStatus === 2"
-            >
-            
-            {{ item.itemStatus === 2 ? 'Unavailable' : 'Book' }}
-          </button>
-        </div>
-      </div>
+  @if (items.length === 0) {
+    <div class="items-empty">
+      <p>No items yet.</p>
     </div>
+  } @else {
+    <div class="items-grid">
+      @for (item of paginatedItems; track item.id) {
+        <article class="item-card">
+          <div class="item-card-image-wrap">
+            <img
+              [src]="baseUrl + item.imageUrl"
+              [alt]="item.name"
+              class="item-card-image"
+            />
+            <span class="item-card-badge" [ngClass]="statusBadgeClass(item.itemStatus)">
+              {{ statusLabel(item.itemStatus) }}
+            </span>
+          </div>
+          <div class="item-card-body">
+            <h2 class="item-card-title">{{ item.name }}</h2>
+            <p class="item-card-desc">{{ item.description || 'No description' }}</p>
+            <div class="item-card-meta">
+              <span class="item-card-category">{{ item.category }}</span>
+              <span class="item-card-owner">{{ item.ownerName }}</span>
+            </div>
+            <div class="item-card-footer">
+              <button
+                type="button"
+                class="item-card-btn"
+                (click)="openBookingModal(item.id)"
+                [disabled]="item.itemStatus === 2"
+              >
+                {{ item.itemStatus === 2 ? 'Unavailable' : 'Book' }}
+              </button>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+
+    @if (totalPages > 1) {
+      <nav class="items-pagination" aria-label="Items pagination">
+        <button
+          type="button"
+          class="btn btn-sm btn-ghost"
+          (click)="prevPage()"
+          [disabled]="currentPage <= 1"
+          aria-label="Previous page"
+        >
+          ← Previous
+        </button>
+        <span class="items-pagination-info">
+          Page {{ currentPage }} of {{ totalPages }}
+          <span class="items-pagination-range">({{ startIndex }}–{{ endIndex }} of {{ items.length }})</span>
+        </span>
+        <button
+          type="button"
+          class="btn btn-sm btn-ghost"
+          (click)="nextPage()"
+          [disabled]="currentPage >= totalPages"
+          aria-label="Next page"
+        >
+          Next →
+        </button>
+      </nav>
+    }
   }
 </div>
+
 <dialog id="my_modal_3" class="modal">
   <div class="modal-box">
     <form method="dialog">
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+      <button type="button" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
     @if (selectedItemId) {
       <app-booking [item]="selectedItemId"></app-booking>
     }
   </div>
+  <form method="dialog" class="modal-backdrop">
+    <button type="submit">close</button>
+  </form>
 </dialog>
-           
-  
-
-
-

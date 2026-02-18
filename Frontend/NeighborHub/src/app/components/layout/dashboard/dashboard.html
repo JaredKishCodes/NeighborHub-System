@@ -1,123 +1,195 @@
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
-  <!-- Card 1 -->
-  <div class="stats shadow bg-[#1d1b31] py-7">
-    <div class="stat text-amber-50">
-      <div class="stat-title text-slate-400">Total Page Views</div>
-      <div class="stat-value text-amber-50">89,400</div>
-      <div class="stat-desc text-slate-400">21% more than last month</div>
+<div class="dashboard">
+  <header class="dashboard-header">
+    <div class="dashboard-header-row">
+      <div>
+        <h1 class="dashboard-title">Dashboard</h1>
+        <p class="dashboard-subtitle">Your NeighborHub overview at a glance</p>
+      </div>
+      <button type="button" class="btn btn-primary dashboard-create-btn" (click)="openCreateItemModal()">
+        Create item
+      </button>
     </div>
-  </div>
+  </header>
 
-  <!-- Card 2 -->
-  <div class="stats shadow bg-[#1d1b31]">
-    <div class="stat text-amber-50">
-      <div class="stat-title text-slate-400">Total Page Views</div>
-      <div class="stat-value text-amber-50">89,400</div>
-      <div class="stat-desc text-slate-400">21% more than last month</div>
+  @if (error) {
+    <div class="alert alert-error shadow-lg mb-6">
+      <span>{{ error }}</span>
+      <button type="button" class="btn btn-sm btn-ghost" (click)="loadSummary()">Retry</button>
     </div>
-  </div>
+  }
 
-  <!-- Card 3 -->
-  <div class="stats shadow bg-[#1d1b31]">
-    <div class="stat text-amber-50">
-      <div class="stat-title text-slate-400">Total Page Views</div>
-      <div class="stat-value text-amber-50">89,400</div>
-      <div class="stat-desc text-slate-400">21% more than last month</div>
+  @if (loading) {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+      @for (i of [1,2,3]; track i) {
+        <div class="stats shadow bg-base-200 animate-pulse">
+          <div class="stat">
+            <div class="stat-title h-4 bg-base-300 rounded w-24"></div>
+            <div class="stat-value h-10 bg-base-300 rounded w-16 mt-2"></div>
+          </div>
+        </div>
+      }
     </div>
-  </div>
-
-  <!-- Card 4 -->
-  <div class="stats shadow bg-[#1d1b31]">
-    <div class="stat text-amber-50">
-      <div class="stat-title text-slate-400">Total Page Views</div>
-      <div class="stat-value text-amber-50">89,400</div>
-      <div class="stat-desc text-slate-400">21% more than last month</div>
+    <div class="flex gap-4 p-4">
+      <div class="flex-1 h-64 bg-base-200 rounded-2xl animate-pulse"></div>
+      <div class="flex-1 h-64 bg-base-200 rounded-2xl animate-pulse"></div>
     </div>
-  </div>
-</div>
-
-
-
-
-<!-- Parent container for side-by-side layout -->
-<div class="flex flex-col md:flex-row gap-4 p-4">
-  <!-- First Table (unchanged, remains in its box) -->
-  <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 shadow-xl text-black 50 flex-1">
-    <table class="table">
-      <!-- head -->
-      <thead>
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Job</th>
-          <th>Favorite Color</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- row 1 -->
-        <tr>
-          <th>1</th>
-          <td>Cy Ganderton</td>
-          <td>Quality Control Specialist</td>
-          <td>Blue</td>
-        </tr>
-        <!-- row 2 -->
-        <tr>
-          <th>2</th>
-          <td>Hart Hagerty</td>
-          <td>Desktop Support Technician</td>
-          <td>Purple</td>
-        </tr>
-        <!-- row 3 -->
-        <tr>
-          <th>3</th>
-          <td>Brice Swyre</td>
-          <td>Tax Accountant</td>
-          <td>Red</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Second Table (now in a card-like box for emphasis) -->
-  <div class="card bg-base-100 shadow-xl flex-1">
-    <div class="card-body p-0">
-      <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 text-black">
-        <table class="table">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- row 1 -->
-            <tr>
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Blue</td>
-            </tr>
-            <!-- row 2 -->
-            <tr>
-              <th>2</th>
-              <td>Hart Hagerty</td>
-              <td>Desktop Support Technician</td>
-              <td>Purple</td>
-            </tr>
-            <!-- row 3 -->
-            <tr>
-              <th>3</th>
-              <td>Brice Swyre</td>
-              <td>Tax Accountant</td>
-              <td>Red</td>
-            </tr>
-          </tbody>
-        </table>
+  } @else if (data) {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+      <div class="stat-card stat-card-items">
+        <div class="stat">
+          <div class="stat-title">Total items</div>
+          <div class="stat-value">{{ data.totalItems }}</div>
+          <div class="stat-desc">Available in the hub</div>
+        </div>
+      </div>
+      <div class="stat-card stat-card-bookings">
+        <div class="stat">
+          <div class="stat-title">Total bookings</div>
+          <div class="stat-value">{{ data.totalBookings }}</div>
+          <div class="stat-desc">Items you've borrowed</div>
+        </div>
+      </div>
+      <div class="stat-card stat-card-lendings">
+        <div class="stat">
+          <div class="stat-title">Total lendings</div>
+          <div class="stat-value">{{ data.totalLendings }}</div>
+          <div class="stat-desc">Items you've lent out</div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="dashboard-tables">
+      <div class="dashboard-table-card">
+        <div class="card-header">
+          <h2 class="card-title">Bookings this month</h2>
+          <span class="badge badge-ghost">{{ bookings.length }}</span>
+        </div>
+        <div class="card-body p-0">
+          @if (bookings.length === 0) {
+            <div class="empty-state">
+              <p>No bookings this month.</p>
+            </div>
+          } @else {
+            <div class="overflow-x-auto">
+              <table class="table table-zebra">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Owner</th>
+                    <th>Start date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (b of bookings; track b.id) {
+                    <tr>
+                      <td class="font-medium">{{ b.itemName }}</td>
+                      <td>{{ b.ownerName }}</td>
+                      <td>{{ formatDate(b.startDate) }}</td>
+                      <td>
+                        <span class="badge" [ngClass]="statusClass(b.status)">{{ statusLabel(b.status) }}</span>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="dashboard-table-card">
+        <div class="card-header">
+          <h2 class="card-title">Lendings this month</h2>
+          <span class="badge badge-ghost">{{ lendings.length }}</span>
+        </div>
+        <div class="card-body p-0">
+          @if (lendings.length === 0) {
+            <div class="empty-state">
+              <p>No lendings this month.</p>
+            </div>
+          } @else {
+            <div class="overflow-x-auto">
+              <table class="table table-zebra">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Borrower</th>
+                    <th>Start date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (l of lendings; track l.id) {
+                    <tr>
+                      <td class="font-medium">{{ l.itemName }}</td>
+                      <td>{{ l.borrowerName }}</td>
+                      <td>{{ formatDate(l.startDate) }}</td>
+                      <td>
+                        <span class="badge" [ngClass]="statusClass(l.status)">{{ statusLabel(l.status) }}</span>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
 </div>
+
+<dialog id="create-item-modal" class="modal" (close)="closeCreateItemModal()">
+  <div class="modal-box modal-box-create-item">
+    <h3 class="font-bold text-lg mb-4">Add new item</h3>
+    <form (ngSubmit)="onCreateItemSubmit()" class="create-item-form">
+      @if (createItemError) {
+        <div class="alert alert-error text-sm mb-4">{{ createItemError }}</div>
+      }
+      <div class="form-control mb-3">
+        <label class="label"><span class="label-text">Item name</span></label>
+        <input type="text" [(ngModel)]="itemModel.name" name="name" class="input input-bordered w-full" placeholder="Item name" />
+      </div>
+      <div class="form-control mb-3">
+        <label class="label"><span class="label-text">Category</span></label>
+        <select [(ngModel)]="itemModel.category" name="category" class="select select-bordered w-full">
+          <option value="" disabled selected>Select category</option>
+          <option value="Tools">Tools</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Appliances">Appliances</option>
+        </select>
+      </div>
+      <div class="form-control mb-3">
+        <label class="label"><span class="label-text">Status</span></label>
+        <select [(ngModel)]="itemModel.itemStatus" name="itemStatus" class="select select-bordered w-full">
+          <option [ngValue]="0">Available</option>
+          <option [ngValue]="1">Requested</option>
+          <option [ngValue]="2">Borrowed</option>
+        </select>
+      </div>
+      <div class="form-control mb-3">
+        <label class="label"><span class="label-text">Description</span></label>
+        <textarea [(ngModel)]="itemModel.description" name="description" class="textarea textarea-bordered w-full" placeholder="Describe the item..." rows="3"></textarea>
+      </div>
+      <div class="form-control mb-4">
+        <label class="label"><span class="label-text">Item image</span></label>
+        <div class="create-item-file-wrap">
+          <input type="file" id="create-item-image" (change)="onCreateItemFileSelected($event)" accept="image/*" class="create-item-file-input" />
+          <label for="create-item-image" class="create-item-file-label">
+            {{ selectedFile ? selectedFile.name : 'Choose an image' }}
+          </label>
+        </div>
+      </div>
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" (click)="closeCreateItemModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="createItemSubmitting">
+          {{ createItemSubmitting ? 'Adding…' : 'Add item' }}
+        </button>
+      </div>
+    </form>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button type="submit">close</button>
+  </form>
+</dialog>

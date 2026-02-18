@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NeighborHub.Application.DTOs.Dashboard;
 using NeighborHub.Domain.Entities;
@@ -17,7 +17,7 @@ public class DashboardController(IDashboardRepository _dashboardRepository) : Co
 
         var summary = new DashboardResponseDto
         {
-            TotalUsers = await _dashboardRepository.GetTotalUsersCountAsync(),
+           
             TotalItems = await _dashboardRepository.GetTotalItemsCountAsync(),
             TotalBookings = await _dashboardRepository.GetTotalBookingsCountAsync(userId),
             TotalLendings = await _dashboardRepository.GetTotalLendingsCountAsync(userId),
@@ -25,12 +25,12 @@ public class DashboardController(IDashboardRepository _dashboardRepository) : Co
             {
                 Id = b.Id,
                 ItemName = b.Item?.Name ?? "Unknown Item", // Validation against nulls
-                BorrowerName = b.Borrower?.FullName ?? "Unknown User",
+                OwnerName = b.Borrower?.FullName ?? "Unknown User",
                 StartDate = b.StartDate,
                 Status = b.BookingStatus
             }),
 
-            LendingsThisMonth = lendings.Select(b => new DashboardBookingDto
+            LendingsThisMonth = lendings.Select(b => new DashboardLendingDto
             {
                 Id = b.Id,
                 ItemName = b.Item?.Name ?? "Unknown Item",

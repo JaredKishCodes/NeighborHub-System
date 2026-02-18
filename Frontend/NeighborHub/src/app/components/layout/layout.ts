@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, inject } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { Item } from "./item/item";
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { ApiResponse, ItemResponse } from '../../models/item.model';
 
@@ -10,37 +9,39 @@ import { ApiResponse, ItemResponse } from '../../models/item.model';
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
-export class Layout  implements AfterViewInit{
-  constructor(private el: ElementRef) {}
+export class Layout implements AfterViewInit {
+  private router = inject(Router);
+  private el = inject(ElementRef);
 
-  itemService = inject(ItemService)
-  items : ItemResponse[] = []
+  itemService = inject(ItemService);
+  items: ItemResponse[] = [];
+
+  /** Sidebar starts collapsed (narrow). */
+  sidebarClosed = true;
+
   ngOnInit(): void {
-    this.itemService.getItems().subscribe((res: ApiResponse<ItemResponse[]>) => { 
-          this.items = res.data;
-        });
-
+    this.itemService.getItems().subscribe((res: ApiResponse<ItemResponse[]>) => {
+      this.items = res.data ?? [];
+    });
   }
 
   ngAfterViewInit(): void {
-    // Handle arrow clicks for sub-menu toggling
     const arrows = this.el.nativeElement.querySelectorAll('.arrow');
     arrows.forEach((arrow: HTMLElement) => {
       arrow.addEventListener('click', (e: Event) => {
-        const arrowParent = (e.target as HTMLElement).parentElement?.parentElement;
-        if (arrowParent) {
-          arrowParent.classList.toggle('showMenu');
-        }
+        const li = (e.target as HTMLElement).closest('li');
+        if (li) li.classList.toggle('showMenu');
       });
     });
+  }
 
-    // Handle sidebar toggle
-    const sidebar = this.el.nativeElement.querySelector('.sidebar');
-    const sidebarBtn = this.el.nativeElement.querySelector('.bx-menu');
-    if (sidebarBtn) {
-      sidebarBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('close');
-      });
-    }
+  toggleSidebar(): void {
+    this.sidebarClosed = !this.sidebarClosed;
+  }
+
+  onNavClick(event: Event, url: string): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.router.navigateByUrl(url);
   }
 }
