@@ -23,28 +23,51 @@
 .sidebar .logo-details {
   height: 60px;
   width: 100%;
+  min-height: 60px;
   display: flex;
   align-items: center;
+  padding: 0;
+  gap: 0;
 }
-.sidebar .logo-details i {
-  font-size: 30px;
-  color: #fff;
-  height: 50px;
+.sidebar .logo-details .logo-icon-wrap {
+  width: 78px;
   min-width: 78px;
-  text-align: center;
-  line-height: 50px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.sidebar .logo-details .logo-icon,
+.sidebar .logo-details .logo-icon-wrap .logo-icon {
+  font-size: 26px;
+  color: #fff;
+  line-height: 1;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  vertical-align: middle;
 }
 .sidebar .logo-details .logo_name {
-  font-size: 22px;
+  font-size: 15px;
   color: #fff;
   font-weight: 600;
+  letter-spacing: 0.02em;
   transition: 0.3s ease;
   transition-delay: 0.1s;
+  padding: 0 0px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .sidebar.close .logo-details .logo_name {
   transition-delay: 0s;
   opacity: 0;
   pointer-events: none;
+  padding: 0;
 }
 .sidebar .nav-links {
   height: 100%;
