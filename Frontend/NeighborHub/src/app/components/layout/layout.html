@@ -8,24 +8,30 @@
       </div>
       <ul class="nav-links">
         <li>
-          <a routerLink="/dashboard" routerLinkActive="active" (click)="onNavClick($event, '/dashboard')">
+          <a routerLink="/dashboard" routerLinkActive="active">
             <i class="bx bx-grid-alt"></i>
             <span class="link_name">Dashboard</span>
           </a>
-          <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Dashboard</a></li>
-          </ul>
+          <!-- <ul class="sub-menu blank">
+            <li><a class="link_name">Dashboard</a></li>
+          </ul> -->
         </li>
         
       
         <li>
-          <a routerLink="/item" routerLinkActive="active" (click)="onNavClick($event, '/item')">
+          <a routerLink="/item" routerLinkActive="active">
             <i class="bx bx-pie-chart-alt-2"></i>
             <span class="link_name">Items</span>
           </a>
-          <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Items</a></li>
-          </ul>
+          <!-- <ul class="sub-menu blank">
+            <li><a class="link_name">Items</a></li>
+          </ul> -->
+        </li>
+        <li>
+          <a href="#" (click)="onLogout($event)">
+            <i class="bx bx-log-out"></i>
+            <span class="link_name">Logout</span>
+          </a>
         </li>
         <!-- <li>
           <a href="#">
@@ -97,7 +103,7 @@
         <button type="button" class="sidebar-toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
           <i class="bx bx-menu"></i>
         </button>
-        <span class="text">Drop Down Sidebar</span>
+       
       </div>
       <div class="mt-7" style="background-color: #e4e9f7;">
   <router-outlet></router-outlet>

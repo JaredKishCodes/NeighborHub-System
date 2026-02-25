@@ -1,0 +1,169 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1 class="auth-title">NeighbourShare Hub</h1>
+      <p class="auth-subtitle">Sign in to share and borrow with your neighbours.</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button
+        type="button"
+        class="auth-tab"
+        [class.auth-tab-active]="mode === 'login'"
+        (click)="switchMode('login')"
+      >
+        Login
+      </button>
+      <button
+        type="button"
+        class="auth-tab"
+        [class.auth-tab-active]="mode === 'register'"
+        (click)="switchMode('register')"
+      >
+        Sign up
+      </button>
+    </div>
+
+    @if (error) {
+      <div class="alert alert-error auth-error">
+        <span>{{ error }}</span>
+      </div>
+    }
+
+    @if (mode === 'login') {
+      <form (ngSubmit)="submitLogin()" class="auth-form">
+        <label class="auth-label">
+          <span>Email</span>
+          <input
+            class="input input-bordered w-full"
+            type="email"
+            name="loginEmail"
+            [(ngModel)]="loginModel.email"
+            placeholder="you@example.com"
+          />
+        </label>
+
+        <label class="auth-label">
+          <span>Password</span>
+          <input
+            class="input input-bordered w-full"
+            type="password"
+            name="loginPassword"
+            [(ngModel)]="loginModel.password"
+            placeholder="••••••••"
+          />
+        </label>
+
+        <button
+          type="submit"
+          class="btn btn-primary w-full mt-4"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Logging in…' : 'Login' }}
+        </button>
+      </form>
+    } @else {
+      <form (ngSubmit)="submitRegister()" class="auth-form">
+        <div class="auth-grid">
+          <label class="auth-label">
+            <span>First name</span>
+            <input
+              class="input input-bordered w-full"
+              type="text"
+              name="firstName"
+              [(ngModel)]="registerModel.firstName"
+              placeholder="John"
+            />
+          </label>
+          <label class="auth-label">
+            <span>Last name</span>
+            <input
+              class="input input-bordered w-full"
+              type="text"
+              name="lastName"
+              [(ngModel)]="registerModel.lastName"
+              placeholder="Doe"
+            />
+          </label>
+        </div>
+
+        <label class="auth-label">
+          <span>Street address</span>
+          <input
+            class="input input-bordered w-full"
+            type="text"
+            name="streetAddress"
+            [(ngModel)]="registerModel.streetAddress"
+            placeholder="123 Neighbor St"
+          />
+        </label>
+
+        <div class="auth-grid">
+          <label class="auth-label">
+            <span>City</span>
+            <input
+              class="input input-bordered w-full"
+              type="text"
+              name="city"
+              [(ngModel)]="registerModel.city"
+              placeholder="Your city"
+            />
+          </label>
+          <label class="auth-label">
+            <span>Baranggay</span>
+            <input
+              class="input input-bordered w-full"
+              type="text"
+              name="baranggay"
+              [(ngModel)]="registerModel.baranggay"
+              placeholder="Your baranggay"
+            />
+          </label>
+        </div>
+
+        <label class="auth-label">
+          <span>Email</span>
+          <input
+            class="input input-bordered w-full"
+            type="email"
+            name="registerEmail"
+            [(ngModel)]="registerModel.email"
+            placeholder="you@example.com"
+          />
+        </label>
+
+        <div class="auth-grid">
+          <label class="auth-label">
+            <span>Password</span>
+            <input
+              class="input input-bordered w-full"
+              type="password"
+              name="registerPassword"
+              [(ngModel)]="registerModel.password"
+              placeholder="••••••••"
+            />
+          </label>
+          <label class="auth-label">
+            <span>Confirm password</span>
+            <input
+              class="input input-bordered w-full"
+              type="password"
+              name="confirmPassword"
+              [(ngModel)]="registerModel.confirmPassword"
+              placeholder="••••••••"
+            />
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary w-full mt-4"
+          [disabled]="loading"
+        >
+          {{ loading ? 'Creating account…' : 'Create account' }}
+        </button>
+      </form>
+    }
+  </div>
+</div>
+

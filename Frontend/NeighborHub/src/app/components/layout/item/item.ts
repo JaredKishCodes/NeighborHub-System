@@ -27,9 +27,16 @@ export class Item implements OnInit {
   pageSize = PAGE_SIZE;
 
   ngOnInit(): void {
-    this.itemService.getItems().subscribe((res: ApiResponse<ItemResponse[]>) => {
+    this.itemService.getItems().subscribe( {next:(res: ApiResponse<ItemResponse[]>) => {
       this.items = res.data ?? [];
-    });
+      console.log("Items initialized");
+      
+    },
+    error: (err) => {
+      console.error('Error loading items:', err);
+    }
+    }
+    );
   }
 
   get totalPages(): number {

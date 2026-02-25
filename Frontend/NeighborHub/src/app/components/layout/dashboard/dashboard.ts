@@ -30,6 +30,7 @@ export class Dashboard implements OnInit {
   createItemSubmitting = false;
   createItemError: string | null = null;
   selectedFile: File | null = null;
+  
   itemModel = {
     name: '',
     description: '',

@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef, inject } from '@angular/core';
-import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { ItemService } from '../../services/item.service';
 import { ApiResponse, ItemResponse } from '../../models/item.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -10,8 +11,8 @@ import { ApiResponse, ItemResponse } from '../../models/item.model';
   styleUrl: './layout.css',
 })
 export class Layout implements AfterViewInit {
-  private router = inject(Router);
   private el = inject(ElementRef);
+  private authService = inject(AuthService);
 
   itemService = inject(ItemService);
   items: ItemResponse[] = [];
@@ -39,9 +40,10 @@ export class Layout implements AfterViewInit {
     this.sidebarClosed = !this.sidebarClosed;
   }
 
-  onNavClick(event: Event, url: string): void {
+  onLogout(event: Event): void {
     event.preventDefault();
-    event.stopPropagation();
-    this.router.navigateByUrl(url);
+    const confirmed = window.confirm('Are you sure you want to logout?');
+    if (!confirmed) return;
+    this.authService.logout();
   }
 }
