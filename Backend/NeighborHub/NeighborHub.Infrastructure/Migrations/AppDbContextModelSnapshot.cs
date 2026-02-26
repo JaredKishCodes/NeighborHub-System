@@ -206,7 +206,7 @@ namespace NeighborHub.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DomainUsers");
+                    b.ToTable("DomainUsers", (string)null);
                 });
 
             modelBuilder.Entity("NeighborHub.Domain.Entities.Item", b =>
@@ -253,7 +253,7 @@ namespace NeighborHub.Infrastructure.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("NeighborHub.Infrastructure.Auth.AppUser", b =>

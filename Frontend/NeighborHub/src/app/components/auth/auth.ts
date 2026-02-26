@@ -19,6 +19,7 @@ export class AuthComponent {
   mode: AuthMode = 'login';
   loading = false;
   error: string | null = null;
+  darkMode = false;
 
   loginModel = {
     email: '',

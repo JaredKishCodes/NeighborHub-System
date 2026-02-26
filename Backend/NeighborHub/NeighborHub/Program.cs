@@ -16,7 +16,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApiServices(builder.Configuration);
 
+
 WebApplication app = builder.Build();
+
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    IServiceProvider services = scope.ServiceProvider;
+    IConfiguration configuration = services.GetRequiredService<IConfiguration>();
+
+    await SeedRoleData.SeedRolesAndAdminAsync(services, configuration);
+}
+
+
 
 // 2. Configure Folders
 // Using app.Environment is safer here than builder.Environment
