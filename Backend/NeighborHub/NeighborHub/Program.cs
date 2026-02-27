@@ -48,6 +48,9 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
+
+app.UseRouting();
+
 // IMPORTANT: Put UseCors BEFORE UseStaticFiles
 app.UseCors("AllowAll"); 
 
@@ -57,7 +60,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Resources"
 });
 
-app.UseRouting();
+
 app.UseAuthorization();
 app.MapControllers();
 
