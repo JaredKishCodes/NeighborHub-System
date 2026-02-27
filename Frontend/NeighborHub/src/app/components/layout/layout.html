@@ -1,112 +1,52 @@
-  <body>
-    <div class="sidebar" [class.close]="sidebarClosed">
-      <div class="logo-details">
-        <span class="logo-icon-wrap" aria-hidden="true">
-          <i class="bx bx-group logo-icon"></i>
-        </span>
-        <span class="logo_name text">NeighbourShare Hub</span>
-      </div>
-      <ul class="nav-links">
-        <li>
-          <a routerLink="/dashboard" routerLinkActive="active">
-            <i class="bx bx-grid-alt"></i>
-            <span class="link_name">Dashboard</span>
-          </a>
-          <!-- <ul class="sub-menu blank">
-            <li><a class="link_name">Dashboard</a></li>
-          </ul> -->
-        </li>
-        
-      
-        <li>
-          <a routerLink="/item" routerLinkActive="active">
-            <i class="bx bx-pie-chart-alt-2"></i>
-            <span class="link_name">Items</span>
-          </a>
-          <!-- <ul class="sub-menu blank">
-            <li><a class="link_name">Items</a></li>
-          </ul> -->
-        </li>
-        <li>
-          <a href="#" (click)="onLogout($event)">
-            <i class="bx bx-log-out"></i>
-            <span class="link_name">Logout</span>
-          </a>
-        </li>
-        <!-- <li>
-          <a href="#">
-            <i class="bx bx-line-chart"></i>
-            <span class="link_name">Chart</span>
-          </a>
-          <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Chart</a></li>
-          </ul>
-        </li>
-        <li>
-          <div class="iocn-link">
-            <a href="#">
-              <i class="bx bx-plug"></i>
-              <span class="link_name">Plugins</span>
-            </a>
-            <i class="bx bxs-chevron-down arrow"></i>
-          </div>
-          <ul class="sub-menu">
-            <li><a class="link_name" href="#">Plugins</a></li>
-            <li><a href="#">UI Face</a></li>
-            <li><a href="#">Pigments</a></li>
-            <li><a href="#">Box Icons</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-compass"></i>
-            <span class="link_name">Explore</span>
-          </a>
-          <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Explore</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-history"></i>
-            <span class="link_name">History</span>
-          </a>
-          <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">History</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">
-            <i class="bx bx-cog"></i>
-            <span class="link_name">Setting</span>
-          </a>
-          <ul class="sub-menu blank">
-            <li><a class="link_name" href="#">Setting</a></li>
-          </ul>
-        </li>
-        <li> -->
-          <!-- <div class="profile-details">
-            <div class="profile-content">
-              <img src="image/profile.jpg" alt="profileImg" />
-            </div>
-            <div class="name-job">
-              <div class="profile_name">Prem Shahi</div>
-              <div class="job">Web Desginer</div>
-            </div>
-            <i class="bx bx-log-out"></i>
-          </div> -->
-        <!-- </li> -->
-      </ul>
+<div class="layout-container">
+  <aside class="sidebar" [class.close]="sidebarClosed">
+    <div class="logo-details">
+      <span class="logo-icon-wrap" aria-hidden="true">
+        <i class="bx bx-group logo-icon"></i>
+      </span>
+      <span class="logo_name text">NeighbourShare Hub</span>
     </div>
-    <section class="home-section">
-      <div class="home-content">
-        <button type="button" class="sidebar-toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
-          <i class="bx bx-menu"></i>
-        </button>
-       
-      </div>
-      <div class="mt-7" style="background-color: #e4e9f7;">
-  <router-outlet></router-outlet>
-        </div>
-    </section>
-  </body>
+
+    <ul class="nav-links">
+      <li>
+        <a (click)="navigate('/dashboard')" 
+           [routerLink]="['/dashboard']" 
+           routerLinkActive="active" 
+           style="cursor: pointer; position: relative; z-index: 1001;">
+          <i class="bx bx-grid-alt"></i>
+          <span class="link_name">Dashboard</span>
+        </a>
+      </li>
+
+      <li>
+        <a (click)="navigate('/item')" 
+           [routerLink]="['/item']" 
+           routerLinkActive="active" 
+           style="cursor: pointer; position: relative; z-index: 1001;">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link_name">Items</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="javascript:void(0)" (click)="onLogout($event)" style="position: relative; z-index: 1001;">
+          <i class="bx bx-log-out"></i>
+          <span class="link_name">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <section class="home-section">
+    <header class="home-content">
+      <button type="button" class="sidebar-toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
+        <i class="bx bx-menu"></i>
+      </button>
+    </header>
+
+    
+    <main class="content-wrapper">
+      <router-outlet></router-outlet>
+    </main>
+  </section>
+</div>

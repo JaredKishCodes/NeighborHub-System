@@ -1,37 +1,51 @@
-import { AfterViewInit, Component, ElementRef, inject } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Component, inject, OnInit, ChangeDetectorRef, NgZone, ApplicationRef } from '@angular/core';
 import { ItemService } from '../../services/item.service';
-import { ApiResponse, ItemResponse } from '../../models/item.model';
 import { AuthService } from '../../services/auth.service';
+import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { ApiResponse, ItemResponse } from '../../models/item.model';
+import { filter } from 'rxjs';
 
+// The decorator MUST stay exactly here, with no text/comments between it and the class
 @Component({
   selector: 'app-layout',
+  standalone: true,
   imports: [RouterModule, RouterOutlet],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
-export class Layout implements AfterViewInit {
-  private el = inject(ElementRef);
+export class Layout implements OnInit { // This must follow the closing ')' of @Component
   private authService = inject(AuthService);
+  private itemService = inject(ItemService);
+  private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
+  private ngZone = inject(NgZone);
 
-  itemService = inject(ItemService);
   items: ItemResponse[] = [];
-
-  /** Sidebar starts collapsed (narrow). */
   sidebarClosed = true;
+  private appRef = inject(ApplicationRef);
+  openMenus: { [key: string]: boolean } = {};
 
   ngOnInit(): void {
     this.itemService.getItems().subscribe((res: ApiResponse<ItemResponse[]>) => {
       this.items = res.data ?? [];
     });
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.ngZone.run(() => {
+        this.cdr.detectChanges();
+      });
+    });
   }
 
-  ngAfterViewInit(): void {
-    const arrows = this.el.nativeElement.querySelectorAll('.arrow');
-    arrows.forEach((arrow: HTMLElement) => {
-      arrow.addEventListener('click', (e: Event) => {
-        const li = (e.target as HTMLElement).closest('li');
-        if (li) li.classList.toggle('showMenu');
+  navigate(path: string): void {
+    this.ngZone.run(() => {
+      this.router.navigate([path]).then((success) => {
+        if (success) {
+          // Force the entire application to synchronize with the browser
+          this.appRef.tick(); 
+        }
       });
     });
   }
@@ -40,10 +54,14 @@ export class Layout implements AfterViewInit {
     this.sidebarClosed = !this.sidebarClosed;
   }
 
+  toggleSubMenu(menuId: string): void {
+    this.openMenus[menuId] = !this.openMenus[menuId];
+  }
+
   onLogout(event: Event): void {
     event.preventDefault();
-    const confirmed = window.confirm('Are you sure you want to logout?');
-    if (!confirmed) return;
-    this.authService.logout();
+    if (window.confirm('Are you sure you want to logout?')) {
+      this.authService.logout();
+    }
   }
 }

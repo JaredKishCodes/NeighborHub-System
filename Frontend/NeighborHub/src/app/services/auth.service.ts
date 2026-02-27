@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { env } from '../../environments/environment.production';
 import { CurrentUserService } from './current-user.service';
+import { Router } from '@angular/router';
 
 interface RegisterRequest {
   firstName: string;
@@ -49,6 +50,7 @@ const OWNER_ID_KEY = 'neighborhub_owner_id';
 export class AuthService {
   private http = inject(HttpClient);
   private currentUserService = inject(CurrentUserService);
+  router = inject(Router);
 
   private apiUrl = `${env.apiBaseUrl}/api/Account`;
 
@@ -86,6 +88,7 @@ export class AuthService {
     localStorage.removeItem(OWNER_ID_KEY);
     this.currentUserService.clearUserId();
     this.loggedIn$.next(false);
+    this.router.navigateByUrl('/auth');
   }
 
   private hasToken(): boolean {

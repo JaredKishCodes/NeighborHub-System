@@ -7,6 +7,15 @@
   font-family: "Poppins", sans-serif;
 
 }
+
+.content-wrapper {
+  display: block !important;
+  visibility: visible !important;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1; /* Ensure it sits above the section background */
+}
+
 .sidebar {
   position: fixed;
   top: 0;
