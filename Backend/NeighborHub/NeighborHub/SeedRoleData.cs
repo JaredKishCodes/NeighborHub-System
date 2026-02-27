@@ -27,6 +27,11 @@ public static class SeedRoleData
 
         string adminEmail = configuration["AdminUser:Email"];
         string adminPassword = configuration["AdminUser:Password"];
+        string firstName = configuration["AdminUser:FirstName"];
+        string lastName = configuration["AdminUser:LastName"];
+        string city = configuration["AdminUser:City"];
+        string baranggay = configuration["AdminUser:Baranggay"];
+        string streetAddress = configuration["AdminUser:StreetAddress"];
 
         if (string.IsNullOrWhiteSpace(adminEmail) || string.IsNullOrWhiteSpace(adminPassword))
         {
@@ -53,6 +58,11 @@ public static class SeedRoleData
             {
                 UserName = adminEmail,
                 Email = adminEmail,
+                FirstName = firstName ?? "System",
+                LastName = lastName ?? "Admin",
+                City = city ?? "Default City",
+                Baranggay = baranggay ?? "Default Baranggay", // Fallback to prevent SqlException
+                StreetAddress = streetAddress ?? "N/A",
                 EmailConfirmed = true
             };
 

@@ -10,20 +10,30 @@ namespace NeighborHub.Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApiServices( this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
     {
+        IConfigurationSection jwtSettings = configuration.GetSection("JWT");
+        string? signingKeyString = jwtSettings["SigningKey"];
+
+        if (string.IsNullOrEmpty(signingKeyString))
+        {
+            throw new InvalidOperationException("JWT SigningKey is missing from configuration.");
+        }
+
+        var signingKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(signingKeyString));
+
         services.AddApplicationServices()
                 .AddInfrastructureServices(configuration);
 
-                  services.AddCors(options =>
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
             {
-                options.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyOrigin()      // Allow all origins
-                          .AllowAnyMethod()      // Allow any HTTP method (GET, POST, PUT, DELETE, etc.)
-                          .AllowAnyHeader();     // Allow any header
-                });
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
             });
+        });
 
         services.AddIdentity<AppUser, IdentityRole>(options =>
         {
@@ -39,16 +49,17 @@ public static class DependencyInjection
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(options =>
-         options.TokenValidationParameters = new TokenValidationParameters
-         {
-             ValidateIssuer = true,
-             ValidateAudience = true,
-             ValidateIssuerSigningKey = true,
-             ValidIssuer = configuration["JWT:Issuer"],
-             ValidAudience = configuration["JWT:Audience"],
-             IssuerSigningKey = new SymmetricSecurityKey(
-                 System.Text.Encoding.UTF8.GetBytes(configuration["JWT:SigningKey"]))
-         });
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = configuration["JWT:Issuer"],
+                ValidAudience = configuration["JWT:Audience"],
+                IssuerSigningKey = signingKey
+            };
+        });
 
         return services;
     }
