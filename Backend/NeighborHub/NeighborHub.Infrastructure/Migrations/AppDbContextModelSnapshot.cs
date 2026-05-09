@@ -17,7 +17,7 @@ namespace NeighborHub.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.11")
+                .HasAnnotation("ProductVersion", "10.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -206,7 +206,7 @@ namespace NeighborHub.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DomainUsers", (string)null);
+                    b.ToTable("DomainUsers");
                 });
 
             modelBuilder.Entity("NeighborHub.Domain.Entities.Item", b =>
@@ -253,7 +253,45 @@ namespace NeighborHub.Infrastructure.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 4,
+                            Category = "Tools",
+                            CreatedAt = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "very good hammer, slightly used.",
+                            ImageUrl = "/item-images/hammer.jpg",
+                            ItemStatus = 0,
+                            LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Hammer",
+                            OwnerId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Category = "Sports",
+                            CreatedAt = new DateTime(2026, 5, 2, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Adult size, 21-speed mountain bike.",
+                            ImageUrl = "/item-images/mountainbike.jpg",
+                            ItemStatus = 0,
+                            LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Mountain Bike",
+                            OwnerId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Category = "Tools",
+                            CreatedAt = new DateTime(2026, 5, 3, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Cordless drill with two batteries.",
+                            ImageUrl = "/item-images/drillset.jpg",
+                            ItemStatus = 0,
+                            LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Drill Set",
+                            OwnerId = 3
+                        });
                 });
 
             modelBuilder.Entity("NeighborHub.Infrastructure.Auth.AppUser", b =>

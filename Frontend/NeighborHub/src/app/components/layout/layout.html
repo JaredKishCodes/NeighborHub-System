@@ -9,8 +9,7 @@
 
     <ul class="nav-links">
       <li>
-        <a (click)="navigate('/dashboard')" 
-           [routerLink]="['/dashboard']" 
+        <a [routerLink]="['/dashboard']" 
            routerLinkActive="active" 
            style="cursor: pointer; position: relative; z-index: 1001;">
           <i class="bx bx-grid-alt"></i>
@@ -19,8 +18,7 @@
       </li>
 
       <li>
-        <a (click)="navigate('/item')" 
-           [routerLink]="['/item']" 
+        <a [routerLink]="['/item']" 
            routerLinkActive="active" 
            style="cursor: pointer; position: relative; z-index: 1001;">
           <i class="bx bx-pie-chart-alt-2"></i>

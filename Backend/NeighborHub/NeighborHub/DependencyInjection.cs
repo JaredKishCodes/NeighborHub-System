@@ -27,12 +27,13 @@ public static class DependencyInjection
 
         services.AddCors(options =>
         {
-            options.AddPolicy("AllowAll", policy =>
-            {
-                policy.AllowAnyOrigin()
-                      .AllowAnyMethod()
-                      .AllowAnyHeader();
-            });
+            options.AddPolicy("AllowFrontend",
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200") // Your frontend URL
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
         });
 
         services.AddIdentity<AppUser, IdentityRole>(options =>

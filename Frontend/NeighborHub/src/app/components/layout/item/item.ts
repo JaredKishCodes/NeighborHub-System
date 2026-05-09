@@ -1,9 +1,9 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, CUSTOM_ELEMENTS_SCHEMA, inject, NgZone, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ItemService } from '../../../services/item.service';
 import { ApiResponse, ItemResponse, ItemStatus } from '../../../models/item.model';
 import { CommonModule } from '@angular/common';
-import { env } from '../../../../environments/environment.production';
+import { env } from '../../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { BookingComponent } from '../booking/booking';
 
@@ -11,6 +11,7 @@ const PAGE_SIZE = 8;
 
 @Component({
   selector: 'app-item',
+  standalone: true,
   imports: [CommonModule, NgClass, FormsModule, BookingComponent],
   templateUrl: './item.html',
   styleUrl: './item.css',
@@ -18,7 +19,10 @@ const PAGE_SIZE = 8;
 })
 export class Item implements OnInit {
   itemService = inject(ItemService);
-  readonly baseUrl = env.apiBaseUrl;
+  readonly apiBaseUrl = env.apiBaseUrl;
+  readonly imageBaseUrl = env.imageBaseUrl;
+  private cdr = inject(ChangeDetectorRef);
+  private ngZone = inject(NgZone);
 
   items: ItemResponse[] = [];
   selectedItemId: number | null = null;
@@ -27,16 +31,20 @@ export class Item implements OnInit {
   pageSize = PAGE_SIZE;
 
   ngOnInit(): void {
-    this.itemService.getItems().subscribe( {next:(res: ApiResponse<ItemResponse[]>) => {
-      this.items = res.data ?? [];
-      console.log("Items initialized");
-      
-    },
-    error: (err) => {
-      console.error('Error loading items:', err);
-    }
-    }
-    );
+    this.itemService.getItems().subscribe({
+      next: (res: ApiResponse<ItemResponse[]>) => {
+        this.ngZone.run(() => {
+          this.items = res.data ?? [];
+          this.cdr.markForCheck();
+        });
+      },
+      error: (err) => {
+        console.error('Error loading items:', err);
+        this.ngZone.run(() => {
+          this.cdr.markForCheck();
+        });
+      },
+    });
   }
 
   get totalPages(): number {
@@ -70,17 +78,24 @@ export class Item implements OnInit {
     if (modal) modal.showModal();
   }
 
+  resolveImageUrl(imageUrl?: string): string {
+    if (!imageUrl) return '';
+    if (/^https?:\/\//i.test(imageUrl)) return imageUrl;
+    if (imageUrl.startsWith('/')) return `${this.apiBaseUrl}${imageUrl}`;
+    return `${this.apiBaseUrl}/${imageUrl}`;
+  }
+
   statusLabel(status: ItemStatus): string {
     return ItemStatus[status] ?? 'Unknown';
   }
 
   statusBadgeClass(status: ItemStatus): string {
     switch (status) {
-      case ItemStatus.Available:
+      case ItemStatus.available:
         return 'item-badge-available';
-      case ItemStatus.Requested:
+      case ItemStatus.requested:
         return 'item-badge-requested';
-      case ItemStatus.Borrowed:
+      case ItemStatus.borrowed:
         return 'item-badge-borrowed';
       default:
         return '';

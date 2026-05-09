@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, NgZone, OnInit } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../../../services/dashboard/dashboard-service';
@@ -13,6 +13,7 @@ import {
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [NgClass, FormsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
@@ -21,6 +22,8 @@ export class Dashboard implements OnInit {
   private dashboardService = inject(DashboardService);
   private currentUserService = inject(CurrentUserService);
   private itemService = inject(ItemService);
+  private cdr = inject(ChangeDetectorRef);
+  private ngZone = inject(NgZone);
 
   data: DashboardData | null = null;
   loading = true;
@@ -51,12 +54,18 @@ export class Dashboard implements OnInit {
 
     this.dashboardService.getSummary(userId).subscribe({
       next: (res) => {
-        this.data = res;
-        this.loading = false;
+        this.ngZone.run(() => {
+          this.data = res;
+          this.loading = false;
+          this.cdr.markForCheck();
+        });
       },
       error: (err) => {
-        this.error = err?.message ?? 'Failed to load dashboard';
-        this.loading = false;
+        this.ngZone.run(() => {
+          this.error = err?.message ?? 'Failed to load dashboard';
+          this.loading = false;
+          this.cdr.markForCheck();
+        });
       },
     });
   }

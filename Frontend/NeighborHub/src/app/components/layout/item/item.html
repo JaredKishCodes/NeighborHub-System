@@ -14,12 +14,12 @@
         <article class="item-card">
           <div class="item-card-image-wrap">
             <img
-              [src]="baseUrl + item.imageUrl"
+              [src]="resolveImageUrl(item.imageUrl)"
               [alt]="item.name"
               class="item-card-image"
             />
             <span class="item-card-badge" [ngClass]="statusBadgeClass(item.itemStatus)">
-              {{ statusLabel(item.itemStatus) }}
+              {{item.itemStatus }}
             </span>
           </div>
           <div class="item-card-body">

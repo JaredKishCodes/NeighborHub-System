@@ -15,9 +15,9 @@ export interface Item {
 }
 
 export enum ItemStatus {
-  Available = 0,
-  Requested = 1,
-  Borrowed = 2
+  available = 0,
+  requested = 1,
+  borrowed = 2
 }
 
 export interface ItemResponse { 
