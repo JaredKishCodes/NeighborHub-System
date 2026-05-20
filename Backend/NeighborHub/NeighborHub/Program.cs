@@ -32,10 +32,16 @@ using (IServiceScope scope = app.Services.CreateScope())
 // 2. Configure Folders
 // Using app.Environment is safer here than builder.Environment
 var itemImagesPath = Path.Combine(builder.Environment.WebRootPath, "item-images");
+var profileImagesPath = Path.Combine(builder.Environment.WebRootPath, "profile-images");
 
 if (!Directory.Exists(itemImagesPath))
 {
     Directory.CreateDirectory(itemImagesPath);
+}
+
+if (!Directory.Exists(profileImagesPath))
+{
+    Directory.CreateDirectory(profileImagesPath);
 }
 
 // 3. Middleware Pipeline (Order Matters!)
@@ -60,7 +66,16 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/item-images",
     OnPrepareResponse = ctx =>
     {
-        // This tells the browser it's okay to load these images from port 4200
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
+    }
+});
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(profileImagesPath),
+    RequestPath = "/profile-images",
+    OnPrepareResponse = ctx =>
+    {
         ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
     }
 });

@@ -1,23 +1,44 @@
 import { inject, Injectable } from '@angular/core';
 import { env } from '../../environments/environment.production';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ApiResponse } from '../models/item.model';
+import { BookingListItem, UpdateBookingPayload } from '../models/booking.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
+  private apiUrl = env.apiBaseUrl;
+  private http = inject(HttpClient);
 
-    private apiUrl = env.apiBaseUrl;
+  getAvailableDates(itemId: number) {
+    return this.http.get<Date[]>(this.apiUrl + `/api/item/${itemId}/available-dates`);
+  }
 
-    private http  = inject(HttpClient);
+  createBooking(data: unknown) {
+    return this.http.post(this.apiUrl + '/api/Booking/create-booking', data);
+  }
 
-    getAvailableDates(itemId: number) {
-    return this.http.get<Date[]>(
-     this.apiUrl + `/api/item/${itemId}/available-dates`
+  getMyBorrowings(userId: number): Observable<ApiResponse<BookingListItem[]>> {
+    return this.http.get<ApiResponse<BookingListItem[]>>(
+      `${this.apiUrl}/api/Booking/my-borrowings/${userId}`
     );
   }
 
-  createBooking(data: any) {
-    return this.http.post(this.apiUrl+ '/api/Booking/create-booking', data);
+  getMyLendings(userId: number): Observable<ApiResponse<BookingListItem[]>> {
+    return this.http.get<ApiResponse<BookingListItem[]>>(
+      `${this.apiUrl}/api/Booking/my-lendings/${userId}`
+    );
+  }
+
+  updateBooking(
+    bookingId: number,
+    payload: UpdateBookingPayload
+  ): Observable<ApiResponse<BookingListItem>> {
+    return this.http.put<ApiResponse<BookingListItem>>(
+      `${this.apiUrl}/api/Booking/update-booking/${bookingId}`,
+      payload
+    );
   }
 }

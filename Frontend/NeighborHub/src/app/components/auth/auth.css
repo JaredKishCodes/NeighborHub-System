@@ -6,13 +6,13 @@
   background: linear-gradient(135deg, #eef2ff, #f8fafc);
   transition: 0.4s ease;
   position: relative;
+  padding: 1.5rem;
 }
 
 .auth-page.dark {
   background: linear-gradient(135deg, #0f172a, #1e293b);
 }
 
-/* Toggle Button */
 .theme-toggle {
   position: absolute;
   top: 20px;
@@ -26,39 +26,50 @@
   font-size: 0.8rem;
 }
 
-/* Container */
 .auth-container {
   width: 100%;
-  max-width: 1100px;
-  min-height: 650px;
+  max-width: 1120px;
+  min-height: 680px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   border-radius: 24px;
   overflow: hidden;
   backdrop-filter: blur(20px);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.18);
 }
 
-/* Left */
 .auth-left {
-  background: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac')
-    center/cover no-repeat;
+  background: url('https://i1-c.pinimg.com/1200x/9b/a8/91/9ba8917f77a2f73039193b2f40b7d753.jpg') center/cover no-repeat;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .auth-left .overlay {
-  background: rgba(0,0,0,0.45);
-  color: white;
+ 
+  color: rgb(255, 255, 255);
+  text-shadow: #0f172a 5px 2px 4px;
+  width: 100%;
+  height: 100%;
   padding: 3rem;
   text-align: center;
+  display: grid;
+  place-content: center;
+  gap: 0.75rem;
 }
 
-/* Right */
+.auth-left .overlay h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.auth-left .overlay p {
+  max-width: 30ch;
+  margin: 0 auto;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
 .auth-right {
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.76);
   backdrop-filter: blur(30px);
   display: flex;
   align-items: center;
@@ -67,31 +78,48 @@
 }
 
 .auth-page.dark .auth-right {
-  background: rgba(30,41,59,0.8);
+  background: rgba(30, 41, 59, 0.84);
   color: white;
 }
 
-/* Card */
 .auth-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 460px;
 }
 
-/* Tabs */
+.auth-header {
+  margin-bottom: 1rem;
+}
+
+.auth-header h1 {
+  font-size: 1.7rem;
+  letter-spacing: -0.02em;
+}
+
+.auth-header p {
+  margin-top: 0.35rem;
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.auth-page.dark .auth-header p {
+  color: #cbd5e1;
+}
+
 .auth-tabs {
   position: relative;
   display: flex;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.06);
   border-radius: 50px;
   padding: 5px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .auth-tabs button {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 0.6rem;
+  padding: 0.65rem;
   border-radius: 50px;
   font-weight: 600;
   cursor: pointer;
@@ -118,7 +146,11 @@
   transform: translateX(100%);
 }
 
-/* Floating Inputs */
+.auth-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
 .floating-group {
   position: relative;
 }
@@ -128,8 +160,20 @@
   padding: 1rem 0.9rem 0.6rem;
   border-radius: 12px;
   border: 1px solid #dbeafe;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.7);
   outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.auth-page.dark .floating-group input {
+  background: rgba(15, 23, 42, 0.5);
+  border-color: #334155;
+  color: #f8fafc;
+}
+
+.floating-group input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 .floating-group label {
@@ -149,9 +193,8 @@
   color: #6366f1;
 }
 
-/* Buttons */
 .primary-btn {
-  margin-top: 1rem;
+  margin-top: 0.35rem;
   padding: 0.9rem;
   border-radius: 14px;
   border: none;
@@ -164,10 +207,48 @@
 
 .primary-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(59,130,246,0.3);
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
 }
 
-/* Grid */
+.auth-error {
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
+
+.auth-page.dark .auth-error {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(248, 113, 113, 0.5);
+  color: #fecaca;
+}
+
+.auth-footnote {
+  margin-top: 0.25rem;
+  color: #64748b;
+  font-size: 0.86rem;
+  text-align: center;
+}
+
+.auth-page.dark .auth-footnote {
+  color: #cbd5e1;
+}
+
+.link-btn {
+  border: none;
+  background: transparent;
+  color: #4f46e5;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
 .grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -177,6 +258,11 @@
 @media (max-width: 900px) {
   .auth-container {
     grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .auth-left {
+    min-height: 220px;
   }
 
   .grid-2 {

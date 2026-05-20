@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 
 const STORAGE_KEY = 'neighborhub_user_id';
+const NAME_KEY = 'neighborhub_user_name';
+const EMAIL_KEY = 'neighborhub_user_email';
+const PICTURE_KEY = 'neighborhub_profile_picture';
 
-/**
- * Provides the current logged-in user id for API calls.
- * Set the user id when the user logs in (e.g. after auth).
- * When you integrate real auth, replace this with your auth service.
- */
 @Injectable({
   providedIn: 'root',
 })
@@ -22,7 +20,38 @@ export class CurrentUserService {
     localStorage.setItem(STORAGE_KEY, String(userId));
   }
 
+  getDisplayName(): string {
+    return localStorage.getItem(NAME_KEY) ?? 'User';
+  }
+
+  setDisplayName(name: string): void {
+    localStorage.setItem(NAME_KEY, name);
+  }
+
+  getEmail(): string {
+    return localStorage.getItem(EMAIL_KEY) ?? '';
+  }
+
+  setEmail(email: string): void {
+    localStorage.setItem(EMAIL_KEY, email);
+  }
+
+  getProfilePictureUrl(): string | null {
+    return localStorage.getItem(PICTURE_KEY);
+  }
+
+  setProfilePictureUrl(url: string | null): void {
+    if (url) {
+      localStorage.setItem(PICTURE_KEY, url);
+    } else {
+      localStorage.removeItem(PICTURE_KEY);
+    }
+  }
+
   clearUserId(): void {
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(NAME_KEY);
+    localStorage.removeItem(EMAIL_KEY);
+    localStorage.removeItem(PICTURE_KEY);
   }
 }

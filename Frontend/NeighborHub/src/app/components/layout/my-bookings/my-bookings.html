@@ -1,0 +1,75 @@
+<div class="bookings-page">
+  <header class="page-header">
+    <h1 class="page-title">My Bookings</h1>
+    <p class="page-subtitle">Items you have requested to borrow</p>
+  </header>
+
+  @if (error) {
+    <div class="alert alert-error shadow-lg mb-6">
+      <span>{{ error }}</span>
+      <button type="button" class="btn btn-sm btn-ghost" (click)="loadBookings()">Retry</button>
+    </div>
+  }
+
+  <div class="table-card">
+    <div class="card-header">
+      <h2 class="card-title">All bookings</h2>
+      <span class="badge badge-ghost">{{ bookings.length }}</span>
+    </div>
+    <div class="card-body p-0">
+      @if (loading) {
+        <div class="loading-state">
+          <span class="loading loading-spinner loading-md"></span>
+        </div>
+      } @else if (bookings.length === 0) {
+        <div class="empty-state">
+          <p>You have no bookings yet.</p>
+        </div>
+      } @else {
+        <div class="overflow-x-auto">
+          <table class="table table-zebra">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Owner</th>
+                <th>Start date</th>
+                <th>End date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (b of bookings; track b.id) {
+                <tr>
+                  <td class="font-medium">{{ b.itemName }}</td>
+                  <td>{{ b.ownerName }}</td>
+                  <td>{{ formatDate(b.startDate) }}</td>
+                  <td>{{ formatDate(b.endDate) }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="statusClass(b.bookingStatus)">
+                      {{ statusLabel(b.bookingStatus) }}
+                    </span>
+                  </td>
+                  <td>
+                    @if (canCancel(b.bookingStatus)) {
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline btn-error"
+                        [disabled]="updatingId === b.id"
+                        (click)="cancelBooking(b)"
+                      >
+                        {{ updatingId === b.id ? 'Updating…' : 'Cancel request' }}
+                      </button>
+                    } @else {
+                      <span class="text-muted">—</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -72,7 +72,7 @@ public class AccountController : ControllerBase
                     Email = response.Email,
                     FirstName = response.FirstName,
                     LastName = response.LastName,
-                  
+                    OwnerId = response.OwnerId,
                 };
 
 

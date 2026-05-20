@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NeighborHub.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using NeighborHub.Infrastructure.Persistence;
 namespace NeighborHub.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260520020057_additemheadphone")]
+    partial class additemheadphone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,9 +207,6 @@ namespace NeighborHub.Infrastructure.Migrations
                     b.Property<string>("IdentityId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfilePictureUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("DomainUsers");
@@ -269,7 +269,7 @@ namespace NeighborHub.Infrastructure.Migrations
                             ItemStatus = 0,
                             LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Hammer",
-                            OwnerId = 4
+                            OwnerId = 1
                         },
                         new
                         {
@@ -277,7 +277,7 @@ namespace NeighborHub.Infrastructure.Migrations
                             Category = "Sports",
                             CreatedAt = new DateTime(2026, 5, 2, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Adult size, 21-speed mountain bike.",
-                            ImageUrl = "/item-images/mountainbike.jpg",
+                            ImageUrl = "/item-images/mountain_bike.jpg",
                             ItemStatus = 0,
                             LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Mountain Bike",
@@ -289,11 +289,11 @@ namespace NeighborHub.Infrastructure.Migrations
                             Category = "Tools",
                             CreatedAt = new DateTime(2026, 5, 3, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Cordless drill with two batteries.",
-                            ImageUrl = "/item-images/drillset.jpg",
+                            ImageUrl = "/item-images/drill_set.jpg",
                             ItemStatus = 0,
                             LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Drill Set",
-                            OwnerId = 2
+                            OwnerId = 3
                         },
                         new
                         {
@@ -305,7 +305,7 @@ namespace NeighborHub.Infrastructure.Migrations
                             ItemStatus = 0,
                             LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Headphone",
-                            OwnerId = 5
+                            OwnerId = 3
                         });
                 });
 

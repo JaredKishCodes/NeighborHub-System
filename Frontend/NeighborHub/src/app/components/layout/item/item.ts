@@ -78,6 +78,12 @@ export class Item implements OnInit {
     if (modal) modal.showModal();
   }
 
+  closeBookingModal(): void {
+    this.selectedItemId = null;
+    const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
+    if (modal) modal.close();
+  }
+
   resolveImageUrl(imageUrl?: string): string {
     if (!imageUrl) return '';
     if (/^https?:\/\//i.test(imageUrl)) return imageUrl;

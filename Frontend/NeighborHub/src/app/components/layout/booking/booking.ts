@@ -2,6 +2,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { BookingService } from '../../../services/booking-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CurrentUserService } from '../../../services/current-user.service';
 
 @Component({
   selector: 'app-booking',
@@ -21,7 +22,10 @@ export class BookingComponent implements OnInit, OnChanges {
 
   minDate: string; // Prevent past date selection
 
-  constructor(private bookingService: BookingService) {
+  constructor(
+    private bookingService: BookingService,
+    private currentUserService: CurrentUserService
+  ) {
     const today = new Date();
     this.minDate = today.toISOString().split('T')[0];
   }
@@ -91,9 +95,15 @@ export class BookingComponent implements OnInit, OnChanges {
   const startIso = new Date(this.startDate).toISOString();
   const endIso = new Date(this.endDate).toISOString();
 
+  const borrowerId = this.currentUserService.getUserId();
+  if (!borrowerId) {
+    alert('Please log in before creating a booking.');
+    return;
+  }
+
   const bookingPayload = {
     itemId: this.item,
-    borrowerId: 1, // replace with your current logged-in user's ID
+    borrowerId,
     startDate: startIso,
     endDate: endIso
   };

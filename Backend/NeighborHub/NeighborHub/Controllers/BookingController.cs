@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NeighborHub.Application.DTOs;
@@ -23,21 +24,13 @@ public class BookingController : ControllerBase
     {
         IEnumerable<BookingResponseDto> bookings = await _bookingService.GetMyBorrowingAsync(userId);
 
-        if (bookings == null || !bookings.Any())
-        {
-            return NotFound(new ApiResponse<IEnumerable<BookingResponseDto>>
-            {
-                Success = false,
-                Message = "No borrowing records found for this user.",
-                Data = null
-            });
-        }
-
         return Ok(new ApiResponse<IEnumerable<BookingResponseDto>>
         {
             Success = true,
-            Message = "Borrowing bookings retrieved successfully.",
-            Data = bookings
+            Message = bookings.Any()
+                ? "Borrowing bookings retrieved successfully."
+                : "No borrowing records found for this user.",
+            Data = bookings ?? Enumerable.Empty<BookingResponseDto>()
         });
     }
 
@@ -46,21 +39,13 @@ public class BookingController : ControllerBase
     {
         IEnumerable<BookingResponseDto> bookings = await _bookingService.GetMyLendingAsync(userId);
 
-        if (bookings == null || !bookings.Any())
-        {
-            return NotFound(new ApiResponse<IEnumerable<BookingResponseDto>>
-            {
-                Success = false,
-                Message = "No lending records found for this user.",
-                Data = null
-            });
-        }
-
         return Ok(new ApiResponse<IEnumerable<BookingResponseDto>>
         {
             Success = true,
-            Message = "Lending bookings retrieved successfully.",
-            Data = bookings
+            Message = bookings.Any()
+                ? "Lending bookings retrieved successfully."
+                : "No lending records found for this user.",
+            Data = bookings ?? Enumerable.Empty<BookingResponseDto>()
         });
     }
 

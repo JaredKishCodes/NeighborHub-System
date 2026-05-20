@@ -25,7 +25,7 @@ public class DashboardController(IDashboardRepository _dashboardRepository) : Co
             {
                 Id = b.Id,
                 ItemName = b.Item?.Name ?? "Unknown Item", // Validation against nulls
-                OwnerName = b.Borrower?.FullName ?? "Unknown User",
+                OwnerName = b.Item?.Owner?.FullName ?? "Unknown Owner",
                 StartDate = b.StartDate,
                 Status = b.BookingStatus
             }),

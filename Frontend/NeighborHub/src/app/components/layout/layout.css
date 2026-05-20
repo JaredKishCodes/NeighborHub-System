@@ -260,6 +260,8 @@
   height: 60px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding-right: 1.5rem;
 }
 .home-section .home-content .bx-menu,
 .home-section .home-content .text {
@@ -292,6 +294,139 @@
   font-size: 26px;
   font-weight: 600;
 }
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-left: auto;
+}
+
+.header-user-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.2;
+}
+
+.header-greeting {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.header-user-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #11101d;
+}
+
+.header-profile-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 9999px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.header-profile-img,
+.header-profile-initials,
+.profile-preview-img,
+.profile-preview-initials {
+  width: 42px;
+  height: 42px;
+  border-radius: 9999px;
+  object-fit: cover;
+}
+
+.header-profile-initials,
+.profile-preview-initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1d1b31 0%, #4f46e5 100%);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.profile-modal-box {
+  max-width: 32rem;
+  padding: 2rem;
+}
+
+.profile-modal-subtitle {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.profile-section {
+  padding: 1rem 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.profile-section-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #11101d;
+  margin: 0 0 0.75rem 0;
+}
+
+.profile-section-hint {
+  font-size: 0.8125rem;
+  color: #64748b;
+  margin: 0 0 0.75rem 0;
+}
+
+.profile-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-preview-img,
+.profile-preview-initials {
+  width: 64px;
+  height: 64px;
+}
+
+.profile-file-wrap {
+  flex: 1;
+}
+
+.profile-file-input {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.profile-file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  border: 1px dashed #94a3b8;
+  border-radius: 0.5rem;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.profile-file-label:hover {
+  background: #f1f5f9;
+  border-color: #64748b;
+}
+
+@media (max-width: 640px) {
+  .header-user-text {
+    display: none;
+  }
+}
+
 @media (max-width: 420px) {
   .sidebar.close .nav-links li .sub-menu {
     display: none;

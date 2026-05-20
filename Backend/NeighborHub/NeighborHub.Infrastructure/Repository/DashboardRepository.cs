@@ -15,9 +15,11 @@ public class DashboardRepository(AppDbContext _context) : IDashboardRepository
     {
         DateTime today = DateTime.Now;
 
-        IQueryable<Booking> query =  _context.Bookings
-                                     .Include(i => i.Item)
-                                     .Include(b => b.Borrower).AsQueryable();
+        IQueryable<Booking> query = _context.Bookings
+            .Include(b => b.Item)
+                .ThenInclude(i => i.Owner)
+            .Include(b => b.Borrower)
+            .AsQueryable();
 
       query = query.Where(b => b.StartDate.Month == today.Month && b.StartDate.Year == today.Year);
 
@@ -36,20 +38,19 @@ public class DashboardRepository(AppDbContext _context) : IDashboardRepository
 
        
         IQueryable<Booking> query = _context.Bookings
-            .Include(i => i.Item)
-            .Include(i => i.Borrower)
+            .Include(b => b.Item)
+                .ThenInclude(i => i.Owner)
+            .Include(b => b.Borrower)
             .AsQueryable();
 
         
-        query = query.Where(b => b.BookingStatus == Domain.Enums.BookingStatus.Confirmed
-                     && b.Item.ItemStatus == Domain.Enums.ItemStatus.borrowed
-                     && b.StartDate.Month == today.Month
+        query = query.Where(b => b.StartDate.Month == today.Month
                      && b.StartDate.Year == today.Year);
 
         
         if (userId.HasValue)
         {
-            query = query.Where(b => b.BorrowerId == userId.Value);
+            query = query.Where(b => b.Item.OwnerId == userId.Value);
         }
 
         return await query.ToListAsync();
@@ -76,12 +77,12 @@ public class DashboardRepository(AppDbContext _context) : IDashboardRepository
     {
         IQueryable<Booking> query = _context.Bookings.AsQueryable();
 
-        query = query.Where(b => b.BookingStatus == Domain.Enums.BookingStatus.Confirmed
-                            && b.Item.ItemStatus == Domain.Enums.ItemStatus.borrowed);  
+        query = query.Where(b => b.StartDate.Month == DateTime.UtcNow.Month
+                            && b.StartDate.Year == DateTime.UtcNow.Year);
 
         if (userId.HasValue)
         {
-            query = query.Where(b => b.BorrowerId == userId.Value);
+            query = query.Where(b => b.Item.OwnerId == userId.Value);
         }
 
         return await query.CountAsync();

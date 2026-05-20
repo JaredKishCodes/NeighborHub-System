@@ -27,6 +27,26 @@
       </li>
 
       <li>
+        <a [routerLink]="['/my-bookings']" 
+           routerLinkActive="active" 
+           style="cursor: pointer; position: relative; z-index: 1001;">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link_name">My Bookings</span>
+        </a>
+      </li>
+
+
+      <li>
+        <a [routerLink]="['/my-lendings']" 
+           routerLinkActive="active" 
+           style="cursor: pointer; position: relative; z-index: 1001;">
+          <i class="bx bx-pie-chart-alt-2"></i>
+          <span class="link_name">My Lendings</span>
+        </a>
+      </li>
+
+
+      <li>
         <a href="javascript:void(0)" (click)="onLogout($event)" style="position: relative; z-index: 1001;">
           <i class="bx bx-log-out"></i>
           <span class="link_name">Logout</span>
@@ -40,6 +60,25 @@
       <button type="button" class="sidebar-toggle-btn" (click)="toggleSidebar()" aria-label="Toggle sidebar">
         <i class="bx bx-menu"></i>
       </button>
+
+      <div class="header-user">
+        <div class="header-user-text">
+          <span class="header-greeting">Welcome back,</span>
+          <span class="header-user-name">{{ displayName }}</span>
+        </div>
+        <button
+          type="button"
+          class="header-profile-btn"
+          (click)="openProfileModal()"
+          aria-label="Open profile settings"
+        >
+          @if (profileImageUrl) {
+            <img [src]="profileImageUrl" alt="Profile" class="header-profile-img" />
+          } @else {
+            <span class="header-profile-initials">{{ userInitials }}</span>
+          }
+        </button>
+      </div>
     </header>
 
     
@@ -48,3 +87,98 @@
     </main>
   </section>
 </div>
+
+<dialog id="profile-modal" class="modal" (close)="closeProfileModal()">
+  <div class="modal-box profile-modal-box">
+    <h3 class="font-bold text-lg mb-1">Account settings</h3>
+    <p class="profile-modal-subtitle mb-4">{{ userEmail }}</p>
+
+    @if (profileError) {
+      <div class="alert alert-error text-sm mb-4">{{ profileError }}</div>
+    }
+    @if (profileSuccess) {
+      <div class="alert alert-success text-sm mb-4">{{ profileSuccess }}</div>
+    }
+
+    <section class="profile-section">
+      <h4 class="profile-section-title">Profile picture</h4>
+      <div class="profile-preview-row">
+        @if (profileImageUrl) {
+          <img [src]="profileImageUrl" alt="Current profile" class="profile-preview-img" />
+        } @else {
+          <span class="profile-preview-initials">{{ userInitials }}</span>
+        }
+        <div class="profile-file-wrap">
+          <input
+            type="file"
+            id="profile-picture-input"
+            accept="image/*"
+            class="profile-file-input"
+            (change)="onProfilePictureSelected($event)"
+          />
+          <label for="profile-picture-input" class="profile-file-label">
+            {{ selectedProfileFile ? selectedProfileFile.name : 'Choose new picture' }}
+          </label>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary btn-sm mt-3"
+        [disabled]="pictureSubmitting || !selectedProfileFile"
+        (click)="saveProfilePicture()"
+      >
+        {{ pictureSubmitting ? 'Saving…' : 'Save picture' }}
+      </button>
+    </section>
+
+    <section class="profile-section">
+      <h4 class="profile-section-title">Change password</h4>
+      <p class="profile-section-hint">Enter your current password before setting a new one.</p>
+      <div class="form-control mb-3">
+        <label class="label"><span class="label-text">Current password</span></label>
+        <input
+          type="password"
+          [(ngModel)]="passwordModel.currentPassword"
+          name="currentPassword"
+          class="input input-bordered w-full"
+          autocomplete="current-password"
+        />
+      </div>
+      <div class="form-control mb-3">
+        <label class="label"><span class="label-text">New password</span></label>
+        <input
+          type="password"
+          [(ngModel)]="passwordModel.newPassword"
+          name="newPassword"
+          class="input input-bordered w-full"
+          autocomplete="new-password"
+        />
+      </div>
+      <div class="form-control mb-4">
+        <label class="label"><span class="label-text">Confirm new password</span></label>
+        <input
+          type="password"
+          [(ngModel)]="passwordModel.confirmNewPassword"
+          name="confirmNewPassword"
+          class="input input-bordered w-full"
+          autocomplete="new-password"
+        />
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="passwordSubmitting"
+        (click)="changePassword()"
+      >
+        {{ passwordSubmitting ? 'Updating…' : 'Update password' }}
+      </button>
+    </section>
+
+    <div class="modal-action">
+      <button type="button" class="btn btn-ghost" (click)="closeProfileModal()">Close</button>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button type="submit">close</button>
+  </form>
+</dialog>

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NeighborHub.Application.Interfaces.Auth;
 using NeighborHub.Domain.Interface;
+using NeighborHub.Application.Interfaces;
 using NeighborHub.Infrastructure.Auth.Services;
 using NeighborHub.Infrastructure.Persistence;
 using NeighborHub.Infrastructure.Repository;
@@ -27,7 +28,8 @@ public static class DependencyInjection
         services.AddScoped<IDashboardRepository, DashboardRepository>();
         services.AddScoped<IDomainUserRepository, DomainUserRepository>();
         services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IJwtTokenService,JwtTokenService>();
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
+        services.AddScoped<IUserProfileService, UserProfileService>();
         return services;
     }
 }

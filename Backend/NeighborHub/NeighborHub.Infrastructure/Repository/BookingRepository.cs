@@ -38,18 +38,23 @@ public class BookingRepository(AppDbContext _context) : IBookingRepository
 
     public async Task<List<Booking>> GetMyBorrowingAsync(int userId)
     {
-     return await _context.Bookings.Include(x => x.Item)
+        return await _context.Bookings
+            .Include(b => b.Item)
+                .ThenInclude(i => i.Owner)
+            .Include(b => b.Borrower)
             .Where(b => b.BorrowerId == userId)
             .OrderByDescending(b => b.StartDate)
             .ToListAsync();
-       
     }
 
     public async Task<List<Booking>> GetMyLendingAsync(int userId)
     {
-      return await _context.Bookings.Include(_x => _x.Item)
-            .Where(x => x.Item.OwnerId == userId)
-            .OrderByDescending(x => x.StartDate)
+        return await _context.Bookings
+            .Include(b => b.Item)
+                .ThenInclude(i => i.Owner)
+            .Include(b => b.Borrower)
+            .Where(b => b.Item.OwnerId == userId)
+            .OrderByDescending(b => b.StartDate)
             .ToListAsync();
     }
 

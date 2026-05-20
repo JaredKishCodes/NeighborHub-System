@@ -50,6 +50,8 @@ public class AuthService : IAuthService
             LastName = user.LastName,
         }, roles.ToList());
 
+        DomainUser? domainUser = await _domainUserRepository.GetDomainUserByIdentityIdAsync(user.Id);
+
         var response = new LoginResponse
         {
             Token = token,
@@ -57,8 +59,8 @@ public class AuthService : IAuthService
             Email = user.Email!,
             FirstName = user.FirstName,
             LastName = user.LastName,
+            OwnerId = domainUser?.Id,
         };
-
 
         return response;
 
@@ -133,6 +135,7 @@ public class AuthService : IAuthService
                 Email = newUser.Email,
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,
+                OwnerId = domainUser.Id,
             };
         }
 

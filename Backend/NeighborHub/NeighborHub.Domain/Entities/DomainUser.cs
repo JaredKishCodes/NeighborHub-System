@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NeighborHub.Domain.Entities;
 
@@ -11,6 +12,8 @@ public class DomainUser
     public int? Id { get; set; } 
     public string? IdentityId { get; set; } 
     public string? FullName { get; set; }
+    [NotMapped]
+    public string? ProfilePictureUrl { get; set; }
 
     // Navigation for NeighborHub logic
     public ICollection<Item>? OwnedItems { get; set; } = new List<Item>();

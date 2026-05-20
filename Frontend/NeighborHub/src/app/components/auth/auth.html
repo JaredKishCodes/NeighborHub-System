@@ -1,9 +1,7 @@
-<div class="auth-page" [class.dark]="darkMode">
+<div class="auth-page" [class.dark]="darkMode ? 'dark' : 'light'">
 
   <!-- Theme Toggle -->
-  <button class="theme-toggle" (click)="darkMode = !darkMode">
-    {{ darkMode ? '☀ Light Mode' : '🌙 Dark Mode' }}
-  </button>
+  
 
   <div class="auth-container">
 
@@ -24,6 +22,7 @@
 
         <div class="auth-header">
           <h1>NeighbourShare Hub</h1>
+          <p>Borrow what you need, lend what you can.</p>
         </div>
 
         <div class="auth-tabs">
@@ -68,6 +67,10 @@
             <button class="primary-btn">
               {{ loading ? 'Logging in…' : 'Login' }}
             </button>
+
+            <p class="auth-footnote">
+              New here? <button type="button" class="link-btn" (click)="switchMode('register')">Create an account</button>
+            </p>
 
           </form>
         } @else {
@@ -146,6 +149,11 @@
             <button class="primary-btn">
               {{ loading ? 'Creating…' : 'Create Account' }}
             </button>
+
+            <p class="auth-footnote">
+              Already have an account?
+              <button type="button" class="link-btn" (click)="switchMode('login')">Login</button>
+            </p>
 
           </form>
         }

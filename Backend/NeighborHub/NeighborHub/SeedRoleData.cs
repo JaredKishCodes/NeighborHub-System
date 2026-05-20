@@ -76,8 +76,8 @@ public static class SeedRoleData
                 // Seed the DomainUser record so the Admin can own items
                 var domainAdmin = new DomainUser
                 {
-                    Id = ParseUserId(user.Id), // Link to Identity ID as int?
-                    FullName = "System Administrator",
+                    IdentityId = user.Id,
+                    FullName = $"{firstName} {lastName}".Trim(),
                 };
 
                 await domainUserRepository.CreateDomainUserAsync(domainAdmin);
@@ -101,8 +101,8 @@ public static class SeedRoleData
                 {
                     var domainAdmin = new DomainUser
                     {
-                        Id = adminDomainId,
-                        FullName = "System Administrator",
+                        IdentityId = adminUser.Id,
+                        FullName = $"{adminUser.FirstName} {adminUser.LastName}".Trim(),
                     };
                     await domainUserRepository.CreateDomainUserAsync(domainAdmin);
                 }
