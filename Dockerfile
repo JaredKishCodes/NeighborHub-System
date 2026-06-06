@@ -29,5 +29,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Dynamic search for your API dll inside the published bundle
-ENTRYPOINT ["sh", "-c", "dotnet $(ls *.dll | grep -i api.dll | head -n 1)"]
+# Explicitly target your API binary to prevent accidental background library activation
+ENTRYPOINT ["dotnet", "NeighborHub.Api.dll"]
