@@ -39,52 +39,52 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
             .HasForeignKey(x => x.OwnerId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasData(
-            new Item
-            {
-                Id =1,
-                Name = "Hammer",
-                Description = "very good hammer, slightly used.",
-                Category = "Tools",
-                OwnerId = 4,
-                ItemStatus = ItemStatus.available,
-                CreatedAt = new DateTime(2026, 5, 1, 0, 0, 0, DateTimeKind.Utc),
-                ImageUrl = "/item-images/hammer.jpg"
-            },
-            new Item
-            {
-                Id =2,
-                Name = "Mountain Bike",
-                Description = "Adult size, 21-speed mountain bike.",
-                Category = "Sports",
-                OwnerId = 2,
-                ItemStatus = ItemStatus.available,
-                CreatedAt = new DateTime(2026, 5, 2, 0, 0, 0, DateTimeKind.Utc),
-                ImageUrl = "/item-images/mountainbike.jpg"
-            },
-            new Item
-            {
-                Id =3,
-                Name = "Drill Set",
-                Description = "Cordless drill with two batteries.",
-                Category = "Tools",
-                OwnerId = 2,
-                ItemStatus = ItemStatus.available,
-                CreatedAt = new DateTime(2026, 5, 3, 0, 0, 0, DateTimeKind.Utc),
-                ImageUrl = "/item-images/drillset.jpg"
-            },
-             new Item
-             {
-                 Id = 4,
-                 Name = "Headphone",
-                 Description = "ya'll can borrow this, cause i just got my new one.",
-                 Category = "Tools",
-                 OwnerId = 5,
-                 ItemStatus = ItemStatus.available,
-                 CreatedAt = new DateTime(2026, 5, 20, 0, 0, 0, DateTimeKind.Utc),
-                 ImageUrl = "/item-images/headphone.jpg"
-             }
-        );
+            //builder.HasData(
+            //new Item
+            //{
+            //    Id =1,
+            //    Name = "Hammer",
+            //    Description = "very good hammer, slightly used.",
+            //    Category = "Tools",
+            //    OwnerId = 4,
+            //    ItemStatus = ItemStatus.available,
+            //    CreatedAt = new DateTime(2026, 5, 1, 0, 0, 0, DateTimeKind.Utc),
+            //    ImageUrl = "/item-images/hammer.jpg"
+            //},
+            //new Item
+            //{
+            //    Id =2,
+            //    Name = "Mountain Bike",
+            //    Description = "Adult size, 21-speed mountain bike.",
+            //    Category = "Sports",
+            //    OwnerId = 2,
+            //    ItemStatus = ItemStatus.available,
+            //    CreatedAt = new DateTime(2026, 5, 2, 0, 0, 0, DateTimeKind.Utc),
+            //    ImageUrl = "/item-images/mountainbike.jpg"
+            //},
+            //new Item
+            //{
+            //    Id =3,
+            //    Name = "Drill Set",
+            //    Description = "Cordless drill with two batteries.",
+            //    Category = "Tools",
+            //    OwnerId = 2,
+            //    ItemStatus = ItemStatus.available,
+            //    CreatedAt = new DateTime(2026, 5, 3, 0, 0, 0, DateTimeKind.Utc),
+            //    ImageUrl = "/item-images/drillset.jpg"
+            //},
+            // new Item
+            // {
+            //     Id = 4,
+            //     Name = "Headphone",
+            //     Description = "ya'll can borrow this, cause i just got my new one.",
+            //     Category = "Tools",
+            //     OwnerId = 5,
+            //     ItemStatus = ItemStatus.available,
+            //     CreatedAt = new DateTime(2026, 5, 20, 0, 0, 0, DateTimeKind.Utc),
+            //     ImageUrl = "/item-images/headphone.jpg"
+            // }
+        //);
     }
 
     

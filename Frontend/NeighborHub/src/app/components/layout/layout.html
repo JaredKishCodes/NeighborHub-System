@@ -8,51 +8,49 @@
     </div>
 
     <ul class="nav-links">
-      <li>
-        <a [routerLink]="['/dashboard']" 
-           routerLinkActive="active" 
-           style="cursor: pointer; position: relative; z-index: 1001;">
-          <i class="bx bx-grid-alt"></i>
-          <span class="link_name">Dashboard</span>
-        </a>
-      </li>
+  <li>
+    <a [routerLink]="['/dashboard']" 
+       routerLinkActive="active" 
+       style="cursor: pointer; position: relative; z-index: 1001;">
+      <i class="bx bx-grid-alt"></i>
+      <span class="link_name">Dashboard</span>
+    </a>
+  </li>
 
-      <li>
-        <a [routerLink]="['/item']" 
-           routerLinkActive="active" 
-           style="cursor: pointer; position: relative; z-index: 1001;">
-          <i class="bx bx-pie-chart-alt-2"></i>
-          <span class="link_name">Items</span>
-        </a>
-      </li>
+  <li>
+    <a [routerLink]="['/item']" 
+       routerLinkActive="active" 
+       style="cursor: pointer; position: relative; z-index: 1001;">
+      <i class="bx bx-package"></i>
+      <span class="link_name">Items</span>
+    </a>
+  </li>
 
-      <li>
-        <a [routerLink]="['/my-bookings']" 
-           routerLinkActive="active" 
-           style="cursor: pointer; position: relative; z-index: 1001;">
-          <i class="bx bx-pie-chart-alt-2"></i>
-          <span class="link_name">My Bookings</span>
-        </a>
-      </li>
+  <li>
+    <a [routerLink]="['/my-bookings']" 
+       routerLinkActive="active" 
+       style="cursor: pointer; position: relative; z-index: 1001;">
+      <i class="bx bx-calendar-check"></i>
+      <span class="link_name">My Bookings</span>
+    </a>
+  </li>
 
+  <li>
+    <a [routerLink]="['/my-lendings']" 
+       routerLinkActive="active" 
+       style="cursor: pointer; position: relative; z-index: 1001;">
+      <i class="bx bx-transfer"></i>
+      <span class="link_name">My Lendings</span>
+    </a>
+  </li>
 
-      <li>
-        <a [routerLink]="['/my-lendings']" 
-           routerLinkActive="active" 
-           style="cursor: pointer; position: relative; z-index: 1001;">
-          <i class="bx bx-pie-chart-alt-2"></i>
-          <span class="link_name">My Lendings</span>
-        </a>
-      </li>
-
-
-      <li>
-        <a href="javascript:void(0)" (click)="onLogout($event)" style="position: relative; z-index: 1001;">
-          <i class="bx bx-log-out"></i>
-          <span class="link_name">Logout</span>
-        </a>
-      </li>
-    </ul>
+  <li>
+    <a href="javascript:void(0)" (click)="onLogout($event)" style="position: relative; z-index: 1001;">
+      <i class="bx bx-log-out"></i>
+      <span class="link_name">Logout</span>
+    </a>
+  </li>
+</ul>
   </aside>
 
   <section class="home-section">

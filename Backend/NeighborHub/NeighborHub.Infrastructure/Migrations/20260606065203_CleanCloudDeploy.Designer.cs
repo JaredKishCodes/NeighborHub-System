@@ -12,8 +12,8 @@ using NeighborHub.Infrastructure.Persistence;
 namespace NeighborHub.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260520030007_AddProfilePicUrl")]
-    partial class AddProfilePicUrl
+    [Migration("20260606065203_CleanCloudDeploy")]
+    partial class CleanCloudDeploy
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -207,9 +207,6 @@ namespace NeighborHub.Infrastructure.Migrations
                     b.Property<string>("IdentityId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfilePictureUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("DomainUsers");
@@ -260,56 +257,6 @@ namespace NeighborHub.Infrastructure.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Items");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Category = "Tools",
-                            CreatedAt = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "very good hammer, slightly used.",
-                            ImageUrl = "/item-images/hammer.jpg",
-                            ItemStatus = 0,
-                            LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Hammer",
-                            OwnerId = 4
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Category = "Sports",
-                            CreatedAt = new DateTime(2026, 5, 2, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Adult size, 21-speed mountain bike.",
-                            ImageUrl = "/item-images/mountainbike.jpg",
-                            ItemStatus = 0,
-                            LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Mountain Bike",
-                            OwnerId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Category = "Tools",
-                            CreatedAt = new DateTime(2026, 5, 3, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Cordless drill with two batteries.",
-                            ImageUrl = "/item-images/drillset.jpg",
-                            ItemStatus = 0,
-                            LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Drill Set",
-                            OwnerId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Category = "Tools",
-                            CreatedAt = new DateTime(2026, 5, 20, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "ya'll can borrow this, cause i just got my new one.",
-                            ImageUrl = "/item-images/headphone.jpg",
-                            ItemStatus = 0,
-                            LastUpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Headphone",
-                            OwnerId = 5
-                        });
                 });
 
             modelBuilder.Entity("NeighborHub.Infrastructure.Auth.AppUser", b =>
