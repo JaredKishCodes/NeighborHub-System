@@ -30,7 +30,7 @@ public static class DependencyInjection
             options.AddPolicy("AllowFrontend",
                 policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200") // Your frontend URL
+                    policy.WithOrigins("https://neighbor-hub-system-u5qv.vercel.app/auth") 
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                 });
