@@ -9,7 +9,7 @@ import { ChangePasswordRequest, UserProfile } from '../models/user-profile.model
   providedIn: 'root',
 })
 export class UserProfileService {
-  private apiUrl = env.apiBaseUrl;
+  private apiUrl = env.apiUrl;
   private http = inject(HttpClient);
 
   getProfile(userId: number): Observable<ApiResponse<UserProfile>> {

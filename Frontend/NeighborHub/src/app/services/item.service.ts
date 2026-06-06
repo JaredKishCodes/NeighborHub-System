@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { env } from '../../environments/environment';
+import { env } from '../../environments/environment.production
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse, ItemResponse } from '../models/item.model';
@@ -9,7 +9,7 @@ import { ApiResponse, ItemResponse } from '../models/item.model';
 })
 export class ItemService {
 
-  private apiUrl = env.apiBaseUrl + '/api/Item';
+  private apiUrl = env.apiUrl + '/api/Item';
 
   private http  = inject(HttpClient);
 

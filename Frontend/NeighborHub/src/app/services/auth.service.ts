@@ -55,7 +55,7 @@ export class AuthService {
   private userProfileService = inject(UserProfileService);
   router = inject(Router);
 
-  private apiUrl = `${env.apiBaseUrl}/api/Account`;
+  private apiUrl = `${env.apiUrl}/api/Account`;
 
   private loggedIn$ = new BehaviorSubject<boolean>(this.hasToken());
 

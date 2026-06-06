@@ -9,7 +9,7 @@ import { BookingListItem, UpdateBookingPayload } from '../models/booking.model';
   providedIn: 'root',
 })
 export class BookingService {
-  private apiUrl = env.apiBaseUrl;
+  private apiUrl = env.apiUrl;
   private http = inject(HttpClient);
 
   getAvailableDates(itemId: number) {
