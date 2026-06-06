@@ -1,6 +1,7 @@
-
 export const env = {
-  apiBaseUrl: 'http://localhost:5187',
-  imageBaseUrl: 'http://localhost:5187/item-images',
-  profileImageBaseUrl: 'http://localhost:5187',
+  apiBaseUrl: 'https://neighborhub-system.onrender.com',
+  imageBaseUrl: 'https://neighborhub-system.onrender.com/item-images',
+  profileImageBaseUrl: 'https://neighborhub-system.onrender.com',
+  production: true,
+  apiUrl: 'https://neighborhub-system.onrender.com/api'
 };
