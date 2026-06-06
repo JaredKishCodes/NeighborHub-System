@@ -1,11 +1,11 @@
-# 1. Use the official .NET ASP.NET runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+# 1. Use the official .NET ASP.NET runtime image for .NET 10
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 80
 
-# 2. Use the official .NET SDK image to build
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+# 2. Use the official .NET SDK image for .NET 10 to build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
 # Copy all repository contents into the container
