@@ -45,6 +45,7 @@ if (!Directory.Exists(profileImagesPath))
 }
 
 // 3. Middleware Pipeline (Order Matters!)
+// 3. Middleware Pipeline (Order Matters!)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -52,36 +53,39 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
+
 // app.UseHttpsRedirection();
-
-
 app.UseRouting();
 
-// IMPORTANT: Put UseCors BEFORE UseStaticFiles
-app.UseCors("AllowFrontend"); 
+// 1. CORS MUST GO BEFORE STATIC FILES & AUTH
+app.UseCors("AllowFrontend");
 
+// 2. FIXED: Allow your Vercel site to load item images
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(itemImagesPath),
     RequestPath = "/item-images",
     OnPrepareResponse = ctx =>
     {
-        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "https://neighbor-hub-system-u5qv.vercel.app");
     }
 });
 
+// 3. FIXED: Allow your Vercel site to load profile images
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(profileImagesPath),
     RequestPath = "/profile-images",
     OnPrepareResponse = ctx =>
     {
-        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "https://neighbor-hub-system-u5qv.vercel.app");
     }
 });
 
-
+// 4. FIXED: Added UseAuthentication right before UseAuthorization
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 await app.RunAsync();
