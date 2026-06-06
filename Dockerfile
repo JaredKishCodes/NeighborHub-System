@@ -8,10 +8,13 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy everything from the repository into the build container
+# Copy all repository contents into the container
 COPY . .
 
-# Let .NET automatically find the .sln or main .csproj file and restore dependencies
+# Move directly into the folder containing your backend solution or projects
+WORKDIR /src/Backend/NeighborHub
+
+# Restore all projects found within this subdirectory
 RUN dotnet restore
 
 # Build the application in Release mode
@@ -26,5 +29,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Dynamic search for your API dll so casing issues don't crash the entrypoint
-ENTRYPOINT ["sh", "-c", "dotnet $(ls NeighborHub*.dll | grep -i api.dll | head -n 1)"]
+# Dynamic search for your API dll inside the published bundle
+ENTRYPOINT ["sh", "-c", "dotnet $(ls *.dll | grep -i api.dll | head -n 1)"]
