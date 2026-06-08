@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,6 +15,7 @@ type AuthMode = 'login' | 'register';
 export class AuthComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   mode: AuthMode = 'login';
   loading = false;
@@ -61,7 +62,10 @@ export class AuthComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err?.error?.message ?? err?.message ?? 'Login failed.';
+        // Extracts backend response error message object cleanly if available
+        this.error = err?.error?.message || err?.message || 'Login failed.';
+        alert(`Login failed: ${this.error}`);
+        this.cdr.detectChanges();
       },
     });
   }
@@ -73,21 +77,48 @@ export class AuthComponent {
       return;
     }
 
-    this.loading = true;
     this.authService.register(this.registerModel).subscribe({
       next: (res) => {
         this.loading = false;
         if (!res.success) {
           this.error = res.message || 'Registration failed.';
           return;
+          this.cdr.detectChanges();
+          
         }
+        alert('Registration successful! Please log in with your new account.');
+
+        const registeredEmail = this.registerModel.email;
+
+        // 2. Clear out the registration fields completely
+        this.registerModel = {
+          firstName: '',
+          lastName: '',
+          streetAddress: '',
+          city: '',
+          baranggay: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+        };
+
+        this.loginModel.email = registeredEmail;
+
         this.mode = 'login';
+        this.cdr.detectChanges();
+
+
       },
       error: (err) => {
         this.loading = false;
-        this.error = err?.error?.message ?? err?.message ?? 'Registration failed.';
+        
+        // Fix: Extracts 'User creation failed: Passwords must be...' directly out from the 400 response body object
+        this.error = err?.error?.message || err?.message || 'Registration failed.';
+        
+        console.log("Captured registration error text:", this.error);
+        alert(`Registration failed: ${this.error}`);
+        this.cdr.detectChanges();
       },
     });
   }
 }
-

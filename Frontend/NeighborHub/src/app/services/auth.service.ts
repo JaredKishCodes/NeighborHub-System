@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
-import { env } from '../../environments/environment.production';
+import { env } from '../../environments/environment';
 import { CurrentUserService } from './current-user.service';
 import { UserProfileService } from './user-profile.service';
 import { Router } from '@angular/router';
@@ -55,7 +55,7 @@ export class AuthService {
   private userProfileService = inject(UserProfileService);
   router = inject(Router);
 
-  private apiUrl = `${env.apiUrl}/api/Account`;
+  private apiUrl = `${env.apiBaseUrl}/api/Account`;
 
   private loggedIn$ = new BehaviorSubject<boolean>(this.hasToken());
 

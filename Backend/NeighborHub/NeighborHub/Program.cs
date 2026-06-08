@@ -61,13 +61,16 @@ app.UseRouting();
 app.UseCors("AllowFrontend");
 
 // 2. FIXED: Allow your Vercel site to load item images
+
+
+// for production: "https://neighbor-hub-system-u5qv.vercel.app"
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(itemImagesPath),
     RequestPath = "/item-images",
     OnPrepareResponse = ctx =>
     {
-        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "https://neighbor-hub-system-u5qv.vercel.app");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
     }
 });
 
@@ -78,7 +81,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/profile-images",
     OnPrepareResponse = ctx =>
     {
-        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "https://neighbor-hub-system-u5qv.vercel.app");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
     }
 });
 

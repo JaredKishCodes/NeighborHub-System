@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { env } from '../../environments/environment.production';
+import { env } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/item.model';
@@ -9,7 +9,7 @@ import { BookingListItem, UpdateBookingPayload } from '../models/booking.model';
   providedIn: 'root',
 })
 export class BookingService {
-  private apiUrl = env.apiUrl;
+  private apiUrl = env.apiBaseUrl;
   private http = inject(HttpClient);
 
   getAvailableDates(itemId: number) {

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { env } from '../../../environments/environment.production';
+import { env } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { DashboardData } from '../../models/dashboard.types';
 
