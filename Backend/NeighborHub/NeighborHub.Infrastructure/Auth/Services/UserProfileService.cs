@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using NeighborHub.Application.Common;
 using NeighborHub.Application.DTOs.User;
 using NeighborHub.Application.Interfaces;
 using NeighborHub.Domain.Entities;
@@ -97,7 +98,9 @@ public class UserProfileService : IUserProfileService
     private static UserProfileDto MapProfile(DomainUser domainUser, AppUser? appUser) => new()
     {
         UserId = domainUser.Id ?? 0,
-        FullName = domainUser.FullName ?? $"{appUser?.FirstName} {appUser?.LastName}".Trim(),
+        FullName = NameHelper.Normalize(
+            domainUser.FullName ?? NameHelper.BuildFullName(appUser?.FirstName, appUser?.LastName),
+            string.Empty),
         FirstName = appUser?.FirstName ?? string.Empty,
         LastName = appUser?.LastName ?? string.Empty,
         Email = appUser?.Email ?? string.Empty,

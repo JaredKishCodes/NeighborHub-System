@@ -8,12 +8,24 @@
 
 }
 
+html,
+body {
+  min-height: 100%;
+  background: #e4e9f7;
+}
+
+.layout-container {
+  min-height: 100vh;
+  background: #e4e9f7;
+}
+
 .content-wrapper {
   display: block !important;
   visibility: visible !important;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px);
+  background: #e4e9f7;
   position: relative;
-  z-index: 1; /* Ensure it sits above the section background */
+  z-index: 1;
 }
 
 .sidebar {
@@ -247,7 +259,7 @@
 .home-section {
   position: relative;
   background: #e4e9f7;
-  height: 100vh;
+  min-height: 100vh;
   left: 260px;
   width: calc(100% - 260px);
   transition: all 0.5s ease;

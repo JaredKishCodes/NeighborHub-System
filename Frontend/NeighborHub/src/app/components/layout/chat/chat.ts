@@ -6,10 +6,12 @@ import { ChatService } from '../../../services/chat.service';
 import { CurrentUserService } from '../../../services/current-user.service';
 import { ChatMessage, Conversation } from '../../../models/chat.model';
 
+import { DisplayNamePipe } from '../../../pipes/display-name.pipe';
+
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule, NgClass],
+  imports: [FormsModule, NgClass, DisplayNamePipe],
   templateUrl: './chat.html',
   styleUrl: './chat.css',
 })
@@ -128,7 +130,6 @@ export class Chat implements OnInit, OnDestroy {
         }
         this.newMessage = '';
         this.sending = false;
-        void this.chatService.sendRealtimeMessage(recipientId, content);
          this.cdr.detectChanges();
       },
       error: (err) => {
@@ -148,14 +149,31 @@ export class Chat implements OnInit, OnDestroy {
         message.recipientId === this.selectedUser.userId ||
         message.otherUserId === this.selectedUser.userId)
     ) {
-      const exists = this.messages.some((m) => m.id === message.id);
-      if (!exists) {
+      // Own messages are already appended from the HTTP send response.
+      if (message.senderId === this.currentUserId) {
+        return;
+      }
+
+      if (!this.hasMessage(message)) {
         this.messages = [...this.messages, message];
       }
       if (message.recipientId === this.currentUserId) {
         this.markConversationReadLocally(message.senderId ?? this.selectedUser.userId);
       }
     }
+  }
+
+  private hasMessage(message: ChatMessage): boolean {
+    if (message.id > 0) {
+      return this.messages.some((m) => m.id === message.id);
+    }
+
+    return this.messages.some(
+      (m) =>
+        m.content === message.content &&
+        m.senderId === message.senderId &&
+        m.sentAt === message.sentAt
+    );
   }
 
   private updateConversationPreview(message: ChatMessage): void {

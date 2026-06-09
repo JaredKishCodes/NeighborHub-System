@@ -9,10 +9,12 @@ import { BookingComponent } from '../booking/booking';
 
 const PAGE_SIZE = 8;
 
+import { DisplayNamePipe } from '../../../pipes/display-name.pipe';
+
 @Component({
   selector: 'app-item',
   standalone: true,
-  imports: [CommonModule, NgClass, FormsModule, BookingComponent],
+  imports: [CommonModule, NgClass, FormsModule, BookingComponent, DisplayNamePipe],
   templateUrl: './item.html',
   styleUrl: './item.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

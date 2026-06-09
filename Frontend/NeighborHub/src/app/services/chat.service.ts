@@ -11,6 +11,7 @@ import {
   UnreadCountResponse,
   Conversation,
 } from '../models/chat.model';
+import { normalizeDisplayName } from '../utils/display-name.util';
 
 const TOKEN_KEY = 'neighborhub_auth_token';
 
@@ -21,6 +22,7 @@ export class ChatService implements OnDestroy {
   private http = inject(HttpClient);
   private apiUrl = `${env.apiBaseUrl}/api/Chat`;
   private hubConnection: signalR.HubConnection | null = null;
+  private connectPromise: Promise<void> | null = null;
 
   private unreadCountSubject = new BehaviorSubject<number>(0);
   private messageReceivedSubject = new BehaviorSubject<ChatMessage | null>(null);
@@ -33,30 +35,61 @@ export class ChatService implements OnDestroy {
       return;
     }
 
+    if (this.connectPromise) {
+      return this.connectPromise;
+    }
+
+    this.connectPromise = this.startConnection();
+    try {
+      await this.connectPromise;
+    } finally {
+      this.connectPromise = null;
+    }
+  }
+
+  private async startConnection(): Promise<void> {
     const token = localStorage.getItem(TOKEN_KEY);
     if (!token) return;
 
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${env.apiBaseUrl}/hubs/chat`, {
-        accessTokenFactory: () => token,
-      })
-      .withAutomaticReconnect()
-      .build();
+    if (!this.hubConnection) {
+      this.hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl(`${env.apiBaseUrl}/hubs/chat`, {
+          accessTokenFactory: () => token,
+        })
+        .withAutomaticReconnect()
+        .build();
 
-    this.hubConnection.on('ReceiveMessage', (message: ChatMessage) => {
-      this.messageReceivedSubject.next(message);
-    });
+      this.hubConnection.on('ReceiveMessage', (message: ChatMessage) => {
+        this.messageReceivedSubject.next(this.normalizeChatMessage(message));
+      });
 
-    this.hubConnection.on('UnreadCountUpdated', (count: number) => {
-      this.unreadCountSubject.next(count);
-    });
+      this.hubConnection.on('UnreadCountUpdated', (count: number) => {
+        this.unreadCountSubject.next(count);
+      });
+    }
 
-    this.hubConnection.on('ConversationLoaded', () => {
-      // handled by component via joinConversation promise
-    });
+    if (this.hubConnection.state === signalR.HubConnectionState.Disconnected) {
+      await this.hubConnection.start();
+    }
 
-    await this.hubConnection.start();
-    await this.refreshUnreadCount();
+    this.refreshUnreadCount();
+  }
+
+  private normalizeChatMessage(raw: ChatMessage): ChatMessage {
+    const record = raw as unknown as Record<string, unknown>;
+    return {
+      id: Number(record['id'] ?? record['Id'] ?? 0),
+      senderId: (record['senderId'] ?? record['SenderId']) as number | null | undefined,
+      senderName: (record['senderName'] ?? record['SenderName']) as string | null | undefined,
+      recipientId: Number(record['recipientId'] ?? record['RecipientId'] ?? 0),
+      otherUserId: Number(record['otherUserId'] ?? record['OtherUserId'] ?? 0),
+      content: String(record['content'] ?? record['Content'] ?? ''),
+      messageType: (record['messageType'] ?? record['MessageType']) as ChatMessage['messageType'],
+      systemEventType: (record['systemEventType'] ?? record['SystemEventType']) as ChatMessage['systemEventType'],
+      bookingId: (record['bookingId'] ?? record['BookingId']) as number | null | undefined,
+      sentAt: String(record['sentAt'] ?? record['SentAt'] ?? ''),
+      isRead: Boolean(record['isRead'] ?? record['IsRead'] ?? false),
+    };
   }
 
   async disconnect(): Promise<void> {
@@ -114,10 +147,16 @@ export class ChatService implements OnDestroy {
   mergeConversations(existing: Conversation[], contacts: Conversation[]): Conversation[] {
     const map = new Map<number, Conversation>();
     for (const c of contacts) {
-      map.set(c.userId, { ...c, unreadCount: 0 });
+      map.set(c.userId, {
+        ...c,
+        fullName: normalizeDisplayName(c.fullName) || c.fullName,
+        unreadCount: 0,
+      });
     }
     for (const c of existing) {
-      map.set(c.userId, { ...map.get(c.userId), ...c });
+      const merged = { ...map.get(c.userId), ...c };
+      merged.fullName = normalizeDisplayName(merged.fullName) || merged.fullName;
+      map.set(c.userId, merged);
     }
     return Array.from(map.values()).sort((a, b) => {
       const aTime = a.lastMessageAt ? new Date(a.lastMessageAt).getTime() : 0;

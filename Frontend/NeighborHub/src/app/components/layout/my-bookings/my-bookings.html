@@ -42,7 +42,7 @@
               @for (b of bookings; track b.id) {
                 <tr>
                   <td class="font-medium">{{ b.itemName }}</td>
-                  <td>{{ b.ownerName }}</td>
+                  <td>{{ b.ownerName | displayName }}</td>
                   <td>{{ formatDate(b.startDate) }}</td>
                   <td>{{ formatDate(b.endDate) }}</td>
                   <td>

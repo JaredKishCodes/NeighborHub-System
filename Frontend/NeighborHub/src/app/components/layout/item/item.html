@@ -27,7 +27,7 @@
             <p class="item-card-desc">{{ item.description || 'No description' }}</p>
             <div class="item-card-meta">
               <span class="item-card-category">{{ item.category }}</span>
-              <span class="item-card-owner">{{ item.ownerName }}</span>
+              <span class="item-card-owner">{{ item.ownerName | displayName }}</span>
             </div>
             <div class="item-card-footer">
               <button

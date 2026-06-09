@@ -1,3 +1,4 @@
+using NeighborHub.Application.Common;
 using NeighborHub.Application.DTOs.Chat;
 using NeighborHub.Application.Interfaces;
 using NeighborHub.Domain.Entities;
@@ -30,8 +31,8 @@ public class ChatNotificationService : IChatNotificationService
         int ownerId = booking.Item.OwnerId;
         int borrowerId = booking.BorrowerId;
         string itemName = booking.Item.Name;
-        string borrowerName = booking.Borrower?.FullName ?? "A neighbor";
-        string ownerName = booking.Item.Owner?.FullName ?? "the owner";
+        string borrowerName = NameHelper.Normalize(booking.Borrower?.FullName, "A neighbor");
+        string ownerName = NameHelper.Normalize(booking.Item.Owner?.FullName, "the owner");
 
         await SendSystemMessageAsync(
             ownerId,
@@ -56,8 +57,8 @@ public class ChatNotificationService : IChatNotificationService
         int ownerId = booking.Item.OwnerId;
         int borrowerId = booking.BorrowerId;
         string itemName = booking.Item.Name;
-        string borrowerName = booking.Borrower?.FullName ?? "the borrower";
-        string ownerName = booking.Item.Owner?.FullName ?? "the owner";
+        string borrowerName = NameHelper.Normalize(booking.Borrower?.FullName, "the borrower");
+        string ownerName = NameHelper.Normalize(booking.Item.Owner?.FullName, "the owner");
 
         await SendSystemMessageAsync(
             borrowerId,
@@ -82,8 +83,8 @@ public class ChatNotificationService : IChatNotificationService
         int ownerId = booking.Item.OwnerId;
         int borrowerId = booking.BorrowerId;
         string itemName = booking.Item.Name;
-        string borrowerName = booking.Borrower?.FullName ?? "the borrower";
-        string ownerName = booking.Item.Owner?.FullName ?? "the owner";
+        string borrowerName = NameHelper.Normalize(booking.Borrower?.FullName, "the borrower");
+        string ownerName = NameHelper.Normalize(booking.Item.Owner?.FullName, "the owner");
         string dueDate = booking.EndDate.ToString("MMM d, yyyy");
 
         await SendSystemMessageAsync(

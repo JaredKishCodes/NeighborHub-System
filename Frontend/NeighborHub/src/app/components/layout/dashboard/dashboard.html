@@ -84,7 +84,7 @@
                   @for (b of bookings; track b.id) {
                     <tr>
                       <td class="font-medium">{{ b.itemName }}</td>
-                      <td>{{ b.ownerName }}</td>
+                      <td>{{ b.ownerName | displayName }}</td>
                       <td>{{ formatDate(b.startDate) }}</td>
                       <td>
                         <span class="badge" [ngClass]="statusClass(b.status)">{{ statusLabel(b.status) }}</span>
@@ -123,7 +123,7 @@
                   @for (l of lendings; track l.id) {
                     <tr>
                       <td class="font-medium">{{ l.itemName }}</td>
-                      <td>{{ l.borrowerName }}</td>
+                      <td>{{ l.borrowerName | displayName }}</td>
                       <td>{{ formatDate(l.startDate) }}</td>
                       <td>
                         <span class="badge" [ngClass]="statusClass(l.status)">{{ statusLabel(l.status) }}</span>

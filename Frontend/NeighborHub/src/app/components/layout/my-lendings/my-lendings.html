@@ -42,7 +42,7 @@
               @for (l of lendings; track l.id) {
                 <tr>
                   <td class="font-medium">{{ l.itemName }}</td>
-                  <td>{{ l.borrowerName }}</td>
+                  <td>{{ l.borrowerName | displayName }}</td>
                   <td>{{ formatDate(l.startDate) }}</td>
                   <td>{{ formatDate(l.endDate) }}</td>
                   <td>

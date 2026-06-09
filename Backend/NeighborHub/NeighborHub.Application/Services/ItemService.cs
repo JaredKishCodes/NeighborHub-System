@@ -1,4 +1,5 @@
-﻿using NeighborHub.Application.DTOs.Item;
+﻿using NeighborHub.Application.Common;
+using NeighborHub.Application.DTOs.Item;
 using NeighborHub.Application.Interfaces;
 using NeighborHub.Domain.Entities;
 using NeighborHub.Domain.Interface;
@@ -122,7 +123,7 @@ public class ItemService : IItemService
             ImageUrl = item.ImageUrl,
             CreatedAt = item.CreatedAt,
             LastUpdatedAt = item.LastUpdatedAt,
-            OwnerName = ownerName ?? "Unknown"
+            OwnerName = NameHelper.Normalize(ownerName)
         };
     }
 }

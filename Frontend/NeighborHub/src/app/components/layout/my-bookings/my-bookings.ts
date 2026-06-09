@@ -8,10 +8,12 @@ import {
   BookingStatusLabel,
 } from '../../../models/booking.model';
 
+import { DisplayNamePipe } from '../../../pipes/display-name.pipe';
+
 @Component({
   selector: 'app-my-bookings',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, DisplayNamePipe],
   templateUrl: './my-bookings.html',
   styleUrl: './my-bookings.css',
 })

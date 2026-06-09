@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NeighborHub.Application.Common;
 using NeighborHub.Application.DTOs.Dashboard;
 using NeighborHub.Domain.Entities;
 using NeighborHub.Domain.Interface;
@@ -25,7 +26,7 @@ public class DashboardController(IDashboardRepository _dashboardRepository) : Co
             {
                 Id = b.Id,
                 ItemName = b.Item?.Name ?? "Unknown Item", // Validation against nulls
-                OwnerName = b.Item?.Owner?.FullName ?? "Unknown Owner",
+                OwnerName = NameHelper.Normalize(b.Item?.Owner?.FullName, "Unknown Owner"),
                 StartDate = b.StartDate,
                 Status = b.BookingStatus
             }),
@@ -34,7 +35,7 @@ public class DashboardController(IDashboardRepository _dashboardRepository) : Co
             {
                 Id = b.Id,
                 ItemName = b.Item?.Name ?? "Unknown Item",
-                BorrowerName = b.Borrower?.FullName ?? "Unknown User",
+                BorrowerName = NameHelper.Normalize(b.Borrower?.FullName, "Unknown User"),
                 StartDate = b.StartDate,
                 Status = b.BookingStatus
             })

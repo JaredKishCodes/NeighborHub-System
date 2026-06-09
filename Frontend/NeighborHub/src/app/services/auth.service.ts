@@ -5,6 +5,7 @@ import { env } from '../../environments/environment';
 import { CurrentUserService } from './current-user.service';
 import { UserProfileService } from './user-profile.service';
 import { Router } from '@angular/router';
+import { formatDisplayName, normalizeDisplayName } from '../utils/display-name.util';
 //import { env } from '../../environments/environment.production';
 
 interface RegisterRequest {
@@ -77,7 +78,7 @@ export class AuthService {
         if (res.success && res.token) {
           localStorage.setItem(TOKEN_KEY, res.token);
           localStorage.setItem(OWNER_ID_KEY, (res.ownerId ?? '').toString());
-          const displayName = `${res.firstName ?? ''} ${res.lastName ?? ''}`.trim();
+          const displayName = formatDisplayName(res.firstName, res.lastName);
           this.currentUserService.setDisplayName(displayName || 'User');
           this.currentUserService.setEmail(res.email ?? '');
           if (res.ownerId != null) {
@@ -103,8 +104,11 @@ export class AuthService {
       next: (res) => {
         if (res.data) {
           const profile = res.data;
-          const name = profile.fullName?.trim()
-            || `${profile.firstName} ${profile.lastName}`.trim();
+          const name = formatDisplayName(
+            profile.firstName,
+            profile.lastName,
+            profile.fullName
+          );
           if (name) {
             this.currentUserService.setDisplayName(name);
           }

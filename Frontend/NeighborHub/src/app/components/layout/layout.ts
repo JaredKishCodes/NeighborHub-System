@@ -6,6 +6,7 @@ import { ChatService } from '../../services/chat.service';
 import { Subscription } from 'rxjs';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { normalizeDisplayName } from '../../utils/display-name.util';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -70,7 +71,7 @@ export class Layout implements OnInit, OnDestroy {
   }
 
   refreshUserDisplay(): void {
-    this.displayName = this.currentUserService.getDisplayName();
+    this.displayName = normalizeDisplayName(this.currentUserService.getDisplayName()) || 'User';
     this.userEmail = this.currentUserService.getEmail();
     const picturePath = this.currentUserService.getProfilePictureUrl();
     this.profileImageUrl = this.authService.resolveProfileImageUrl(picturePath);

@@ -7,6 +7,7 @@ using Azure.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using NeighborHub.Application.Common;
 using NeighborHub.Application.DTOs.Auth;
 using NeighborHub.Application.Interfaces.Auth;
 using NeighborHub.Domain.Entities;
@@ -102,7 +103,7 @@ public class AuthService : IAuthService
             var domainUser = new DomainUser
             {
                 IdentityId = newUser.Id, 
-                FullName = registerDto.FirstName + " " + registerDto.LastName, // Assuming FullName is a combination of FirstName and LastName
+                FullName = NameHelper.BuildFullName(registerDto.FirstName, registerDto.LastName),
             
             };
 

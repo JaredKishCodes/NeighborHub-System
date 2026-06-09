@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NeighborHub.Application.Common;
 using NeighborHub.Application.DTOs.Booking;
 using NeighborHub.Application.Exceptions;
 using NeighborHub.Application.Interfaces;
@@ -147,8 +148,8 @@ public class BookingService : IBookingService
         BookingStatus = booking.BookingStatus.ToString(),
         CreatedAt = booking.CreatedAt,
         ItemName = booking.Item?.Name ?? "Unknown Item",
-        OwnerName = booking.Item?.Owner?.FullName ?? "Unknown Owner",
-        BorrowerName = booking.Borrower?.FullName ?? "Unknown Borrower",
+        OwnerName = NameHelper.Normalize(booking.Item?.Owner?.FullName, "Unknown Owner"),
+        BorrowerName = NameHelper.Normalize(booking.Borrower?.FullName, "Unknown Borrower"),
     };
 
     private async Task SyncItemStatusFromBookingStateAsync(int itemId)

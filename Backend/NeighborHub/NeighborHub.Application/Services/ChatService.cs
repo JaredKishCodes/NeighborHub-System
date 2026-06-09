@@ -1,3 +1,4 @@
+using NeighborHub.Application.Common;
 using NeighborHub.Application.DTOs.Chat;
 using NeighborHub.Application.Interfaces;
 using NeighborHub.Domain.Entities;
@@ -81,7 +82,7 @@ public class ChatService : IChatService
             conversations.Add(new ConversationDto
             {
                 UserId = partnerId,
-                FullName = partner?.FullName ?? "Unknown User",
+                FullName = NameHelper.Normalize(partner?.FullName),
                 LastMessage = last?.Content,
                 LastMessageAt = last?.SentAt,
                 UnreadCount = messages.Count(m => m.RecipientId == userId && !m.IsRead),
@@ -115,7 +116,7 @@ public class ChatService : IChatService
             contacts.Add(new ConversationDto
             {
                 UserId = contactId,
-                FullName = user?.FullName ?? "Unknown User",
+                FullName = NameHelper.Normalize(user?.FullName),
             });
         }
 
@@ -127,7 +128,9 @@ public class ChatService : IChatService
         {
             Id = message.Id,
             SenderId = message.SenderId,
-            SenderName = message.MessageType == ChatMessageType.System ? "System" : senderName,
+            SenderName = message.MessageType == ChatMessageType.System
+                ? "System"
+                : NameHelper.Normalize(senderName),
             RecipientId = message.RecipientId,
             OtherUserId = message.SenderId == currentUserId
                 ? message.RecipientId

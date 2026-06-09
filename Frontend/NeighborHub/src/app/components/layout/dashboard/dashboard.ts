@@ -11,10 +11,12 @@ import {
   BookingStatus,
 } from '../../../models/dashboard.types';
 
+import { DisplayNamePipe } from '../../../pipes/display-name.pipe';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgClass, FormsModule],
+  imports: [NgClass, FormsModule, DisplayNamePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
