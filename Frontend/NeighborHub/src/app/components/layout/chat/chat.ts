@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -28,7 +28,8 @@ export class Chat implements OnInit, OnDestroy {
 
   private subs = new Subscription();
   private currentUserId: number | null = null;
-
+  private cdr = inject(ChangeDetectorRef);
+  
   ngOnInit(): void {
     this.currentUserId = this.currentUserService.getUserId();
     if (this.currentUserId == null) {
@@ -43,6 +44,7 @@ export class Chat implements OnInit, OnDestroy {
       this.chatService.messageReceived$.subscribe((message) => {
         if (!message) return;
         this.handleIncomingMessage(message);
+         this.cdr.detectChanges();
       })
     );
   }
@@ -58,6 +60,7 @@ export class Chat implements OnInit, OnDestroy {
     } catch {
       this.connectionError = 'Could not connect to real-time chat. Messages may not update live.';
       this.loadSidebar();
+       this.cdr.detectChanges();
     }
   }
 
@@ -74,16 +77,19 @@ export class Chat implements OnInit, OnDestroy {
               contactRes.data ?? []
             );
             this.loading = false;
+             this.cdr.detectChanges();
           },
           error: () => {
             this.conversations = convRes.data ?? [];
             this.loading = false;
+             this.cdr.detectChanges();
           },
         });
       },
       error: (err) => {
         this.error = err?.error?.message ?? 'Failed to load conversations.';
         this.loading = false;
+         this.cdr.detectChanges();
       },
     });
   }
@@ -98,9 +104,11 @@ export class Chat implements OnInit, OnDestroy {
         this.messages = res.data ?? [];
         void this.chatService.joinConversation(conversation.userId);
         this.markConversationReadLocally(conversation.userId);
+         this.cdr.detectChanges();
       },
       error: (err) => {
         this.error = err?.error?.message ?? 'Failed to load messages.';
+         this.cdr.detectChanges();
       },
     });
   }
@@ -121,10 +129,12 @@ export class Chat implements OnInit, OnDestroy {
         this.newMessage = '';
         this.sending = false;
         void this.chatService.sendRealtimeMessage(recipientId, content);
+         this.cdr.detectChanges();
       },
       error: (err) => {
         this.error = err?.error?.message ?? 'Failed to send message.';
         this.sending = false;
+         this.cdr.detectChanges();
       },
     });
   }

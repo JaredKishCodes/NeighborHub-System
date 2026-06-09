@@ -43,12 +43,13 @@
               >
                 <span class="avatar">{{ getInitials(c.fullName) }}</span>
                 <span class="conversation-meta">
-                  <span class="conversation-top">
-                    <span class="conversation-name">{{ c.fullName }}</span>
-                    @if (c.unreadCount > 0) {
-                      <span class="unread-badge">{{ c.unreadCount }}</span>
-                    }
-                  </span>
+                 <span class="conversation-top">
+                  <span class="conversation-name">{{ c.fullName }}</span>
+                  
+                  @if (c.unreadCount && +c.unreadCount > 0) {
+                    <span class="unread-badge">{{ c.unreadCount }}</span>
+                  }
+                </span>
                   <span class="conversation-preview">
                     {{ c.lastMessage ?? 'Start a conversation' }}
                   </span>
