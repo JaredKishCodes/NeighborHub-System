@@ -15,11 +15,16 @@ public class BookingService : IBookingService
 {
     private readonly IBookingRepository _bookingRepository;
     private readonly IItemRepository _itemRepository;
+    private readonly IChatNotificationService _chatNotificationService;
 
-    public BookingService(IBookingRepository bookingRepository, IItemRepository itemRepository)
+    public BookingService(
+        IBookingRepository bookingRepository,
+        IItemRepository itemRepository,
+        IChatNotificationService chatNotificationService)
     {
         _bookingRepository = bookingRepository;
         _itemRepository = itemRepository;
+        _chatNotificationService = chatNotificationService;
     }
     public async Task<BookingResponseDto> CreateBookingAsync(CreateBookingDto createBookingDto)
     {
@@ -51,6 +56,8 @@ public class BookingService : IBookingService
             item.ItemStatus = ItemStatus.requested;
             await _itemRepository.UpdateItem(item);
         }
+
+        await _chatNotificationService.NotifyBookingRequestedAsync(booking.Id);
 
         return MapToDto(booking);
     }
@@ -114,15 +121,19 @@ public class BookingService : IBookingService
         // Fetch the booking
         Booking booking = await _bookingRepository.GetBookingByIdAsync(bookingId) ?? throw new KeyNotFoundException($"Booking with ID {bookingId} not found.");
 
-        // Update fields (assuming UpdateBookingDto has these properties)
+        BookingStatus previousStatus = booking.BookingStatus;
         booking.BookingStatus = updateBookingDto.BookingStatus;
         booking.EndDate = updateBookingDto.EndDate;
 
-        // Save the updated booking
-        Booking updatedBooking = await _bookingRepository.UpdateBookingAsync(booking);  // Note: Renamed to UpdateBookingAsync for consistency
+        Booking updatedBooking = await _bookingRepository.UpdateBookingAsync(booking);
         await SyncItemStatusFromBookingStateAsync(updatedBooking.ItemId);
 
-        // Return the mapped DTO
+        if (previousStatus != BookingStatus.Confirmed &&
+            updatedBooking.BookingStatus == BookingStatus.Confirmed)
+        {
+            await _chatNotificationService.NotifyBookingConfirmedAsync(updatedBooking.Id);
+        }
+
         return MapToDto(updatedBooking);
     }
 

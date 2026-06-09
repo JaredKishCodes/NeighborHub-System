@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using NeighborHub.Api.Services;
 using NeighborHub.Application;
+using NeighborHub.Application.Interfaces;
 using NeighborHub.Infrastructure;
 using NeighborHub.Infrastructure.Auth;
 using NeighborHub.Infrastructure.Persistence;
@@ -25,14 +27,19 @@ public static class DependencyInjection
         services.AddApplicationServices()
                 .AddInfrastructureServices(configuration);
 
+        services.AddSignalR();
+        services.AddScoped<IChatRealtimeService, ChatRealtimeService>();
+        services.AddHostedService<OverdueRentalHostedService>();
+
         services.AddCors(options =>
         {
             options.AddPolicy("AllowFrontend",
                 policy =>
                 {
-                    policy.WithOrigins("http://localhost:4200") 
+                    policy.WithOrigins("http://localhost:4200")
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod()
+                          .AllowCredentials();
                 });
         });
 
@@ -59,6 +66,21 @@ public static class DependencyInjection
                 ValidIssuer = configuration["JWT:Issuer"],
                 ValidAudience = configuration["JWT:Audience"],
                 IssuerSigningKey = signingKey
+            };
+
+            options.Events = new JwtBearerEvents
+            {
+                OnMessageReceived = context =>
+                {
+                    string? accessToken = context.Request.Query["access_token"];
+                    PathString path = context.HttpContext.Request.Path;
+                    if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+                    {
+                        context.Token = accessToken;
+                    }
+
+                    return Task.CompletedTask;
+                }
             };
         });
 

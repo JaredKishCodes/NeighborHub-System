@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.FileProviders;
 using NeighborHub.Api;
+using NeighborHub.Api.Hubs;
 // ... other usings
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -90,5 +91,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/hubs/chat");
 
 await app.RunAsync();

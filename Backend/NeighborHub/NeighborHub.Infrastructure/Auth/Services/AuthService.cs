@@ -42,15 +42,16 @@ public class AuthService : IAuthService
         IList<string> roles = await _userManager.GetRolesAsync(user);
         string? role = roles.FirstOrDefault();
 
+        DomainUser? domainUser = await _domainUserRepository.GetDomainUserByIdentityIdAsync(user.Id);
+
         string token = await _jwtTokenService.CreateTokenAsync(new UserDto
         {
-            Id = user.Id, // adjust if Id is Guid or string
+            IdentityId = user.Id,
+            DomainUserId = domainUser?.Id,
             Email = user.Email!,
             FirstName = user.FirstName,
             LastName = user.LastName,
         }, roles.ToList());
-
-        DomainUser? domainUser = await _domainUserRepository.GetDomainUserByIdentityIdAsync(user.Id);
 
         var response = new LoginResponse
         {
@@ -123,7 +124,8 @@ public class AuthService : IAuthService
             // Generate JWT
             string token = await _jwtTokenService.CreateTokenAsync(new UserDto
             {
-                Id = newUser.Id, // Change this if your AppUser.Id is string or Guid
+                IdentityId = newUser.Id,
+                DomainUserId = domainUser.Id,
                 Email = newUser.Email!,
                 FirstName = newUser.FirstName,
                 LastName = newUser.LastName,

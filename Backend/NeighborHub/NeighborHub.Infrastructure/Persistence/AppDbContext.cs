@@ -18,6 +18,7 @@ public class AppDbContext : IdentityDbContext<AppUser>
     public DbSet<Item> Items { get; set; }
     public DbSet<Booking> Bookings { get; set; }
     public DbSet<DomainUser> DomainUsers { get; set; }
+    public DbSet<ChatMessage> ChatMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

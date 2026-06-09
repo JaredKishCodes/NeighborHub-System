@@ -16,6 +16,8 @@ public static class DependencyInjection
         services.AddScoped<IItemService, ItemService>();
         services.AddScoped<IBookingService, BookingService>();
         services.AddScoped<IFileStorageService, LocalFileStorageService>();
+        services.AddScoped<IChatService, ChatService>();
+        services.AddScoped<IChatNotificationService, ChatNotificationService>();
         return services;
     }
 }

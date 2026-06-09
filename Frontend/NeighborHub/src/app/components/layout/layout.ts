@@ -1,7 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CurrentUserService } from '../../services/current-user.service';
 import { UserProfileService } from '../../services/user-profile.service';
+import { ChatService } from '../../services/chat.service';
+import { Subscription } from 'rxjs';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -13,12 +15,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
-export class Layout implements OnInit {
+export class Layout implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   private currentUserService = inject(CurrentUserService);
   private userProfileService = inject(UserProfileService);
+  private chatService = inject(ChatService);
 
   sidebarClosed = true;
+  unreadCount = 0;
+  private chatSub?: Subscription;
   openMenus: { [key: string]: boolean } = {};
 
   displayName = 'User';
@@ -42,6 +47,26 @@ export class Layout implements OnInit {
 
   ngOnInit(): void {
     this.refreshUserDisplay();
+    void this.initChatConnection();
+  }
+
+  ngOnDestroy(): void {
+    this.chatSub?.unsubscribe();
+  }
+
+  private async initChatConnection(): Promise<void> {
+    if (this.currentUserService.getUserId() == null) return;
+
+    try {
+      await this.chatService.connect();
+    } catch {
+      // Chat page will show its own connection warning
+    }
+
+    this.chatSub = this.chatService.unreadCount$.subscribe((count) => {
+      this.unreadCount = count;
+    });
+    this.chatService.refreshUnreadCount();
   }
 
   refreshUserDisplay(): void {

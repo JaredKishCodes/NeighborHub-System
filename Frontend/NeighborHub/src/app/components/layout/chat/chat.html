@@ -1,0 +1,126 @@
+<div class="chat-page">
+  <header class="page-header">
+    <h1 class="page-title">Messages</h1>
+    <p class="page-subtitle">Chat with neighbors and receive booking updates</p>
+  </header>
+
+  @if (connectionError) {
+    <div class="alert alert-warning shadow-sm mb-4">{{ connectionError }}</div>
+  }
+
+  @if (error) {
+    <div class="alert alert-error shadow-sm mb-4">
+      <span>{{ error }}</span>
+      <button type="button" class="btn btn-sm btn-ghost" (click)="loadSidebar()">Retry</button>
+    </div>
+  }
+
+  <div class="chat-layout">
+    <aside class="chat-sidebar">
+      <div class="sidebar-header">
+        <h2>Conversations</h2>
+        <span class="badge badge-ghost">{{ conversations.length }}</span>
+      </div>
+
+      @if (loading) {
+        <div class="loading-state">
+          <span class="loading loading-spinner loading-md"></span>
+        </div>
+      } @else if (conversations.length === 0) {
+        <div class="empty-state">
+          <p>No conversations yet.</p>
+          <p class="empty-hint">Book or lend an item to start chatting with a neighbor.</p>
+        </div>
+      } @else {
+        <ul class="conversation-list">
+          @for (c of conversations; track c.userId) {
+            <li>
+              <button
+                type="button"
+                class="conversation-item"
+                [class.active]="selectedUser?.userId === c.userId"
+                (click)="selectConversation(c)"
+              >
+                <span class="avatar">{{ getInitials(c.fullName) }}</span>
+                <span class="conversation-meta">
+                  <span class="conversation-top">
+                    <span class="conversation-name">{{ c.fullName }}</span>
+                    @if (c.unreadCount > 0) {
+                      <span class="unread-badge">{{ c.unreadCount }}</span>
+                    }
+                  </span>
+                  <span class="conversation-preview">
+                    {{ c.lastMessage ?? 'Start a conversation' }}
+                  </span>
+                </span>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </aside>
+
+    <section class="chat-panel">
+      @if (!selectedUser) {
+        <div class="chat-placeholder">
+          <i class="bx bx-message-dots"></i>
+          <p>Select a conversation to start messaging</p>
+        </div>
+      } @else {
+        <div class="chat-panel-header">
+          <span class="avatar avatar-lg">{{ getInitials(selectedUser.fullName) }}</span>
+          <div>
+            <h3>{{ selectedUser.fullName }}</h3>
+            <p>Peer-to-peer and system notifications appear here</p>
+          </div>
+        </div>
+
+        <div class="messages-scroll">
+          @if (messages.length === 0) {
+            <div class="empty-state">
+              <p>No messages yet. Say hello!</p>
+            </div>
+          } @else {
+            @for (m of messages; track m.id) {
+              <div
+                class="message-row"
+                [ngClass]="{
+                  'message-own': isOwnMessage(m),
+                  'message-system': isSystemMessage(m)
+                }"
+              >
+                @if (isSystemMessage(m)) {
+                  <div class="system-bubble">
+                    <span class="system-label">System</span>
+                    <p>{{ m.content }}</p>
+                    <span class="message-time">{{ formatTime(m.sentAt) }}</span>
+                  </div>
+                } @else {
+                  <div class="message-bubble">
+                    <p>{{ m.content }}</p>
+                    <span class="message-time">{{ formatTime(m.sentAt) }}</span>
+                  </div>
+                }
+              </div>
+            }
+          }
+        </div>
+
+        <form class="composer" (ngSubmit)="sendMessage()">
+          <input
+            type="text"
+            class="composer-input"
+            [(ngModel)]="newMessage"
+            name="newMessage"
+            placeholder="Type a message..."
+            [disabled]="sending"
+            autocomplete="off"
+          />
+          <button type="submit" class="btn btn-primary" [disabled]="sending || !newMessage.trim()">
+            {{ sending ? 'Sending…' : 'Send' }}
+          </button>
+        </form>
+      }
+    </section>
+  </div>
+</div>

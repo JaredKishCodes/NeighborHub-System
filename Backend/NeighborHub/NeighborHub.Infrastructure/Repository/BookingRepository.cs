@@ -32,8 +32,37 @@ public class BookingRepository(AppDbContext _context) : IBookingRepository
 
     public async Task<Booking> GetBookingByIdAsync(int bookingId)
     {
-       return await _context.Bookings.FirstOrDefaultAsync(b => b.Id == bookingId);
-       
+        return await _context.Bookings.FirstOrDefaultAsync(b => b.Id == bookingId);
+    }
+
+    public async Task<Booking?> GetBookingWithDetailsAsync(int bookingId)
+    {
+        return await _context.Bookings
+            .Include(b => b.Item)
+                .ThenInclude(i => i.Owner)
+            .Include(b => b.Borrower)
+            .FirstOrDefaultAsync(b => b.Id == bookingId);
+    }
+
+    public async Task<List<int>> GetOverdueBookingIdsAsync()
+    {
+        DateTime today = DateTime.UtcNow.Date;
+        return await _context.Bookings
+            .Where(b =>
+                b.BookingStatus == Domain.Enums.BookingStatus.Confirmed &&
+                b.EndDate.Date < today &&
+                !b.OverdueNotified)
+            .Select(b => b.Id)
+            .ToListAsync();
+    }
+
+    public async Task MarkOverdueNotifiedAsync(int bookingId)
+    {
+        Booking? booking = await _context.Bookings.FirstOrDefaultAsync(b => b.Id == bookingId);
+        if (booking == null) return;
+
+        booking.OverdueNotified = true;
+        await _context.SaveChangesAsync();
     }
 
     public async Task<List<Booking>> GetMyBorrowingAsync(int userId)

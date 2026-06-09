@@ -15,6 +15,7 @@ public class Booking
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
     public DateTime CreatedAt { get; set; }
+    public bool OverdueNotified { get; set; }
 
     public Item Item { get; set; }
     public DomainUser Borrower { get; set; }

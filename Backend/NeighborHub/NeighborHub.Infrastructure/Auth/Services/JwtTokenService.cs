@@ -24,16 +24,17 @@ public class JwtTokenService : IJwtTokenService
     public async Task<string> CreateTokenAsync(UserDto user, List<string> roles)
     {
         List<Claim> claims = new()
-    {
-        // Ensure .ToString() is used if Id is an int
-        new Claim("domain_user_id", user.Id.ToString()),
-        
-        // Use IdentityId (string) for NameIdentifier
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-         new Claim(ClaimTypes.Email, user.Email),
-        new Claim(ClaimTypes.GivenName, user.FirstName ?? string.Empty),
-        new Claim(ClaimTypes.Surname, user.LastName ?? string.Empty)
-    };
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.IdentityId),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.GivenName, user.FirstName ?? string.Empty),
+            new Claim(ClaimTypes.Surname, user.LastName ?? string.Empty),
+        };
+
+        if (user.DomainUserId.HasValue)
+        {
+            claims.Add(new Claim("domain_user_id", user.DomainUserId.Value.ToString()));
+        }
 
         foreach (string role in roles)
         {

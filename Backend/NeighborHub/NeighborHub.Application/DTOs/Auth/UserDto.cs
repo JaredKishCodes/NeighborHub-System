@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace NeighborHub.Application.DTOs.Auth;
 public class UserDto
 {
-    public string Id { get; set; }
+    public string IdentityId { get; set; }
+    public int? DomainUserId { get; set; }
 
     public string FirstName { get; set; }
     public string LastName { get; set; }

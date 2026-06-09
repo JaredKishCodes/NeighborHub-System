@@ -45,6 +45,18 @@
   </li>
 
   <li>
+    <a [routerLink]="['/chat']"
+       routerLinkActive="active"
+       style="cursor: pointer; position: relative; z-index: 1001;">
+      <i class="bx bx-message-dots"></i>
+      <span class="link_name">Messages</span>
+      @if (unreadCount > 0) {
+        <span class="nav-unread-badge">{{ unreadCount }}</span>
+      }
+    </a>
+  </li>
+
+  <li>
     <a href="javascript:void(0)" (click)="onLogout($event)" style="position: relative; z-index: 1001;">
       <i class="bx bx-log-out"></i>
       <span class="link_name">Logout</span>

@@ -16,4 +16,7 @@ public interface IBookingRepository
     Task<bool> DeleteBookingAsync(int bookingId);
 
     Task<bool> HasOverlapAsync(int itemId, DateTime start, DateTime end);
+    Task<Booking?> GetBookingWithDetailsAsync(int bookingId);
+    Task<List<int>> GetOverdueBookingIdsAsync();
+    Task MarkOverdueNotifiedAsync(int bookingId);
 }

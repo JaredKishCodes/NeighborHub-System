@@ -27,6 +27,7 @@ public static class DependencyInjection
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IDashboardRepository, DashboardRepository>();
         services.AddScoped<IDomainUserRepository, DomainUserRepository>();
+        services.AddScoped<IChatRepository, ChatRepository>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IUserProfileService, UserProfileService>();

@@ -6,6 +6,7 @@ import { authGuard } from './auth.guard';
 import { Layout } from './components/layout/layout';
 import { MyBookings } from './components/layout/my-bookings/my-bookings';
 import { MyLendings } from './components/layout/my-lendings/my-lendings';
+import { Chat } from './components/layout/chat/chat';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
@@ -19,6 +20,7 @@ export const routes: Routes = [
       { path: 'item', component: Item },
       { path: 'my-bookings', component: MyBookings },
       { path: 'my-lendings', component: MyLendings },
+      { path: 'chat', component: Chat },
     ]
   },
 ];
