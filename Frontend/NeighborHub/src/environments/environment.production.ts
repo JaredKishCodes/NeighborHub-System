@@ -3,5 +3,5 @@ export const env = {
   imageBaseUrl: 'https://neighborhub-system.onrender.com/item-images',
   profileImageBaseUrl: 'https://neighborhub-system.onrender.com',
   production: true,
-  apiUrl: 'https://neighborhub-system.onrender.com/api'
+  apiUrl: 'https://neighborhub-system.onrender.com'
 };
