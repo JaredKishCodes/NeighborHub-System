@@ -19,6 +19,7 @@ public class Booking
 
     public Item Item { get; set; }
     public DomainUser Borrower { get; set; }
+
   
 
 

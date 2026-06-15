@@ -1,7 +1,8 @@
-using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using NeighborHub.Api;
 using NeighborHub.Api.Hubs;
+using System.Text.Json.Serialization;
 // ... other usings
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -93,4 +94,27 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<ChatHub>("/hubs/chat");
 
-await app.RunAsync();
+// --- AUTOMATIC PRODUCTION MIGRATIONS ---
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        // Automatically finds your database context and runs pending migrations
+        var context = services.GetRequiredService<NeighborHub.Infrastructure.Persistence.AppDbContext>();
+
+        Console.WriteLine("Checking for pending database migrations...");
+        context.Database.Migrate();
+        Console.WriteLine("Database is up to date!");
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database in production.");
+    }
+}
+// ----------------------------------------
+
+app.Run();
+
+
