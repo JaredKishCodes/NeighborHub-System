@@ -44,33 +44,45 @@ export class AuthComponent {
   }
 
   submitLogin(): void {
-    this.error = null;
-    if (!this.loginModel.email || !this.loginModel.password) {
-      this.error = 'Please enter your email and password.';
-      return;
-    }
+  this.error = null;
+  
+  if (!this.loginModel.email || !this.loginModel.password) {
+    alert('Login failed: Please enter your email and password.');
+    return;
+  }
 
-    this.loading = true;
-    this.authService.login(this.loginModel).subscribe({
-      next: (res) => {
-        this.loading = false;
-        if (!res.success) {
-          this.error = res.message || 'Login failed.';
-          alert(`Login failed: ${this.error}`);
-          this.cdr.detectChanges();
-          return;
-        }
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.loading = false;
-        // Extracts backend response error message object cleanly if available
-        this.error = err?.error?.message || err?.message || 'Login failed.';
+  this.loading = true;
+  this.authService.login(this.loginModel).subscribe({
+    next: (res) => {
+      this.loading = false;
+      
+      // Case 1: If your backend returns 200 OK but has a 'success: false' property
+      if (res && res.success === false) {
+        this.error = res.message || 'Invalid credentials.';
         alert(`Login failed: ${this.error}`);
         this.cdr.detectChanges();
-      },
-    });
-  }
+        return;
+      }
+      
+      this.router.navigate(['/dashboard']);
+    },
+    error: (err) => {
+      this.loading = false;
+      
+      // Case 2: Standard backend errors (e.g., 401 Unauthorized) or Network/CORS failures
+      if (err.status === 401) {
+        this.error = 'Invalid email or password.';
+      } else if (err.status === 0) {
+        this.error = 'Network error or CORS policy blocking the request.';
+      } else {
+        this.error = err?.error?.message || err?.message || 'An unexpected error occurred.';
+      }
+      
+      alert(`Login failed: ${this.error}`);
+      this.cdr.detectChanges();
+    },
+  });
+}
 
   submitRegister(): void {
     this.error = null;
