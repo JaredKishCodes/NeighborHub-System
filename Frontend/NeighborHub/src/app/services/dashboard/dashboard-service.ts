@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { env } from '../../../environments/environment';
+import { env } from '../../../environments/environment.production';
 import { Observable } from 'rxjs';
 import { DashboardData } from '../../models/dashboard.types';
 
@@ -8,7 +8,7 @@ import { DashboardData } from '../../models/dashboard.types';
   providedIn: 'root',
 })
 export class DashboardService {
-  private apiUrl = env.apiBaseUrl;
+  private apiUrl = env.apiUrl;
   private http = inject(HttpClient);
 
   getSummary(userId?: number | null): Observable<DashboardData> {

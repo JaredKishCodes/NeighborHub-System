@@ -2,7 +2,7 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { env } from '../../environments/environment';
+import { env } from '../../environments/environment.production';
 import {
   ChatMessage,
   ConversationsResponse,
@@ -20,7 +20,7 @@ const TOKEN_KEY = 'neighborhub_auth_token';
 })
 export class ChatService implements OnDestroy {
   private http = inject(HttpClient);
-  private apiUrl = `${env.apiBaseUrl}/api/Chat`;
+  private apiUrl = `${env.apiUrl}/api/Chat`;
   private hubConnection: signalR.HubConnection | null = null;
   private connectPromise: Promise<void> | null = null;
 
@@ -53,7 +53,7 @@ export class ChatService implements OnDestroy {
 
     if (!this.hubConnection) {
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`${env.apiBaseUrl}/hubs/chat`, {
+        .withUrl(`${env.apiUrl}/hubs/chat`, {
           accessTokenFactory: () => token,
         })
         .withAutomaticReconnect()

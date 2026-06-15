@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { env } from '../../environments/environment';
+import { env } from '../../environments/environment.production';
 import { ApiResponse } from '../models/item.model';
 import { ChangePasswordRequest, UserProfile } from '../models/user-profile.model';
 
@@ -9,7 +9,7 @@ import { ChangePasswordRequest, UserProfile } from '../models/user-profile.model
   providedIn: 'root',
 })
 export class UserProfileService {
-  private apiUrl = env.apiBaseUrl;
+  private apiUrl = env.apiUrl;
   private http = inject(HttpClient);
 
   getProfile(userId: number): Observable<ApiResponse<UserProfile>> {

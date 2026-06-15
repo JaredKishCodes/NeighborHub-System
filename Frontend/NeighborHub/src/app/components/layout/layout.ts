@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CurrentUserService } from '../../services/current-user.service';
 import { UserProfileService } from '../../services/user-profile.service';
@@ -21,6 +21,7 @@ export class Layout implements OnInit, OnDestroy {
   private currentUserService = inject(CurrentUserService);
   private userProfileService = inject(UserProfileService);
   private chatService = inject(ChatService);
+   private cdr = inject(ChangeDetectorRef);
 
   sidebarClosed = true;
   unreadCount = 0;
@@ -132,6 +133,7 @@ export class Layout implements OnInit, OnDestroy {
     this.pictureSubmitting = true;
     this.profileError = null;
     this.profileSuccess = null;
+    this.cdr.detectChanges();
 
     this.userProfileService.updateProfilePicture(userId, this.selectedProfileFile).subscribe({
       next: (res) => {
@@ -139,13 +141,16 @@ export class Layout implements OnInit, OnDestroy {
         if (res.data?.profilePictureUrl) {
           this.currentUserService.setProfilePictureUrl(res.data.profilePictureUrl);
           this.refreshUserDisplay();
+          this.cdr.detectChanges();
         }
         this.profileSuccess = 'Profile picture updated.';
         this.selectedProfileFile = null;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.pictureSubmitting = false;
         this.profileError = err?.error?.message ?? err?.message ?? 'Failed to update profile picture.';
+        this.cdr.detectChanges();
       },
     });
   }
@@ -168,6 +173,7 @@ export class Layout implements OnInit, OnDestroy {
     this.passwordSubmitting = true;
     this.profileError = null;
     this.profileSuccess = null;
+    this.cdr.detectChanges();
 
     this.userProfileService.changePassword(userId, this.passwordModel).subscribe({
       next: () => {
@@ -178,10 +184,12 @@ export class Layout implements OnInit, OnDestroy {
           newPassword: '',
           confirmNewPassword: '',
         };
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.passwordSubmitting = false;
         this.profileError = err?.error?.message ?? err?.message ?? 'Failed to change password.';
+        this.cdr.detectChanges();
       },
     });
   }

@@ -71,7 +71,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/item-images",
     OnPrepareResponse = ctx =>
     {
-        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "https://neighbor-hub-system-u5qv.vercel.app");
     }
 });
 
@@ -82,7 +82,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/profile-images",
     OnPrepareResponse = ctx =>
     {
-        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "http://localhost:4200");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "https://neighbor-hub-system-u5qv.vercel.app");
     }
 });
 

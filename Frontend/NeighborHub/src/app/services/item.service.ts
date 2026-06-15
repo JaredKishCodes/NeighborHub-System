@@ -3,14 +3,14 @@ env
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApiResponse, ItemResponse } from '../models/item.model';
-import { env } from '../../environments/environment';
+import { env } from '../../environments/environment.production';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemService {
 
-  private apiUrl = env.apiBaseUrl + '/api/Item';
+  private apiUrl = env.apiUrl + '/api/Item';
 
   private http  = inject(HttpClient);
 
