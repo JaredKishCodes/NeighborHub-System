@@ -56,6 +56,8 @@ export class AuthComponent {
         this.loading = false;
         if (!res.success) {
           this.error = res.message || 'Login failed.';
+          alert(`Login failed: ${this.error}`);
+          this.cdr.detectChanges();
           return;
         }
         this.router.navigate(['/dashboard']);
@@ -82,6 +84,7 @@ export class AuthComponent {
         this.loading = false;
         if (!res.success) {
           this.error = res.message || 'Registration failed.';
+          alert(`Registration failed: ${this.error}`);
           return;
           this.cdr.detectChanges();
           
