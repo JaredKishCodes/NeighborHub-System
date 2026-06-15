@@ -66,21 +66,24 @@ export class AuthComponent {
       
       this.router.navigate(['/dashboard']);
     },
-    error: (err) => {
-      this.loading = false;
-      
-      // Case 2: Standard backend errors (e.g., 401 Unauthorized) or Network/CORS failures
-      if (err.status === 401) {
-        this.error = 'Invalid email or password.';
-      } else if (err.status === 0) {
-        this.error = 'Network error or CORS policy blocking the request.';
-      } else {
-        this.error = err?.error?.message || err?.message || 'An unexpected error occurred.';
-      }
-      
-      alert(`Login failed: ${this.error}`);
-      this.cdr.detectChanges();
-    },
+    error: (err) => {this.loading = false;
+  
+  // Log the full error to your console so you can inspect it while debugging
+  console.error('Login stream caught an error:', err);
+
+  if (err.status === 404) {
+    this.error = 'The login endpoint could not be found on the server (404). Check your API URL route.';
+  } else if (err.status === 401) {
+    this.error = 'Invalid email or password.';
+  } else if (err.status === 0) {
+    this.error = 'Network error or CORS policy blocking the request.';
+  } else {
+   
+    this.error = err?.error?.message || err?.message || 'An unexpected error occurred.';
+  }
+  
+  alert(`Login failed: ${this.error}`);
+  this.cdr.detectChanges();},
   });
 }
 
