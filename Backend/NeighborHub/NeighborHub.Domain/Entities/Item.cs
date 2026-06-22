@@ -19,7 +19,7 @@ public class Item
     
     // Status Logic
     public ItemStatus ItemStatus { get; set; }
-    public string? ImageUrl { get; set; } // URL to the photo stored in the cloud/folder
+    public string? ImageUrl { get; set; }
   
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime LastUpdatedAt { get; set; }

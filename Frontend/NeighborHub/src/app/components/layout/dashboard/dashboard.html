@@ -180,6 +180,9 @@
             {{ selectedFile ? selectedFile.name : 'Choose an image' }}
           </label>
         </div>
+        @if (selectedImagePreview) {
+          <img [src]="selectedImagePreview" alt="Selected item preview" class="create-item-preview mt-3" />
+        }
       </div>
       <div class="modal-action">
         <button type="button" class="btn btn-ghost" (click)="closeCreateItemModal()">Cancel</button>

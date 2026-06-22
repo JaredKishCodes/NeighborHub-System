@@ -7,6 +7,11 @@ using System.Text.Json.Serialization;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 52_428_800; // 50 MB for Base64 item images
+});
+
 // 1. Services
 builder.Services.AddControllers()
     .AddJsonOptions(options => 

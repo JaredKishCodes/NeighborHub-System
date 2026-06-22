@@ -10,6 +10,8 @@ import {
   DashboardLendingDto,
   BookingStatus,
 } from '../../../models/dashboard.types';
+import { CreateItemRequest } from '../../../models/item.model';
+import { readFileAsDataUrl } from '../../../utils/file-to-base64.util';
 
 import { DisplayNamePipe } from '../../../pipes/display-name.pipe';
 
@@ -35,6 +37,7 @@ export class Dashboard implements OnInit {
   createItemSubmitting = false;
   createItemError: string | null = null;
   selectedFile: File | null = null;
+  selectedImagePreview: string | null = null;
   
   itemModel = {
     name: '',
@@ -124,7 +127,39 @@ export class Dashboard implements OnInit {
 
   onCreateItemFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.selectedFile = input.files?.[0] ?? null;
+    const file = input.files?.[0] ?? null;
+    this.selectedFile = file;
+    this.selectedImagePreview = null;
+
+    if (!file) {
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      this.createItemError = 'Please choose a valid image file.';
+      this.selectedFile = null;
+      input.value = '';
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      this.createItemError = 'Image must be 2 MB or smaller.';
+      this.selectedFile = null;
+      input.value = '';
+      return;
+    }
+
+    this.createItemError = null;
+    void readFileAsDataUrl(file).then((dataUrl) => {
+      this.selectedImagePreview = dataUrl;
+      this.cdr.markForCheck();
+    }).catch(() => {
+      this.createItemError = 'Could not read the selected image.';
+      this.selectedFile = null;
+      this.selectedImagePreview = null;
+      input.value = '';
+      this.cdr.markForCheck();
+    });
   }
 
   resetCreateItemForm(): void {
@@ -137,6 +172,7 @@ export class Dashboard implements OnInit {
       ownerId: this.currentUserService.getUserId() ?? 1,
     };
     this.selectedFile = null;
+    this.selectedImagePreview = null;
   }
 
   onCreateItemSubmit(): void {
@@ -149,13 +185,24 @@ export class Dashboard implements OnInit {
       this.createItemError = 'Category is required.';
       return;
     }
-    if (!this.selectedFile) {
+    if (!this.selectedFile || !this.selectedImagePreview) {
       this.createItemError = 'Please choose an image for the item.';
       return;
     }
+
     this.createItemSubmitting = true;
-    const payload = { ...this.itemModel, ownerId: this.currentUserService.getUserId() ?? this.itemModel.ownerId };
-    this.itemService.createItem(payload, this.selectedFile).subscribe({
+
+    const payload: CreateItemRequest = {
+      name: this.itemModel.name.trim(),
+      description: this.itemModel.description.trim(),
+      category: this.itemModel.category.trim(),
+      itemStatus: this.itemModel.itemStatus,
+      imageUrl: this.selectedImagePreview,
+      createdAt: this.itemModel.createdAt.toISOString(),
+      ownerId: this.currentUserService.getUserId() ?? this.itemModel.ownerId,
+    };
+
+    this.itemService.createItem(payload).subscribe({
       next: () => {
         this.createItemSubmitting = false;
         this.closeCreateItemModal();

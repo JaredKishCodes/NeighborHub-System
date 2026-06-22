@@ -198,3 +198,11 @@
   background: #f1f5f9;
   border-color: #64748b;
 }
+
+.create-item-preview {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  border: 1px solid #e2e8f0;
+}

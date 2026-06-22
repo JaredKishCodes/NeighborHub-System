@@ -1,35 +1,21 @@
 import { inject, Injectable } from '@angular/core';
-env
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiResponse, ItemResponse } from '../models/item.model';
+import { ApiResponse, CreateItemRequest, ItemResponse } from '../models/item.model';
 import { env } from '../../environments/environment.production';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemService {
+  private apiUrl = `${env.apiBaseUrl}/api/Item`;
+  private http = inject(HttpClient);
 
-  private apiUrl = env.apiUrl + '/api/Item';
-
-  private http  = inject(HttpClient);
-
-  getItems() :Observable<ApiResponse<ItemResponse[]>>
-   { 
+  getItems(): Observable<ApiResponse<ItemResponse[]>> {
     return this.http.get<ApiResponse<ItemResponse[]>>(this.apiUrl);
-   }
+  }
 
-   createItem(itemData: any, imageFile: File): Observable<ApiResponse<ItemResponse>> {
-    const formData = new FormData();
-    formData.append('name', itemData.name);
-    formData.append('description', itemData.description);
-    formData.append('category', itemData.category);
-    formData.append('itemStatus', itemData.itemStatus.toString());
-    formData.append('createdAt', itemData.createdAt.toISOString());
-    formData.append('ownerId', itemData.ownerId.toString());
-
-    if (imageFile) {
-      formData.append('imageUrl', imageFile);
-    }
-    return this.http.post<ApiResponse<ItemResponse>>(this.apiUrl, formData);}
+  createItem(itemData: CreateItemRequest): Observable<ApiResponse<ItemResponse>> {
+    return this.http.post<ApiResponse<ItemResponse>>(this.apiUrl, itemData);
+  }
 }

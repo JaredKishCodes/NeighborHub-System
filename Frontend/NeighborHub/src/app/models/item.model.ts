@@ -26,12 +26,21 @@ export interface ItemResponse {
   description: string;
   category: string;
   itemStatus: ItemStatus;
-  imageUrl?: string; // optional
+  imageUrl?: string;
   createdAt: string;
   lastUpdatedAt: string;
 
   ownerName: string;
-  
+}
+
+export interface CreateItemRequest {
+  name: string;
+  description: string;
+  category: string;
+  itemStatus: ItemStatus;
+  imageUrl: string;
+  createdAt: string;
+  ownerId: number;
 }
 
 export interface ApiResponse<T>{

@@ -3,6 +3,7 @@ import { NgClass } from '@angular/common';
 import { ItemService } from '../../../services/item.service';
 import { ApiResponse, ItemResponse, ItemStatus } from '../../../models/item.model';
 import { CommonModule } from '@angular/common';
+import { resolveItemImageUrl } from '../../../utils/item-image.util';
 import { env } from '../../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { BookingComponent } from '../booking/booking';
@@ -22,7 +23,6 @@ import { DisplayNamePipe } from '../../../pipes/display-name.pipe';
 export class Item implements OnInit {
   itemService = inject(ItemService);
   readonly apiBaseUrl = env.apiBaseUrl;
-  readonly imageBaseUrl = env.imageBaseUrl;
   private cdr = inject(ChangeDetectorRef);
   private ngZone = inject(NgZone);
 
@@ -87,10 +87,7 @@ export class Item implements OnInit {
   }
 
   resolveImageUrl(imageUrl?: string): string {
-    if (!imageUrl) return '';
-    if (/^https?:\/\//i.test(imageUrl)) return imageUrl;
-    if (imageUrl.startsWith('/')) return `${this.apiBaseUrl}${imageUrl}`;
-    return `${this.apiBaseUrl}/${imageUrl}`;
+    return resolveItemImageUrl(imageUrl, this.apiBaseUrl);
   }
 
   statusLabel(status: ItemStatus): string {

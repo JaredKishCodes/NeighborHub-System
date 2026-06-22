@@ -27,6 +27,9 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
         builder.Property(r => r.OwnerId)
             .IsRequired();
 
+        builder.Property(r => r.ImageUrl)
+            .HasColumnType("nvarchar(max)");
+
         // 4. Set Default Values
         builder.Property(r => r.ItemStatus);
             
